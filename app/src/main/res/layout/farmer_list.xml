@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/btnOk"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/border_round_gravity"
+                android:text="Ok"
+                android:textColor="@color/colorWhite"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/txtFarmerRece"
+                app:layout_constraintTop_toBottomOf="@+id/txtFarmerRece" />
+
+            <EditText
+                android:id="@+id/txtFarmerRece"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/border_round"
+                android:ems="10"
+                android:hint="Received Qty."
+                android:inputType="numberDecimal"
+                android:padding="5dp"
+                app:layout_constraintStart_toStartOf="@+id/textView92"
+                app:layout_constraintTop_toBottomOf="@+id/textView92" />
+
+            <TextView
+                android:id="@+id/txtFarmerName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Chashi Name"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/txtLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Angul"
+                android:textColor="@color/colorBlack"
+                android:textStyle="italic"
+                app:layout_constraintStart_toStartOf="@+id/txtFarmerName"
+                app:layout_constraintTop_toBottomOf="@+id/txtFarmerName" />
+
+            <TextView
+                android:id="@+id/txtFarmerCate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Tomato"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@+id/txtLocation"
+                app:layout_constraintTop_toBottomOf="@+id/txtLocation" />
+
+            <TextView
+                android:id="@+id/txtFramerRate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="$25.0"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtLocation" />
+
+            <TextView
+                android:id="@+id/textView86"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hosted Quantity --"
+                android:textColor="@color/colorBlack"
+                app:layout_constraintStart_toStartOf="@+id/txtFarmerCate"
+                app:layout_constraintTop_toBottomOf="@+id/txtFarmerCate" />
+
+            <TextView
+                android:id="@+id/textView87"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Booked Quantity --"
+                android:textColor="@color/colorBlack"
+                app:layout_constraintStart_toStartOf="@+id/textView86"
+                app:layout_constraintTop_toBottomOf="@+id/textView86" />
+
+            <TextView
+                android:id="@+id/txtFarmerHosted"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="100kg"
+                android:textColor="@color/colorBlack"
+                app:layout_constraintEnd_toEndOf="@+id/txtFramerRate"
+                app:layout_constraintTop_toBottomOf="@+id/txtFramerRate" />
+
+            <TextView
+                android:id="@+id/txtFramerBooked"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="50kg"
+                android:textColor="@color/colorBlack"
+                app:layout_constraintEnd_toEndOf="@+id/txtFarmerHosted"
+                app:layout_constraintTop_toBottomOf="@+id/txtFarmerHosted" />
+
+            <TextView
+                android:id="@+id/textView92"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Received Quantity --"
+                android:textColor="@color/colorBlack"
+                app:layout_constraintStart_toStartOf="@+id/textView87"
+                app:layout_constraintTop_toBottomOf="@+id/textView87" />
+
+            <TextView
+                android:id="@+id/txtRece"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textColor="@color/colorBlack"
+                app:layout_constraintEnd_toEndOf="@+id/txtFramerBooked"
+                app:layout_constraintTop_toBottomOf="@+id/txtFramerBooked" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constrainProduct"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/imgProductImage"
+        android:layout_width="100dp"
+        android:layout_height="170dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:scaleType="centerInside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/buscits" />
+
+    <TextView
+        android:id="@+id/txtProductName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Some Product Name Brand Name Some Brand 1"
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.051"
+        app:layout_constraintStart_toEndOf="@+id/imgProductImage"
+        app:layout_constraintTop_toTopOf="@+id/imgProductImage" />
+
+    <TextView
+        android:id="@+id/txtMrpPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/cross_text_grey"
+        android:text="2000"
+        app:layout_constraintEnd_toEndOf="@+id/txtProductName"
+        app:layout_constraintTop_toBottomOf="@+id/txtProductName" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MRP : ₹"
+        app:layout_constraintBottom_toBottomOf="@+id/txtMrpPrice"
+        app:layout_constraintEnd_toStartOf="@+id/txtMrpPrice"
+        app:layout_constraintTop_toTopOf="@+id/txtMrpPrice" />
+
+    <TextView
+        android:id="@+id/txtSalePrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1500"
+        android:textColor="@color/colorGreen"
+        app:layout_constraintEnd_toEndOf="@+id/txtMrpPrice"
+        app:layout_constraintTop_toBottomOf="@+id/txtMrpPrice" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sale Price : ₹"
+        android:textColor="@color/colorGreen"
+        app:layout_constraintBottom_toBottomOf="@+id/txtSalePrice"
+        app:layout_constraintEnd_toStartOf="@+id/txtSalePrice"
+        app:layout_constraintTop_toBottomOf="@+id/txtMrpPrice" />
+
+    <TextView
+        android:id="@+id/txtSaveAmt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="500"
+        android:textColor="@color/colorRed"
+        app:layout_constraintEnd_toEndOf="@+id/txtSalePrice"
+        app:layout_constraintTop_toBottomOf="@+id/txtSalePrice" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save : ₹"
+        android:textColor="@color/colorRed"
+        app:layout_constraintBottom_toBottomOf="@+id/txtSaveAmt"
+        app:layout_constraintEnd_toStartOf="@+id/txtSaveAmt"
+        app:layout_constraintTop_toTopOf="@+id/txtSaveAmt" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@+id/imgProductImage"
+        app:layout_constraintEnd_toEndOf="@+id/txtSaveAmt"
+        app:layout_constraintTop_toBottomOf="@+id/txtSaveAmt">
+
+        <Button
+            android:id="@+id/btnAddtoCart"
+            android:layout_width="150dp"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:background="@drawable/border_round_gravity"
+            android:text="Remove Product"
+            android:textColor="@color/colorWhite"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/dividerProduct"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1025511903492",
+    "firebase_url": "https://mochashi.firebaseio.com",
+    "project_id": "mochashi",
+    "storage_bucket": "mochashi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1025511903492:android:4424b6ac1af4a3a7",
+        "android_client_info": {
+          "package_name": "com.tetraval.chashi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1025511903492-ifa61pa122pv0i5e648dudssusi1nfcm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tetraval.chashi",
+            "certificate_hash": "cba50609f909a73615fec2c99b47b4751394d4a2"
+          }
+        },
+        {
+          "client_id": "1025511903492-f4njbjpmkp55gff1q83k6nss6ecnh3rp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9T3jsJAuPFh9rwqexk8uszs_4oVYd6e4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1025511903492-f4njbjpmkp55gff1q83k6nss6ecnh3rp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

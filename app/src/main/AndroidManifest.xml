@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.tetraval.mochashi">
+
+    <application
+        android:allowBackup="true"
+        android:hardwareAccelerated="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".haatgrocerymodule.ui.activities.GroceryCartActivity" />
+        <activity android:name=".haatgrocerymodule.ui.activities.GroceryProductDetailActivity" />
+        <activity android:name=".haatgrocerymodule.ui.activities.GroceryProductActivity" />
+        <activity android:name=".ui.activities.WelcomeActivity" />
+        <activity android:name=".ui.activities.DeliveryManActivity" />
+        <activity
+            android:name=".ui.activities.CustomerMapsActivity"
+            android:label="@string/title_activity_customer_maps" />
+        <activity android:name=".ui.activities.AddVendorProductActivity" />
+        <activity android:name=".controller.StartActivity" />
+        <activity android:name=".chashimodule.ui.activities.VendorActivity" />
+        <activity android:name=".ui.activities.ChashiProductDtl" />
+        <activity android:name=".ui.activities.MoPDActivity" />
+        <activity android:name=".ui.activities.MapsActivity" />
+        <activity android:name=".ui.activities.ChashiActivity" />
+        <activity android:name=".ui.activities.CreditActivity" />
+        <activity android:name=".ui.activities.MyOrdersActivity" />
+        <activity android:name=".ui.activities.MyAccountActivity" />
+        <activity android:name=".ui.activities.CartActivity" />
+        <activity android:name=".ui.activities.PDetailsActivity" />
+        <activity android:name=".ui.activities.ProductActivity" />
+        <activity android:name=".ui.activities.CategoryActivity" />
+        <activity android:name=".ui.activities.CheckoutActivity" />
+        <activity android:name=".ui.activities.DeliveryMainActivity" />
+        <activity android:name=".haatgrocerymodule.ui.activities.GroceryCategoryActivity" />
+        <activity android:name=".controller.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".authmodule.RegisterActivity" />
+        <activity android:name=".haatgrocerymodule.ui.activities.GroceryShopActivity" />
+        <activity android:name=".authmodule.LoginActivity" />
+        <activity android:name=".chashimodule.ui.activities.ChashiCategoryActivity" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+        <meta-data
+            android:name="com.google.firebase.ml.vision.DEPENDENCIES"
+            android:value="label" />
+    </application>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+</manifest>

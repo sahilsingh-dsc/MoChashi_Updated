@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_home"
+        android:icon="@drawable/ic_home_white_icon24dp"
+        android:title="Home"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_favorite"
+        android:icon="@drawable/ic_shopping_cart_black_24dp"
+        android:orderInCategory="300"
+        android:title="@string/cart"
+        app:showAsAction="ifRoom"></item>
+    <item
+        android:id="@+id/menu_myaccount"
+        android:title="My Account" />
+    <item
+        android:id="@+id/menu_myorders"
+        android:title="My Orders" />
+    <item
+        android:id="@+id/menu_mycredits"
+        android:title="My Credits" />
+    <item
+        android:id="@+id/menu_signout"
+        android:title="Signout" />
+</menu>

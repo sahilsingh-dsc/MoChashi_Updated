@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1025511903492-hn89trjgl7gfivdhjuobfa3ad3vvvi5i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tetraval.chashi",
+            "certificate_hash": "560b6ad14f3645e044ec106cb5a703d6385db3fa"
+          }
+        },
+        {
           "client_id": "1025511903492-ifa61pa122pv0i5e648dudssusi1nfcm.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

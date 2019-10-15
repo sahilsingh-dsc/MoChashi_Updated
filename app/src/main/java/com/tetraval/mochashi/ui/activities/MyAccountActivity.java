@@ -7,10 +7,13 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.bumptech.glide.Glide;
 import com.tetraval.mochashi.R;
 import com.tetraval.mochashi.authmodule.LoginActivity;
 
@@ -18,6 +21,9 @@ public class MyAccountActivity extends AppCompatActivity {
 
     SharedPreferences preferences, masterdata;
     Toolbar toolbarMyAccount;
+    ImageView profilepic;
+    TextView name,email,phone,address;
+    String Nameholder,Addressholder,Emailholder,Phoneholder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +38,20 @@ public class MyAccountActivity extends AppCompatActivity {
 
         preferences = getApplicationContext().getSharedPreferences("loginpref", 0);
         masterdata = getApplicationContext().getSharedPreferences("MASTER", 0);
+        Nameholder=masterdata.getString("fname","0");
+        Phoneholder=masterdata.getString("mobile","0");
+        Emailholder=masterdata.getString("email","0");
+        Addressholder=masterdata.getString("address","0");
+        profilepic=findViewById(R.id.profilepic);
+        Glide.with(getApplicationContext()).load(masterdata.getString("img","0")).placeholder(R.drawable.productimage).into(profilepic);
+        name=findViewById(R.id.name);
+        name.setText(Nameholder);
+        email=findViewById(R.id.email);
+        email.setText(Emailholder);
+        phone=findViewById(R.id.phone);
+        phone.setText(Phoneholder);
+        address=findViewById(R.id.address);
+        address.setText(Addressholder);
 
     }
 

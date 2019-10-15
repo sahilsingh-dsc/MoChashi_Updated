@@ -24,10 +24,16 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Cache;
+import com.android.volley.Network;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.BasicNetwork;
+import com.android.volley.toolbox.DiskBasedCache;
+import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
@@ -40,9 +46,12 @@ import com.smarteist.autoimageslider.SliderView;
 import com.smarteist.autoimageslider.SliderViewAdapter;
 import com.tetraval.mochashi.R;
 import com.tetraval.mochashi.data.adapters.SliderAdapterExample;
+import com.tetraval.mochashi.haatgrocerymodule.ui.activities.GroceryCartActivity;
 import com.tetraval.mochashi.utils.AppConst;
+import com.tetraval.mochashi.utils.Master;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -65,14 +74,25 @@ public class ChashiProductDtl extends AppCompatActivity {
     Button btnAddToCart;
     SharedPreferences images;
     RequestQueue requestQueue;
+    SharedPreferences master;
+    String userid,address;
 
     ProgressDialog progressDialog;
+    private ProgressDialog pDialog;
+    String cat_id;
+    String prate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chashi_product_dtl);
+        pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Please wait...");
+        pDialog.setCancelable(false);
 
+        master = getApplicationContext().getSharedPreferences("MASTER", 0);
+        userid=master.getString("user_id","0");
+        address=master.getString("address","0");
         sliderView = findViewById(R.id.imageSlider);
         imgChashiPhoto = findViewById(R.id.imageView6);
         txtProductNameAndAddress = findViewById(R.id.textView24);
@@ -144,6 +164,7 @@ public class ChashiProductDtl extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface arg0, int arg1) {
+                                ProductUpload();
                             }
                         });
                 alertDialogBuilder.setNegativeButton("No, Thanks", new DialogInterface.OnClickListener() {
@@ -240,7 +261,7 @@ public class ChashiProductDtl extends AppCompatActivity {
                                     JSONObject jsonObject2 = jsonArray.getJSONObject(i);
                                     if (jsonObject2.getString("product_id").equals(product_id)){
 
-                                        String cat_id = jsonObject2.getString("category_id");
+                                         cat_id = jsonObject2.getString("category_id");
                                         String p_name = jsonObject2.getString("product_name");
                                         String p_img1 = jsonObject2.getString("p_img1");
                                         String p_img2 = jsonObject2.getString("p_img2");
@@ -250,10 +271,10 @@ public class ChashiProductDtl extends AppCompatActivity {
                                         String qty_booked = jsonObject2.getString("qty_booked");
                                         String qty_avl = jsonObject2.getString("qty_avl");
                                         String unit = jsonObject2.getString("unit");
-                                        String rate = jsonObject2.getString("rate");
+                                        prate = jsonObject2.getString("rate");
                                         String is_deliver = jsonObject2.getString("is_deliver");
 
-                                        setProduct(cat_id, p_name, p_img1, p_img2, p_img3, p_img4, qty_hosted, qty_booked, qty_avl, unit, rate, is_deliver);
+                                        setProduct(cat_id, p_name, p_img1, p_img2, p_img3, p_img4, qty_hosted, qty_booked, qty_avl, unit, prate, is_deliver);
 
                                     }
                                 }
@@ -320,5 +341,81 @@ public class ChashiProductDtl extends AppCompatActivity {
         rate = Double.parseDouble(dbrate);
         txtUnit.setText(unit);
     }
+
+
+
+    private void ProductUpload() {
+        showpDialog();
+        Cache cache = new DiskBasedCache(getCacheDir(), 1024 * 1024);
+
+        // Use HttpURLConnection as the HTTP client
+        Network network = new BasicNetwork(new HurlStack());
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://34.90.225.153/mochashi/User_api/place_order",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.e("Login", "onResponse: "+response);
+                        hidepDialog();
+                        try {
+                            //converting response to json object
+                            JSONObject obj = new JSONObject(response);
+                            String status = obj.getString("status");
+                            String message = obj.getString("message");
+                            if (status.equals("200")) {
+                                Toast.makeText(ChashiProductDtl.this, ""+message, Toast.LENGTH_SHORT).show();
+                                finish();
+
+                            }
+
+
+                        } catch (JSONException e) {
+                            hidepDialog();
+                            Toast.makeText(ChashiProductDtl.this, ""+e, Toast.LENGTH_SHORT).show();
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        hidepDialog();
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                //Adding the parameters to the request
+                params.put("user_id",userid);
+                params.put("vendor_id","0");
+                params.put("total_price", txtTotalPrice.getText().toString());
+                params.put("shipping_address",address);
+                params.put("shipping_charge","0");
+                params.put("tax","0");
+                params.put("product_id",cat_id );
+                params.put("product_qty", editTextQty.getText().toString());
+                params.put("product_price",prate);
+                Log.e("order detail",""+params);
+                return params;
+            }
+        };
+        RequestQueue queue = new RequestQueue(cache, network);
+        queue.start();
+        queue.add(stringRequest);
+       /* RequestQueue requestQueue = Volley.newRequestQueue(GroceryCartActivity.this);
+        requestQueue.add(stringRequest);*/
+    }
+    private void showpDialog() {
+        if (!pDialog.isShowing())
+            pDialog.show();
+    }
+
+    private void hidepDialog() {
+        if (pDialog.isShowing())
+            pDialog.dismiss();
+    }
+
+
 
 }

@@ -11,12 +11,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.tetraval.mochashi.R;
 import com.tetraval.mochashi.data.models.ChashiModel;
 import com.tetraval.mochashi.ui.activities.ChashiProductDtl;
-
 import java.util.List;
 
 public class ChashiAdapter extends RecyclerView.Adapter<ChashiAdapter.ChasiViewHolder> {
@@ -74,7 +72,6 @@ public class ChashiAdapter extends RecyclerView.Adapter<ChashiAdapter.ChasiViewH
             txtChashiPrice = itemView.findViewById(R.id.textView23);
             txtQty = itemView.findViewById(R.id.textView21);
             cardCOPD = itemView.findViewById(R.id.cardCOPD);
-
 
         }
     }

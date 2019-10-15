@@ -108,7 +108,9 @@ public class AddVendorProductActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
+
         if (user != null) {
+            Log.e("vendor", "user=="+user);
         } else {
             signInAnonymously();
         }

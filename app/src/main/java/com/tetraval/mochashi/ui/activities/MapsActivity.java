@@ -46,6 +46,8 @@ import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.tetraval.mochashi.ui.activities.CustomerMapsActivity.createCustomMarker;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -135,26 +137,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng mo3 = new LatLng(22.702949, 75.864525);
         LatLng mo4 = new LatLng(22.720849, 75.870835);
         LatLng mo5 = new LatLng(22.701621, 75.933110);
-//        mMap.addMarker(new MarkerOptions().position(mo1).
-//                icon(BitmapDescriptorFactory.fromBitmap(
-//                        createCustomMarker(MapsActivity.this,"50")))).setTitle("Sample Chashi Name");
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(mo2));
-//        mMap.addMarker(new MarkerOptions().position(mo1).
-//                icon(BitmapDescriptorFactory.fromBitmap(
-//                        createCustomMarker(MapsActivity.this,"90")))).setTitle("Sample Chashi Name");
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(mo2));
-//        mMap.addMarker(new MarkerOptions().position(mo3).
-//                icon(BitmapDescriptorFactory.fromBitmap(
-//                        createCustomMarker(MapsActivity.this,"60")))).setTitle("Sample Chashi Name");
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(mo3));
-//        mMap.addMarker(new MarkerOptions().position(mo4).
-//                icon(BitmapDescriptorFactory.fromBitmap(
-//                        createCustomMarker(MapsActivity.this,"45")))).setTitle("Sample Chashi Name");
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(mo4));
-//        mMap.addMarker(new MarkerOptions().position(mo5).
-//                icon(BitmapDescriptorFactory.fromBitmap(
-//                        createCustomMarker(MapsActivity.this,"10")))).setTitle("Sample Chashi Name");
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(mo5));
+        mMap.addMarker(new MarkerOptions().position(mo1).
+                icon(BitmapDescriptorFactory.fromBitmap(
+                        createCustomMarker(MapsActivity.this,"50")))).setTitle("Sample Chashi Name");
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(mo2));
+        mMap.addMarker(new MarkerOptions().position(mo1).
+                icon(BitmapDescriptorFactory.fromBitmap(
+                        createCustomMarker(MapsActivity.this,"90")))).setTitle("Sample Chashi Name");
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(mo2));
+        mMap.addMarker(new MarkerOptions().position(mo3).
+                icon(BitmapDescriptorFactory.fromBitmap(
+                        createCustomMarker(MapsActivity.this,"60")))).setTitle("Sample Chashi Name");
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(mo3));
+        mMap.addMarker(new MarkerOptions().position(mo4).
+                icon(BitmapDescriptorFactory.fromBitmap(
+                        createCustomMarker(MapsActivity.this,"45")))).setTitle("Sample Chashi Name");
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(mo4));
+        mMap.addMarker(new MarkerOptions().position(mo5).
+                icon(BitmapDescriptorFactory.fromBitmap(
+                        createCustomMarker(MapsActivity.this,"10")))).setTitle("Sample Chashi Name");
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(mo5));
     }
 
 

@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/profilepic"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginStart="8dp"
@@ -36,10 +36,10 @@
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+        app:layout_constraintTop_toBottomOf="@+id/profilepic" />
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/name"
         android:layout_width="0dp"
         android:layout_height="45dp"
         android:gravity="center_vertical"
@@ -58,10 +58,10 @@
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+        app:layout_constraintTop_toBottomOf="@+id/name" />
 
     <TextView
-        android:id="@+id/textView12"
+        android:id="@+id/email"
         android:layout_width="0dp"
         android:layout_height="45dp"
         android:gravity="center_vertical"
@@ -81,10 +81,10 @@
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+        app:layout_constraintTop_toBottomOf="@+id/email" />
 
     <TextView
-        android:id="@+id/textView13"
+        android:id="@+id/phone"
         android:layout_width="0dp"
         android:layout_height="45dp"
         android:gravity="center_vertical"
@@ -103,10 +103,10 @@
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+        app:layout_constraintTop_toBottomOf="@+id/phone" />
 
     <TextView
-        android:id="@+id/textView14"
+        android:id="@+id/address"
         android:layout_width="0dp"
         android:layout_height="45dp"
         android:gravity="center_vertical"
@@ -116,7 +116,7 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+        app:layout_constraintTop_toBottomOf="@+id/phone" />
 
     <View
         android:id="@+id/divider8"
@@ -125,7 +125,7 @@
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView14" />
+        app:layout_constraintTop_toBottomOf="@+id/address" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

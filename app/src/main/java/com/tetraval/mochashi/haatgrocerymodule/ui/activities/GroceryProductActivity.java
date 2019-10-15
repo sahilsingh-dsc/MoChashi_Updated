@@ -33,6 +33,7 @@ import com.tetraval.mochashi.haatgrocerymodule.data.adapters.GroceryProductAdapt
 import com.tetraval.mochashi.haatgrocerymodule.data.adapters.SpinnerCategoryAdapter;
 import com.tetraval.mochashi.haatgrocerymodule.data.models.GroceryProductModel;
 import com.tetraval.mochashi.haatgrocerymodule.data.models.SpinnerCategoryModel;
+import com.tetraval.mochashi.ui.activities.MyAccountActivity;
 import com.tetraval.mochashi.utils.AppConst;
 
 import org.json.JSONArray;
@@ -324,6 +325,12 @@ public class GroceryProductActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), GroceryCartActivity.class));
             return true;
         }
+        if (id == R.id.menu_myaccount) {
+            startActivity(new Intent(getApplicationContext(), MyAccountActivity.class));
+            finish();
+            return true;
+        }
+
         if (id == R.id.menu_home) {
             startActivity(new Intent(getApplicationContext(), StartActivity.class));
             finish();

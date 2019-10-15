@@ -26,6 +26,7 @@ import com.tetraval.mochashi.authmodule.LoginActivity;
 import com.tetraval.mochashi.controller.StartActivity;
 import com.tetraval.mochashi.haatgrocerymodule.data.adapters.ShopAdapter;
 import com.tetraval.mochashi.haatgrocerymodule.data.models.ShopModel;
+import com.tetraval.mochashi.ui.activities.MyAccountActivity;
 import com.tetraval.mochashi.utils.AppConst;
 
 import org.json.JSONArray;
@@ -159,6 +160,12 @@ public class GroceryShopActivity extends AppCompatActivity {
 
         if (id == R.id.action_favorite) {
             startActivity(new Intent(getApplicationContext(), GroceryCartActivity.class));
+            return true;
+        }
+
+        if (id == R.id.menu_myaccount) {
+            startActivity(new Intent(getApplicationContext(), MyAccountActivity.class));
+            finish();
             return true;
         }
 

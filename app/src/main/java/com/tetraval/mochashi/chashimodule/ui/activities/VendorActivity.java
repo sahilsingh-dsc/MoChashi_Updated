@@ -226,20 +226,12 @@ public class VendorActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.menu_vendor_add) {
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putInt("login_status", 0);
+            if (id == R.id.vendor_menu_logout){
+            SharedPreferences.Editor editor = master.edit();
+            editor.clear();
             editor.apply();
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
             finish();
-            return true;
-        }else if (id == R.id.vendor_menu_logout){
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putInt("login_status", 0);
-            editor.apply();
-            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-            finish();
-            return  true;
         }
         return super.onOptionsItemSelected(item);
     }

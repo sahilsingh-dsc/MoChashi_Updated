@@ -166,7 +166,7 @@ public class ChashiCategoryActivity extends AppCompatActivity implements SearchV
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.header_menu, menu);
+        getMenuInflater().inflate(R.menu.chashi_menu, menu);
         return true;
     }
 
@@ -174,17 +174,13 @@ public class ChashiCategoryActivity extends AppCompatActivity implements SearchV
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_favorite) {
-            startActivity(new Intent(getApplicationContext(), GroceryCartActivity.class));
-            return true;
-        }
-        if (id == R.id.menu_home) {
+        if (id == R.id.home_menuitem) {
             startActivity(new Intent(getApplicationContext(), StartActivity.class));
             finish();
             return true;
         }
 
-        if (id == R.id.menu_signout){
+        if (id == R.id.logout_menuitem){
             SharedPreferences.Editor editor = master.edit();
             editor.clear();
             editor.apply();

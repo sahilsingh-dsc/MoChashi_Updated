@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -40,12 +41,13 @@ public class VendorListFragment extends Fragment {
         recyclerDelVendor = view.findViewById(R.id.recyclerDelVendor);
         recyclerDelVendor.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        DatabaseReference vendordeliveryRef = FirebaseDatabase.getInstance().getReference("farmer-delivery");
+        DatabaseReference vendordeliveryRef = FirebaseDatabase.getInstance().getReference("delivery_channel");
         vendordeliveryRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 vendorDeliveryModelList.clear();
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
+                    Toast.makeText(getContext(), ""+dataSnapshot1, Toast.LENGTH_SHORT).show();
                     VendorDeliveryModel vendorDeliveryModel = new VendorDeliveryModel(
                             dataSnapshot1.child("f_id").getValue().toString(),
                             dataSnapshot1.child("f_name").getValue().toString(),

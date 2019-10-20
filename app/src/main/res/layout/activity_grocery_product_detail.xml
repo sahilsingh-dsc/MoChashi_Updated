@@ -20,7 +20,7 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/txtAddToCat"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbarGroceryProductDetail">
@@ -123,31 +123,15 @@
                     android:layout_width="100dp"
                     android:layout_height="30dp"
                     android:layout_marginTop="2dp"
-                    android:text="250g"
+                    android:background="@drawable/border_round"
                     android:gravity="center"
+                    android:text="250g"
+                    android:textColor="@color/colorBlack"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:textColor="@color/colorBlack"
-                    android:background="@drawable/border_round"
                     app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
                     app:layout_constraintStart_toStartOf="@+id/linearLayout2"
                     app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
-
-                <TextView
-                    android:id="@+id/txtAddToCat"
-                    android:layout_width="0dp"
-                    android:layout_height="45dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="32dp"
-                    android:background="@drawable/border_round_gravity"
-                    android:gravity="center"
-                    android:text="ADD TO CART"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
                     android:id="@+id/txtDtlName"
@@ -179,7 +163,7 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="32dp"
                     android:text="TextView"
-                    app:layout_constraintBottom_toTopOf="@+id/txtAddToCat"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/txtTotalPrice"
                     app:layout_constraintTop_toBottomOf="@+id/txtTotalPrice" />
@@ -204,8 +188,22 @@
                     app:layout_constraintStart_toStartOf="@+id/linearLayout7"
                     app:layout_constraintTop_toBottomOf="@+id/linearLayout7" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+
         </LinearLayout>
     </ScrollView>
+
+    <TextView
+        android:id="@+id/txtAddToCat"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:background="@drawable/border_round_gravity"
+        android:gravity="center"
+        android:text="ADD TO CART"
+        android:textColor="@color/colorWhite"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

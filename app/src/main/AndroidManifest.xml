@@ -23,7 +23,6 @@
         <activity android:name=".controller.StartActivity" />
         <activity android:name=".chashimodule.ui.activities.VendorActivity" />
         <activity android:name=".ui.activities.ChashiProductDtl" />
-        <activity android:name=".ui.activities.MoPDActivity" />
         <activity android:name=".ui.activities.MapsActivity" />
         <activity android:name=".ui.activities.ChashiActivity" />
         <activity android:name=".ui.activities.CreditActivity" />
@@ -33,7 +32,6 @@
         <activity android:name=".ui.activities.PDetailsActivity" />
         <activity android:name=".ui.activities.ProductActivity" />
         <activity android:name=".ui.activities.CategoryActivity" />
-        <activity android:name=".ui.activities.CheckoutActivity" />
         <activity android:name=".ui.activities.DeliveryMainActivity" />
         <activity android:name=".haatgrocerymodule.ui.activities.GroceryCategoryActivity" />
         <activity android:name=".controller.SplashActivity">
@@ -55,14 +53,13 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-        <meta-data
-            android:name="com.google.firebase.ml.vision.DEPENDENCIES"
-            android:value="label" />
+
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" android:required="true" />
+    <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 

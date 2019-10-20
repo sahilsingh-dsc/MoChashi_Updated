@@ -80,6 +80,7 @@ public class ChashiProductDtl extends AppCompatActivity {
     ProgressDialog progressDialog;
     private ProgressDialog pDialog;
     String cat_id;
+    double ttl = 0;
     String prate;
 
     @Override
@@ -119,6 +120,7 @@ public class ChashiProductDtl extends AppCompatActivity {
             del_state = "pickup";
             txtCharge.setVisibility(View.GONE);
             txtDelCharge.setVisibility(View.GONE);
+            cal();
         });
         rbNo = findViewById(R.id.rbNo);
         rbNo.setChecked(true);
@@ -129,6 +131,7 @@ public class ChashiProductDtl extends AppCompatActivity {
             del_state = "nopickup";
             txtCharge.setVisibility(View.VISIBLE);
             txtDelCharge.setVisibility(View.VISIBLE);
+            cal();
         });
 
         Bundle chashiBundle = getIntent().getExtras();
@@ -154,30 +157,36 @@ public class ChashiProductDtl extends AppCompatActivity {
 //            rbYes.setVisibility(View.GONE);
 //        }
 
-        btnAddToCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ChashiProductDtl.this);
-                alertDialogBuilder.setTitle("Added to cart!");
-                alertDialogBuilder.setMessage("Want to buy more products.");
-                alertDialogBuilder.setPositiveButton("Yes, Continue",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface arg0, int arg1) {
-                                ProductUpload();
-                            }
-                        });
-                alertDialogBuilder.setNegativeButton("No, Thanks", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
+        btnAddToCart.setOnClickListener(view -> {
+            if (editTextQty.getText().toString().isEmpty() || editTextQty.getText().toString().equals("0")) {
+                Toast.makeText(ChashiProductDtl.this, "Quantity must not be empty or 0", Toast.LENGTH_SHORT).show();
+                editTextQty.requestFocus();
+                return;
             }
-        });
+
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ChashiProductDtl.this);
+                    alertDialogBuilder.setTitle("Place Order");
+                    alertDialogBuilder.setMessage("Are sure you want to place order!");
+                    alertDialogBuilder.setPositiveButton("Yes, Continue",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface arg0, int arg1) {
+
+                                    ProductUpload();
+                                }
+                            });
+                    alertDialogBuilder.setNegativeButton("No, Thanks", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
+
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    alertDialog.show();
+
+//            }
+            });
 
 
         editTextQty.addTextChangedListener(new TextWatcher() {
@@ -192,6 +201,7 @@ public class ChashiProductDtl extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 double delcharge = 0;
+
                 String txtQty = editTextQty.getText().toString();
                 if (!txtQty.isEmpty()){
                     qty = Double.parseDouble(txtQty);
@@ -200,11 +210,13 @@ public class ChashiProductDtl extends AppCompatActivity {
                         if (delivery.equals("0")){
                             delcharge = qty*0.20*10;
                             int ship = (int) delcharge;
-                            txtDelCharge.setText(""+ship);
+                            double shop_dou = ship;
+                            txtDelCharge.setText(""+shop_dou);
                         }
                         double price = qty*rate;
                         double total = price+delcharge;
                         txtTotalPrice.setText(""+total);
+                        ttl = total;
                     }else {
                         txtTotalPrice.setText(""+qty*rate);
                         if (qty > 5){
@@ -217,6 +229,7 @@ public class ChashiProductDtl extends AppCompatActivity {
 
                 }else {
                     qty = 0.0;
+                    txtDelCharge.setText("0.00");
                     txtNetPrice.setText("0.00");
                     txtTotalPrice.setText("0.00");
                 }
@@ -237,6 +250,7 @@ public class ChashiProductDtl extends AppCompatActivity {
         sliderView.setIndicatorAnimation(IndicatorAnimations.WORM);
         sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
 
+        progressDialog.show();
         fetchChashiProduct(vendor_id, product_id);
 
     }
@@ -275,7 +289,7 @@ public class ChashiProductDtl extends AppCompatActivity {
                                         String is_deliver = jsonObject2.getString("is_deliver");
 
                                         setProduct(cat_id, p_name, p_img1, p_img2, p_img3, p_img4, qty_hosted, qty_booked, qty_avl, unit, prate, is_deliver);
-
+                                        progressDialog.dismiss();
                                     }
                                 }
                                 progressDialog.dismiss();
@@ -311,7 +325,7 @@ public class ChashiProductDtl extends AppCompatActivity {
     }
 
     private void setProduct(String cat_id, String p_name, String p_img1, String p_img2, String p_img3, String p_img4, String qty_hosted, String qty_booked, String qty_avl, String unit, String dbrate, String is_deliver){
-        Toast.makeText(this, ""+is_deliver, Toast.LENGTH_SHORT).show();
+
         getSupportActionBar().setTitle(p_name);
         SharedPreferences.Editor editor = images.edit();
         editor.putString("img1", p_img1);
@@ -363,6 +377,7 @@ public class ChashiProductDtl extends AppCompatActivity {
                             String message = obj.getString("message");
                             if (status.equals("200")) {
                                 Toast.makeText(ChashiProductDtl.this, ""+message, Toast.LENGTH_SHORT).show();
+
                                 finish();
 
                             }
@@ -414,6 +429,42 @@ public class ChashiProductDtl extends AppCompatActivity {
     private void hidepDialog() {
         if (pDialog.isShowing())
             pDialog.dismiss();
+    }
+
+
+    private void cal(){
+        double delcharge = 0;
+
+        String txtQty = editTextQty.getText().toString();
+        if (!txtQty.isEmpty()){
+            qty = Double.parseDouble(txtQty);
+            txtNetPrice.setText(""+qty*rate);
+            if (del_state.equals("nopickup")){
+                if (delivery.equals("0")){
+                    delcharge = qty*0.20*10;
+                    int ship = (int) delcharge;
+                    double shop_dou = ship;
+                    txtDelCharge.setText(""+shop_dou);
+                }
+                double price = qty*rate;
+                double total = price+delcharge;
+                txtTotalPrice.setText(""+total);
+                ttl = total;
+            }else {
+                txtTotalPrice.setText(""+qty*rate);
+                if (qty > 5){
+                    editTextQty.setError("Quantity cannot be more than 5 kgs");
+                }
+                if (qty > hosted){
+                    editTextQty.setError("Quantity cannot be more than "+hosted+"kg(s)");
+                }
+            }
+
+        }else {
+            qty = 0.0;
+            txtNetPrice.setText("0.00");
+            txtTotalPrice.setText("0.00");
+        }
     }
 
 

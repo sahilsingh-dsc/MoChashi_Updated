@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -67,6 +68,8 @@ public class GroceryProductAdapter extends RecyclerView.Adapter<GroceryProductAd
             context.startActivity(productDtlIntent);
         });
 
+        holder.btnAddCart.setOnClickListener(view -> holder.btnAddCart.setVisibility(View.GONE));
+
     }
 
     @Override
@@ -79,6 +82,7 @@ public class GroceryProductAdapter extends RecyclerView.Adapter<GroceryProductAd
         ImageView imgProductImage;
         TextView txtProductName, txtProductCat, txtProductMRP, txtProductSale, txtProductSave;
         ConstraintLayout constrainProduct;
+        Button btnAddCart;
 
         public GroceyProductViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -90,6 +94,7 @@ public class GroceryProductAdapter extends RecyclerView.Adapter<GroceryProductAd
             txtProductSale = itemView.findViewById(R.id.txtProductSale);
             txtProductSave = itemView.findViewById(R.id.txtProductSave);
             constrainProduct = itemView.findViewById(R.id.constrainProduct);
+            btnAddCart = itemView.findViewById(R.id.btnAddCart);
 
         }
     }

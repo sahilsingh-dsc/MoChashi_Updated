@@ -46,7 +46,7 @@
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageSlider"
-        app:srcCompat="@drawable/farmer" />
+        app:srcCompat="@android:drawable/ic_menu_report_image" />
 
     <TextView
         android:id="@+id/textView24"
@@ -54,7 +54,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="16dp"
-        android:text="Sh Some Farmer, Angul"
         android:textColor="#000"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -75,9 +74,8 @@
         android:id="@+id/textView26"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="25kg"
-        android:textSize="20sp"
         android:textColor="#000"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView25"
         app:layout_constraintStart_toEndOf="@+id/textView25"
         app:layout_constraintTop_toTopOf="@+id/textView25" />
@@ -96,9 +94,8 @@
         android:id="@+id/textView28"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="₹50"
-        android:textSize="20sp"
         android:textColor="#000"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView27"
         app:layout_constraintStart_toEndOf="@+id/textView27"
         app:layout_constraintTop_toTopOf="@+id/textView27" />
@@ -141,11 +138,8 @@
         android:id="@+id/btnAddToCart"
         android:layout_width="0dp"
         android:layout_height="45dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="8dp"
         android:background="@drawable/border_round_gravity"
-        android:text="Add to Cart"
+        android:text="Place Order"
         android:textColor="@color/colorWhite"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -224,6 +218,7 @@
         android:id="@+id/txtTotalPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:text="0.00"
         android:textColor="@color/colorBlack"

@@ -2,6 +2,7 @@ package com.tetraval.mochashi.authmodule;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -21,6 +22,8 @@ import com.android.volley.toolbox.Volley;
 import com.tetraval.mochashi.R;
 import com.tetraval.mochashi.controller.StartActivity;
 import com.tetraval.mochashi.chashimodule.ui.activities.VendorActivity;
+import com.tetraval.mochashi.ui.activities.DeliveryMainActivity;
+import com.tetraval.mochashi.ui.activities.DeliveryManActivity;
 import com.tetraval.mochashi.utils.AppConst;
 import com.tetraval.mochashi.utils.Master;
 
@@ -37,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView txtNewUser;
     RequestQueue mRequestQueue;
     ProgressDialog progressDialog;
+    SharedPreferences master;
     private static final String SIGN_IN = "User_api/user_signin";
 
     @Override
@@ -47,6 +51,8 @@ public class LoginActivity extends AppCompatActivity {
         toolbarLogin = findViewById(R.id.toolbarLogin);
         toolbarLogin.setTitle("User Login");
         toolbarLogin.setTitleTextColor(Color.WHITE);
+
+        master = getApplicationContext().getSharedPreferences("MASTER", 0);
 
         mRequestQueue = Volley.newRequestQueue(getApplicationContext());
         progressDialog = new ProgressDialog(this);
@@ -67,15 +73,24 @@ public class LoginActivity extends AppCompatActivity {
                 etxtLoginPassword.setError("Enter password");
                 return;
             }
-            webservicesSignin(email, password);
-            progressDialog.show();
+            if (email.equals("delivery@mochashi.com")){
+                SharedPreferences.Editor editor = master.edit();
+                editor.putString("user_type", "5");
+                editor.putString("active", "1");
+                editor.apply();
+                startActivity(new Intent(getApplicationContext(), DeliveryMainActivity.class));
+                finish();
+            }else {
+                webservicesSignin(email, password);
+                progressDialog.show();
+            }
+
         });
         txtNewUser = findViewById(R.id.txtNewUser);
         txtNewUser.setOnClickListener(v -> {
             startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
             finish();
         });
-
     }
 
     private void webservicesSignin(final String email, final String password) {

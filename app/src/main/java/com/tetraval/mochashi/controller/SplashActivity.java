@@ -6,10 +6,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.Toast;
 
 import com.tetraval.mochashi.R;
 import com.tetraval.mochashi.authmodule.LoginActivity;
 import com.tetraval.mochashi.chashimodule.ui.activities.VendorActivity;
+import com.tetraval.mochashi.ui.activities.DeliveryMainActivity;
 
 import java.util.Objects;
 
@@ -29,7 +31,11 @@ public class SplashActivity extends AppCompatActivity {
                 if (Objects.equals(master.getString("user_type", "1"), "4")){
                     startActivity(new Intent(SplashActivity.this, VendorActivity.class));
                     finish();
-                }else {
+                }else if (Objects.equals(master.getString("user_type", "1"), "5")){
+                    startActivity(new Intent(SplashActivity.this, DeliveryMainActivity.class));
+                    finish();
+                }
+                else {
                     startActivity(new Intent(SplashActivity.this, StartActivity.class));
                     finish();
                 }

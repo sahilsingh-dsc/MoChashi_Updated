@@ -59,7 +59,7 @@ public class RegisterActivity extends AppCompatActivity {
     TextView txtAddress, txtExistingAccount;
     Button btnRegister;
 
-    String[] account_type = {"Customer", "Chashi Online", "Daily Haat", "Grocery"};
+    String[] account_type = {"Customer", "Chashi Online"};
     private static final String CUSTOMER = "Customer";
     private static final String CHASHI = "Chashi Online";
     private static final String HAAT = "Daily Haat";
@@ -199,6 +199,19 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
 
+                registerUser(account_state,
+                        first_name,
+                        last_name,
+                        email_id,
+                        mobile_number,
+                        shop_name,
+                        pincode,
+                        city,
+                        state,
+                        pass,
+                        "imurl.jpg",
+                        address);
+
             } else {
 
                 if (TextUtils.isEmpty(first_name)) {
@@ -250,20 +263,21 @@ public class RegisterActivity extends AppCompatActivity {
                     txtAddress.setError("Please select address");
                     return;
                 }
-            }
 
-            registerUser(account_state,
-                    first_name,
-                    last_name,
-                    email_id,
-                    mobile_number,
-                    shop_name,
-                    pincode,
-                    city,
-                    state,
-                    pass,
-                    vendor_image,
-                    address);
+                registerUser(account_state,
+                        first_name,
+                        last_name,
+                        email_id,
+                        mobile_number,
+                        shop_name,
+                        pincode,
+                        city,
+                        state,
+                        pass,
+                        vendor_image,
+                        address);
+
+            }
 
         });
 

@@ -33,6 +33,8 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.firebase.storage.FirebaseStorage;
@@ -70,10 +72,13 @@ public class RegisterActivity extends AppCompatActivity {
     private static final int MY_CAMERA_PERMISSION_CODE = 10;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA,
             Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE};
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+    Manifest.permission.ACCESS_FINE_LOCATION,
+    Manifest.permission.ACCESS_COARSE_LOCATION};
 
     ProgressDialog progressDialog;
     RequestQueue requestQueue;
+    int REQUEST_CODE_PLACEPICKER = 1;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -377,9 +382,9 @@ public class RegisterActivity extends AppCompatActivity {
                 uploadImage(filePath);
             }
 
-        } else {
+        } else if (requestCode == REQUEST_CODE_PLACEPICKER && resultCode == Activity.RESULT_OK){
             displaySelectedPlaceFromPlacePicker(data);
-        }
+       }
     }
 
     public Uri getImageUri(Context inContext, Bitmap inImage) {
@@ -413,28 +418,30 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void startPlacePickerActivity() {
-        PlacePicker.IntentBuilder intentBuilder = new PlacePicker.IntentBuilder();
+
         try {
-            Intent intent = null;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-                intent = intentBuilder.build(RegisterActivity.this);
+            PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+
+            try {
+                startActivityForResult(builder.build(this), REQUEST_CODE_PLACEPICKER);
+            } catch (GooglePlayServicesRepairableException e) {
+                e.printStackTrace();
             }
-            int REQUEST_CODE_PLACEPICKER = 1;
-            startActivityForResult(intent, REQUEST_CODE_PLACEPICKER);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        }catch (GooglePlayServicesNotAvailableException e) {
+                e.printStackTrace();
+            }
+
     }
 
     private void displaySelectedPlaceFromPlacePicker(Intent data) {
         Place placeSelected = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-            placeSelected = PlacePicker.getPlace(data, RegisterActivity.this);
+       // if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+            placeSelected = PlacePicker.getPlace(data, this);
             placeSelected.getAddress();
             //String place = Objects.requireNonNull(placeSelected.getAddress()).toString();
             //List<String> items = Arrays.asList(place.split("\\s*,\\s*"));
 
-        }
+      //  }
 
         assert placeSelected != null;
         txtAddress.setText(Objects.requireNonNull(placeSelected.getAddress()).toString());

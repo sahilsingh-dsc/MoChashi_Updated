@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.tetraval.mochashi.R;
 import com.tetraval.mochashi.data.adapters.CartAdapters;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class CartActivity extends AppCompatActivity {
     RecyclerView recyclerCart;
     CartAdapters cartAdapters;
 //    List<CartModel> cartModelList;
+DecimalFormat precision = new DecimalFormat("0.00");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

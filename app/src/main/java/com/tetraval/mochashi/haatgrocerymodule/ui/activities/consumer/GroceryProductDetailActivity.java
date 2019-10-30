@@ -25,6 +25,8 @@ import com.tetraval.mochashi.controller.StartActivity;
 import com.tetraval.mochashi.haatgrocerymodule.data.models.GroceryCartModel;
 import com.tetraval.mochashi.ui.activities.MyAccountActivity;
 
+import java.text.DecimalFormat;
+
 public class GroceryProductDetailActivity extends AppCompatActivity {
 
     Toolbar toolbarGroceryProductDetail;
@@ -34,6 +36,7 @@ public class GroceryProductDetailActivity extends AppCompatActivity {
     TextView spinner;
     SharedPreferences master;
     DatabaseReference cartRef;
+    DecimalFormat precision = new DecimalFormat("0.00");
 
     int qty = 1;
     double totalamt;
@@ -155,15 +158,15 @@ public class GroceryProductDetailActivity extends AppCompatActivity {
 
     private void calculateTotal(String product_saleprice){
         totalamt = Double.parseDouble(product_saleprice)*qty;
-        txtTotalPrice.setText("Total Price: ₹"+totalamt);
+        txtTotalPrice.setText("Total Price: ₹"+ precision.format(totalamt));
     }
 
     private void setProductData(String product_image, String product_name, String product_mrpprice, String product_saleprice, String product_saveamt, String product_desc, String product_cat, String product_weight){
         Glide.with(this).load(product_image).placeholder(R.drawable.productimage).into(imgDtlProduct);
         txtProductCat.setText(product_cat);
-        txtProductMRP.setText(String.format("MRP: ₹%s", Double.parseDouble(product_mrpprice)));
-        txtProductSale.setText(String.format("Sale Price: ₹%s", Double.parseDouble(product_saleprice)));
-        txtProductSave.setText(String.format("Save: ₹%s", Double.parseDouble(product_saveamt)));
+        txtProductMRP.setText(String.format("MRP: ₹%s", precision.format(Double.parseDouble(product_mrpprice))));
+        txtProductSale.setText(String.format("Sale Price: ₹%s",  precision.format(Double.parseDouble(product_saleprice))));
+        txtProductSave.setText(String.format("Save: ₹%s",  precision.format(Double.parseDouble(product_saveamt))));
         txtDtlName.setText(product_name);
         txtProductDesc.setText(product_desc);
         spinner.setText(product_weight);

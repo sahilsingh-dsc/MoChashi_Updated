@@ -50,6 +50,7 @@ import com.tetraval.mochashi.utils.SendMail;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -77,6 +78,7 @@ public class GroceryCartActivity extends AppCompatActivity {
     TextView amountpay;
     String userid,address;
     double finalamount;
+    DecimalFormat precision = new DecimalFormat("0.00");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -238,7 +240,7 @@ public class GroceryCartActivity extends AppCompatActivity {
             Quantity = Double.valueOf(groceryCartModelList.get(i).getCart_quantity());
             Real_price=Total_price*Quantity;
             //finalamount=finalamount-Real_price;
-            amountpay.setText(finalamount+"");
+            amountpay.setText(precision.format(finalamount));
 
             Log.e("cart", "ProductQuantity== "+Quantity );
 

@@ -207,20 +207,22 @@ public class ChashiProductDtl extends AppCompatActivity {
                 String txtQty = editTextQty.getText().toString();
                 if (!txtQty.isEmpty()){
                     qty = Double.parseDouble(txtQty);
-                    txtNetPrice.setText(""+qty*rate);
+                    double finalrate=qty*rate;
+                    txtNetPrice.setText(precision.format(finalrate));
                     if (del_state.equals("nopickup")){
                         if (delivery.equals("0")){
                             delcharge = qty*0.20*10;
-                            int ship = (int) delcharge;
-                            double shop_dou = ship;
-                            txtDelCharge.setText(""+shop_dou);
+                            /*int ship = (int) delcharge;*/
+                          /*  double shop_dou = ship;*/
+                            txtDelCharge.setText(""+precision.format(delcharge));
                         }
                         double price = qty*rate;
                         double total = price+delcharge;
-                        txtTotalPrice.setText(""+total);
+                        txtTotalPrice.setText(precision.format(total));
                         ttl = total;
                     }else {
-                        txtTotalPrice.setText(""+qty*rate);
+                        double finalrate1=qty*rate;
+                        txtTotalPrice.setText(precision.format(finalrate1));
                         if (qty > 5){
                             editTextQty.setError("Quantity cannot be more than 5 kgs");
                         }
@@ -442,15 +444,16 @@ public class ChashiProductDtl extends AppCompatActivity {
             if (del_state.equals("nopickup")){
                 if (delivery.equals("0")){
                     delcharge = qty*0.20*10;
-                    double ship = (int) delcharge;
-                    txtDelCharge.setText(""+precision.format(Double.parseDouble(String.valueOf(ship))));
+                  /*  double ship = (int) delcharge;*/
+                    txtDelCharge.setText(precision.format(delcharge));
                 }
                 double price = qty*rate;
                 double total = price+delcharge;
-                txtTotalPrice.setText(""+precision.format(Double.parseDouble(String.valueOf(total))));
+                txtTotalPrice.setText(""+precision.format(total));
                 ttl = total;
             }else {
-                txtTotalPrice.setText(""+precision.format(Double.parseDouble(String.valueOf(qty*rate))));
+                double price1 = qty*rate;
+                txtTotalPrice.setText(precision.format(price1));
                 if (qty > 5){
                     editTextQty.setError("Quantity cannot be more than 5 kgs");
                 }

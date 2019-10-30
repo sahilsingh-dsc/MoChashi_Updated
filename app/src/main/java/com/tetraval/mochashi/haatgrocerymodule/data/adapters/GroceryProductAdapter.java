@@ -20,6 +20,7 @@ import com.tetraval.mochashi.R;
 import com.tetraval.mochashi.haatgrocerymodule.data.models.GroceryProductModel;
 import com.tetraval.mochashi.haatgrocerymodule.ui.activities.consumer.GroceryProductDetailActivity;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class GroceryProductAdapter extends RecyclerView.Adapter<GroceryProductAdapter.GroceyProductViewHolder> {
@@ -28,11 +29,15 @@ public class GroceryProductAdapter extends RecyclerView.Adapter<GroceryProductAd
     Context context;
     int savedamt = 0;
     double save = 0;
+    DecimalFormat precision = new DecimalFormat("0.00");
+    int counter = 1;
+    GroceryProductAdapter adapter;
 
 
     public GroceryProductAdapter(List<GroceryProductModel> groceryProductModelList, Context context) {
         this.groceryProductModelList = groceryProductModelList;
         this.context = context;
+        this.adapter = this;
     }
 
     @NonNull
@@ -48,11 +53,13 @@ public class GroceryProductAdapter extends RecyclerView.Adapter<GroceryProductAd
         Glide.with(context).load(groceryProductModel.getProduct_image()).placeholder(R.drawable.productimage).into(holder.imgProductImage);
         holder.txtProductName.setText(String.format("%s (%s%s)", groceryProductModel.getProduct_name(), groceryProductModel.getProduct_weight(), groceryProductModel.getProduct_unit()));
         holder.txtProductCat.setText(groceryProductModel.getProduct_cat());
-        holder.txtProductMRP.setText(String.format("MRP: ₹%s", Double.parseDouble(groceryProductModel.getProduct_mrpprice())));
-        holder.txtProductSale.setText(String.format("Sale Price: ₹%s", Double.parseDouble(groceryProductModel.getProduct_saleprice())));
+        double mrp= Double.parseDouble(groceryProductModel.getProduct_mrpprice());
+        holder.txtProductMRP.setText("MRP: ₹%s"+precision.format(mrp));
+        double sale= Double.parseDouble(groceryProductModel.getProduct_saleprice());
+        holder.txtProductSale.setText("Sale Price: ₹%s"+precision.format(sale));
         savedamt = Integer.parseInt(groceryProductModel.getProduct_mrpprice()) - Integer.parseInt(groceryProductModel.getProduct_saleprice());
         save = savedamt;
-        holder.txtProductSave.setText(String.format("Save: ₹%s", savedamt));
+        holder.txtProductSave.setText(String.format("Save: ₹%s", precision.format(savedamt)));
         holder.constrainProduct.setOnClickListener(v -> {
 
             Intent productDtlIntent = new Intent(context, GroceryProductDetailActivity.class);
@@ -76,6 +83,27 @@ public class GroceryProductAdapter extends RecyclerView.Adapter<GroceryProductAd
             public void onClick(View view) {
                 holder.btnAddCart.setVisibility(View.GONE);
                 holder.linearLayout2.setVisibility(View.VISIBLE);
+            }
+        });
+        holder.imgPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                holder.txtQty.setText(""+String.valueOf(Integer.parseInt(holder.txtQty.getText().toString())+1));
+                counter =( Integer.parseInt(holder.txtQty.getText().toString()));
+                adapter.notifyDataSetChanged();
+
+            }
+        });
+        holder.imgMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (counter > 1) {
+                    counter = (Integer.parseInt(holder.txtQty.getText().toString()) - 1);
+                    holder.txtQty.setText("" + String.valueOf(Integer.parseInt(holder.txtQty.getText().toString()) - 1));
+                    adapter.notifyDataSetChanged();
+                }
+
             }
         });
 

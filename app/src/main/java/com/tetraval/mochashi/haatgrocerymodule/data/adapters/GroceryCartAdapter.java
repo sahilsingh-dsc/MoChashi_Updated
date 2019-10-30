@@ -18,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.tetraval.mochashi.R;
 import com.tetraval.mochashi.haatgrocerymodule.data.models.GroceryCartModel;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class GroceryCartAdapter extends RecyclerView.Adapter<GroceryCartAdapter.
     int savedamt = 0;
     SharedPreferences master;
     String uid;
+    DecimalFormat precision = new DecimalFormat("0.00");
 
     public GroceryCartAdapter(List<GroceryCartModel> groceryCartModelList, Context context) {
         this.groceryCartModelList = groceryCartModelList;
@@ -51,12 +53,15 @@ public class GroceryCartAdapter extends RecyclerView.Adapter<GroceryCartAdapter.
         Glide.with(context).load(groceryCartModel.getProduct_image()).placeholder(R.drawable.productimage).into(holder.imgProductImage);
         holder.txtProductName.setText(groceryCartModel.getProduct_name());
         holder.txtProductCat.setText(groceryCartModel.getProduct_cat());
-        holder.txtProductMRP.setText(String.format("MRP: ₹%s", groceryCartModel.getProduct_mrpprice()));
-        holder.txtProductSale.setText(String.format("Sale Price: ₹%s", groceryCartModel.getProduct_saleprice()));
+        double mrp= Double.parseDouble(groceryCartModel.getProduct_mrpprice());
+        holder.txtProductMRP.setText("MRP: ₹%s"+precision.format(mrp));
+        double sale= Double.parseDouble(groceryCartModel.getProduct_saleprice());
+        holder.txtProductSale.setText("Sale Price: ₹%s"+precision.format(sale));
         savedamt = Integer.parseInt(groceryCartModel.getProduct_mrpprice()) - Integer.parseInt(groceryCartModel.getProduct_saleprice());
-        holder.txtProductSave.setText(String.format("Save: ₹%s", savedamt));
+        holder.txtProductSave.setText(String.format("Save: ₹%s", precision.format(savedamt)));
         holder.txtQty.setText(groceryCartModel.getCart_quantity());
-        holder.txtTotalPrice.setText("Total Price: ₹"+groceryCartModel.getCart_amount());
+        double total= Double.parseDouble(groceryCartModel.getCart_amount());
+        holder.txtTotalPrice.setText("Total Price: ₹"+precision.format(total));
         holder.txtRemoveItem.setOnClickListener(view -> {
             DatabaseReference cartRef = FirebaseDatabase.getInstance().getReference("cart_instance");
             cartRef.child(uid).child(groceryCartModel.getCart_id()).removeValue();

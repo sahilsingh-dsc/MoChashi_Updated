@@ -37,6 +37,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.tetraval.mochashi.R;
 import com.tetraval.mochashi.authmodule.LoginActivity;
+import com.tetraval.mochashi.controller.StartActivity;
 import com.tetraval.mochashi.data.adapters.ChashiAdapter;
 import com.tetraval.mochashi.data.models.ChashiModel;
 import com.tetraval.mochashi.utils.AppConst;
@@ -44,6 +45,7 @@ import com.tetraval.mochashi.utils.AppConst;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -64,6 +66,7 @@ public class ChashiActivity extends AppCompatActivity {
     String[] sortby = {"Sort Products By...", "Newly Added Products", "Low To High Price", "High To Low Price"};
     RequestQueue requestQueue;
     ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -299,25 +302,17 @@ public class ChashiActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.header_menu, menu);
+        getMenuInflater().inflate(R.menu.header_menu_chashi, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_favorite) {
-            startActivity(new Intent(getApplicationContext(), CartActivity.class));
+        if (id == R.id.home_menuitem) {
+            startActivity(new Intent(getApplicationContext(), StartActivity.class));
+            finish();
             return true;
-        } else if (id == R.id.menu_myaccount){
-            startActivity(new Intent(getApplicationContext(), MyAccountActivity.class));
-            return true;
-        } else if (id == R.id.menu_myorders){
-            startActivity(new Intent(getApplicationContext(), MyOrdersActivity.class));
-            return  true;
-        } else if (id == R.id.menu_mycredits){
-            startActivity(new Intent(getApplicationContext(), CreditActivity.class));
-            return  true;
         } else if (id == R.id.menu_signout){
             SharedPreferences.Editor editor = preferences.edit();
             editor.putInt("login_status", 0);

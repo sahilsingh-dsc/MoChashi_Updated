@@ -2,6 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tetraval.mochashi">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:hardwareAccelerated="true"
@@ -11,9 +23,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".haatgrocerymodule.ui.activities.GroceryCartActivity" />
-        <activity android:name=".haatgrocerymodule.ui.activities.GroceryProductDetailActivity" />
-        <activity android:name=".haatgrocerymodule.ui.activities.GroceryProductActivity" />
+        <activity android:name=".haatgrocerymodule.ui.activities.vendor.VendorProductCategoryActivity"></activity>
+        <activity android:name=".haatgrocerymodule.ui.activities.vendor.VendorProductListActivity" />
+        <activity android:name=".haatgrocerymodule.ui.activities.vendor.AddGroceryProductActivity" />
+        <activity android:name=".haatgrocerymodule.ui.activities.consumer.GroceryCartActivity" />
+        <activity android:name=".haatgrocerymodule.ui.activities.consumer.GroceryProductDetailActivity" />
+        <activity android:name=".haatgrocerymodule.ui.activities.consumer.GroceryProductActivity" />
         <activity android:name=".ui.activities.WelcomeActivity" />
         <activity android:name=".ui.activities.DeliveryManActivity" />
         <activity
@@ -33,7 +48,7 @@
         <activity android:name=".ui.activities.ProductActivity" />
         <activity android:name=".ui.activities.CategoryActivity" />
         <activity android:name=".ui.activities.DeliveryMainActivity" />
-        <activity android:name=".haatgrocerymodule.ui.activities.GroceryCategoryActivity" />
+        <activity android:name=".haatgrocerymodule.ui.activities.consumer.GroceryCategoryActivity" />
         <activity android:name=".controller.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -43,7 +58,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".authmodule.RegisterActivity" />
-        <activity android:name=".haatgrocerymodule.ui.activities.GroceryShopActivity" />
+        <activity android:name=".haatgrocerymodule.ui.activities.consumer.GroceryShopActivity" />
         <activity android:name=".authmodule.LoginActivity" />
         <activity android:name=".chashimodule.ui.activities.ChashiCategoryActivity" />
 
@@ -53,14 +68,6 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-feature android:name="android.hardware.camera" android:required="true" />
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
 </manifest>

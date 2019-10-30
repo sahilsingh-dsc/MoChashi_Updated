@@ -22,8 +22,8 @@ import com.android.volley.toolbox.Volley;
 import com.tetraval.mochashi.R;
 import com.tetraval.mochashi.controller.StartActivity;
 import com.tetraval.mochashi.chashimodule.ui.activities.VendorActivity;
+import com.tetraval.mochashi.haatgrocerymodule.ui.activities.vendor.AddGroceryProductActivity;
 import com.tetraval.mochashi.ui.activities.DeliveryMainActivity;
-import com.tetraval.mochashi.ui.activities.DeliveryManActivity;
 import com.tetraval.mochashi.utils.AppConst;
 import com.tetraval.mochashi.utils.Master;
 
@@ -126,7 +126,13 @@ public class LoginActivity extends AppCompatActivity {
                             if (jsonObject1.getString("user_type").equals("4")){
                                 startActivity(new Intent(getApplicationContext(), VendorActivity.class));
                                 finish();
-                            } else {
+                            } else if (jsonObject1.getString("user_type").equals("2")){
+                                startActivity(new Intent(getApplicationContext(), AddGroceryProductActivity.class));
+                                finish();
+                            } else if (jsonObject1.getString("user_type").equals("3")){
+                                startActivity(new Intent(getApplicationContext(), AddGroceryProductActivity.class));
+                                finish();
+                            } else if(jsonObject1.getString("user_type").equals("1")){
                                 startActivity(new Intent(getApplicationContext(), StartActivity.class));
                                 finish();
                             }

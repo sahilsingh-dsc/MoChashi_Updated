@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.tetraval.mochashi.R;
 import com.tetraval.mochashi.haatgrocerymodule.data.models.GroceryCategoryModel;
-import com.tetraval.mochashi.haatgrocerymodule.ui.activities.GroceryProductActivity;
+import com.tetraval.mochashi.haatgrocerymodule.ui.activities.consumer.GroceryProductActivity;
 
 import java.util.ArrayList;
 import java.util.List;

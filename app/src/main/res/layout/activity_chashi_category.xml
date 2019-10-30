@@ -5,7 +5,7 @@
     android:id="@+id/constrainCategory"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".haatgrocerymodule.ui.activities.GroceryCategoryActivity">
+    tools:context=".haatgrocerymodule.ui.activities.consumer.GroceryCategoryActivity">
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchGroceryCategory"
@@ -17,8 +17,9 @@
         android:background="@drawable/border_round"
         android:iconifiedByDefault="false"
         android:queryHint="Search Grocery Category..."
-
+        android:focusableInTouchMode="true"
         app:iconifiedByDefault="false"
+        android:focusable="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

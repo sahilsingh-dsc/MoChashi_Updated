@@ -8,8 +8,8 @@ android {
         applicationId "com.tetraval.chashi"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 5
-        versionName "1.4"
+        versionCode 8
+        versionName "1.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -69,5 +69,8 @@ dependencies {
 
     // Add dependency
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+    implementation files('libs/activation.jar')
+    implementation files('libs/additionnal.jar')
+    implementation files('libs/mail.jar')
 
 }

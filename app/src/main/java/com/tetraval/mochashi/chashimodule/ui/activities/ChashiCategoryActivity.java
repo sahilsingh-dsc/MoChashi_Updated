@@ -27,7 +27,6 @@ import com.tetraval.mochashi.authmodule.LoginActivity;
 import com.tetraval.mochashi.controller.StartActivity;
 import com.tetraval.mochashi.chashimodule.data.adapters.ChashiCategoryAdapter;
 import com.tetraval.mochashi.chashimodule.data.models.ChashiCategoryModel;
-import com.tetraval.mochashi.haatgrocerymodule.ui.activities.GroceryCartActivity;
 import com.tetraval.mochashi.utils.AppConst;
 import com.tetraval.mochashi.utils.SpacesItemDecoration;
 

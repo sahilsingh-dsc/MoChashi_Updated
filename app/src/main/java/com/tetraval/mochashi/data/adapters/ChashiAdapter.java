@@ -15,6 +15,8 @@ import com.bumptech.glide.Glide;
 import com.tetraval.mochashi.R;
 import com.tetraval.mochashi.data.models.ChashiModel;
 import com.tetraval.mochashi.ui.activities.ChashiProductDtl;
+
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class ChashiAdapter extends RecyclerView.Adapter<ChashiAdapter.ChasiViewHolder> {
@@ -22,6 +24,7 @@ public class ChashiAdapter extends RecyclerView.Adapter<ChashiAdapter.ChasiViewH
 
     List<ChashiModel> chashiModelList;
     Context context;
+    DecimalFormat precision = new DecimalFormat("0.00");
 
     public ChashiAdapter(List<ChashiModel> chashiModelList, Context context) {
         this.chashiModelList = chashiModelList;
@@ -41,13 +44,14 @@ public class ChashiAdapter extends RecyclerView.Adapter<ChashiAdapter.ChasiViewH
         final ChashiModel chashiModel = chashiModelList.get(i);
         Glide.with(context).load(chashiModel.getVendor_img()).placeholder(R.drawable.productimage).into(chasiViewHolder.imgChashiProduct);
         chasiViewHolder.txtChashiProductName.setText(chashiModel.getVendor_name());
-        chasiViewHolder.txtChashiPrice.setText("₹"+chashiModel.getRate());
-        chasiViewHolder.txtQty.setText(chashiModel.getQty_avl()+"Kg(s)");
+        chasiViewHolder.txtChashiPrice.setText("₹"+precision.format(Double.parseDouble(chashiModel.getRate())));
+        chasiViewHolder.txtQty.setText(chashiModel.getQty_avl()+"Kg");
         chasiViewHolder.cardCOPD.setOnClickListener(view -> {
             Intent chashiIntent = new Intent(context, ChashiProductDtl.class);
             Bundle chashiBundle = new Bundle();
             chashiBundle.putString("product_id", chashiModel.getProduct_id());
             chashiBundle.putString("vendor_id", chashiModel.getVendor_id());
+            chashiBundle.putString("vendor_img", chashiModel.getVendor_img());
             chashiIntent.putExtras(chashiBundle);
             context.startActivity(chashiIntent);
         });

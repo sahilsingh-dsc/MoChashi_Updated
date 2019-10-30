@@ -61,11 +61,11 @@ public class RegisterActivity extends AppCompatActivity {
     TextView txtAddress, txtExistingAccount;
     Button btnRegister;
 
-    String[] account_type = {"Customer", "Chashi Online"};
+    String[] account_type = {"Customer", "Chashi Online", "Daily Haat Vendor", "Grocery Vendor"};
     private static final String CUSTOMER = "Customer";
     private static final String CHASHI = "Chashi Online";
-    private static final String HAAT = "Daily Haat";
-    private static final String GROCERY = "Grocery";
+    private static final String HAAT = "Daily Haat Vendor";
+    private static final String GROCERY = "Grocery Vendor";
     String imgurl;
     int account_state = 1;
     private static final int CAMERA_REQUEST = 188;
@@ -413,7 +413,6 @@ public class RegisterActivity extends AppCompatActivity {
                         ref.getDownloadUrl().addOnSuccessListener(uri -> imgurl = uri.toString());
                     })
                     .addOnFailureListener(e -> progressDialog.dismiss());
-
         }
     }
 

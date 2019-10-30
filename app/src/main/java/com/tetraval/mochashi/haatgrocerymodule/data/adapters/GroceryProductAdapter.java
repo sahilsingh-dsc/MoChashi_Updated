@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.tetraval.mochashi.R;
 import com.tetraval.mochashi.haatgrocerymodule.data.models.GroceryProductModel;
-import com.tetraval.mochashi.haatgrocerymodule.ui.activities.GroceryProductDetailActivity;
+import com.tetraval.mochashi.haatgrocerymodule.ui.activities.consumer.GroceryProductDetailActivity;
 
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class GroceryProductAdapter extends RecyclerView.Adapter<GroceryProductAd
     List<GroceryProductModel> groceryProductModelList;
     Context context;
     int savedamt = 0;
+    double save = 0;
 
 
     public GroceryProductAdapter(List<GroceryProductModel> groceryProductModelList, Context context) {
@@ -46,9 +48,10 @@ public class GroceryProductAdapter extends RecyclerView.Adapter<GroceryProductAd
         Glide.with(context).load(groceryProductModel.getProduct_image()).placeholder(R.drawable.productimage).into(holder.imgProductImage);
         holder.txtProductName.setText(String.format("%s (%s%s)", groceryProductModel.getProduct_name(), groceryProductModel.getProduct_weight(), groceryProductModel.getProduct_unit()));
         holder.txtProductCat.setText(groceryProductModel.getProduct_cat());
-        holder.txtProductMRP.setText(String.format("MRP: ₹%s", groceryProductModel.getProduct_mrpprice()));
-        holder.txtProductSale.setText(String.format("Sale Price: ₹%s", groceryProductModel.getProduct_saleprice()));
+        holder.txtProductMRP.setText(String.format("MRP: ₹%s", Double.parseDouble(groceryProductModel.getProduct_mrpprice())));
+        holder.txtProductSale.setText(String.format("Sale Price: ₹%s", Double.parseDouble(groceryProductModel.getProduct_saleprice())));
         savedamt = Integer.parseInt(groceryProductModel.getProduct_mrpprice()) - Integer.parseInt(groceryProductModel.getProduct_saleprice());
+        save = savedamt;
         holder.txtProductSave.setText(String.format("Save: ₹%s", savedamt));
         holder.constrainProduct.setOnClickListener(v -> {
 
@@ -60,7 +63,7 @@ public class GroceryProductAdapter extends RecyclerView.Adapter<GroceryProductAd
             productDtlBundle.putString("product_name", groceryProductModel.getProduct_name());
             productDtlBundle.putString("product_mrpprice", groceryProductModel.getProduct_mrpprice());
             productDtlBundle.putString("product_saleprice", groceryProductModel.getProduct_saleprice());
-            productDtlBundle.putString("product_saveamt", savedamt+"");
+            productDtlBundle.putString("product_saveamt", save+"");
             productDtlBundle.putString("product_cat", groceryProductModel.getProduct_cat());
             productDtlBundle.putString("product_desc", groceryProductModel.getProduct_desc());
             productDtlBundle.putString("product_weight", groceryProductModel.getProduct_weight()+groceryProductModel.getProduct_unit());
@@ -68,7 +71,13 @@ public class GroceryProductAdapter extends RecyclerView.Adapter<GroceryProductAd
             context.startActivity(productDtlIntent);
         });
 
-        holder.btnAddCart.setOnClickListener(view -> holder.btnAddCart.setVisibility(View.GONE));
+        holder.btnAddCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.btnAddCart.setVisibility(View.GONE);
+                holder.linearLayout2.setVisibility(View.VISIBLE);
+            }
+        });
 
     }
 
@@ -79,10 +88,11 @@ public class GroceryProductAdapter extends RecyclerView.Adapter<GroceryProductAd
 
     public class GroceyProductViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView imgProductImage;
-        TextView txtProductName, txtProductCat, txtProductMRP, txtProductSale, txtProductSave;
+        ImageView imgProductImage, imgPlus, imgMinus;
+        TextView txtProductName, txtProductCat, txtProductMRP, txtProductSale, txtProductSave, txtTotalCost, txtQty;
         ConstraintLayout constrainProduct;
         Button btnAddCart;
+        LinearLayout linearLayout2;
 
         public GroceyProductViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -95,7 +105,13 @@ public class GroceryProductAdapter extends RecyclerView.Adapter<GroceryProductAd
             txtProductSave = itemView.findViewById(R.id.txtProductSave);
             constrainProduct = itemView.findViewById(R.id.constrainProduct);
             btnAddCart = itemView.findViewById(R.id.btnAddCart);
+            linearLayout2 = itemView.findViewById(R.id.linearLayout2);
+            txtTotalCost = itemView.findViewById(R.id.txtTotalCost);
+            imgPlus = itemView.findViewById(R.id.imgPlus);
+            imgMinus = itemView.findViewById(R.id.imgMinus);
+            txtQty = itemView.findViewById(R.id.txtQty);
 
         }
     }
+
 }

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/constrainProducts"
-    tools:context="com.tetraval.mochashi.haatgrocerymodule.ui.activities.GroceryProductActivity">
+    tools:context="com.tetraval.mochashi.haatgrocerymodule.ui.activities.consumer.GroceryProductActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarGroceryProduct"

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.tetraval.mochashi.haatgrocerymodule.ui.activities.GroceryProductDetailActivity">
+    tools:context="com.tetraval.mochashi.haatgrocerymodule.ui.activities.consumer.GroceryProductDetailActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarGroceryProductDetail"

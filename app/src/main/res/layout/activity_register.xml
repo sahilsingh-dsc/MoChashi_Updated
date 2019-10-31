@@ -46,35 +46,43 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
+            <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:orientation="horizontal">-->
 
                 <EditText
                     android:id="@+id/txtFirsName"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:layout_margin="1dp"
-                    android:layout_weight="1"
                     android:background="@drawable/border_round"
                     android:ems="10"
                     android:paddingStart="8dp"
-                    android:hint="First Name"
+                    android:hint="Nick Name"
                     android:inputType="textPersonName" />
 
-                <EditText
-                    android:id="@+id/txtLastName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="45dp"
-                    android:layout_margin="1dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/border_round"
-                    android:ems="10"
-                    android:paddingStart="8dp"
-                    android:hint="Last Name"
-                    android:inputType="textPersonName" />
-            </LinearLayout>
+
+
+            <Spinner
+                android:id="@+id/spinnerlastname"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_margin="1dp"
+                android:background="@drawable/border_round"
+                android:paddingStart="8dp"/>
+            <EditText
+                android:id="@+id/txtLastName"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/border_round"
+                android:ems="10"
+                android:visibility="gone"
+                android:paddingStart="8dp"
+                android:hint="Last Name"
+                android:inputType="textPersonName" />
 
             <EditText
                 android:id="@+id/txtEmailId"

@@ -55,13 +55,15 @@ import static android.graphics.Color.WHITE;
 public class RegisterActivity extends AppCompatActivity {
 
     Toolbar toolbarSignup;
-    Spinner spinnerAccountType;
+    Spinner spinnerAccountType,spinnerlastname;
     EditText txtFirsName, txtLastName, txtEmailId, txtMobileNumber, txtShopName, txtPincode, txtCity, txtState, txtPassword, txtRePassword;
     ImageView imgShopImage;
     TextView txtAddress, txtExistingAccount;
     Button btnRegister;
 
     String[] account_type = {"Customer", "Chashi Online", "Daily Haat Vendor", "Grocery Vendor"};
+    String[] lastnametype = {"SIR","MADAM","BABU","DADA","DIDI","BHAI","MAUSA","MAUSI","OTHER"};
+    String LastnameHolder;
     private static final String CUSTOMER = "Customer";
     private static final String CHASHI = "Chashi Online";
     private static final String HAAT = "Daily Haat Vendor";
@@ -91,6 +93,7 @@ public class RegisterActivity extends AppCompatActivity {
         toolbarSignup.setTitle("User Registration");
         toolbarSignup.setTitleTextColor(WHITE);
         spinnerAccountType = findViewById(R.id.spinnerAccountType);
+        spinnerlastname = findViewById(R.id.spinnerlastname);
 
         txtFirsName = findViewById(R.id.txtFirsName);
         txtLastName = findViewById(R.id.txtLastName);
@@ -105,6 +108,13 @@ public class RegisterActivity extends AppCompatActivity {
         imgShopImage = findViewById(R.id.imgShopImage);
         txtAddress = findViewById(R.id.txtAddress);
         txtExistingAccount = findViewById(R.id.txtExistingAccount);
+        txtExistingAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+                finish();
+            }
+        });
         btnRegister = findViewById(R.id.btnRegister);
 
         requestQueue = Volley.newRequestQueue(this);
@@ -142,6 +152,27 @@ public class RegisterActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
+        ArrayAdapter lastnameadapter = new ArrayAdapter<>(RegisterActivity.this, R.layout.support_simple_spinner_dropdown_item, lastnametype);
+        spinnerlastname.setAdapter(lastnameadapter);
+        spinnerlastname.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (adapterView.getItemAtPosition(i).toString().equals("OTHER")) {
+                    txtLastName.setVisibility(View.VISIBLE);
+                }else{
+                    txtLastName.setVisibility(View.GONE);
+                    LastnameHolder=adapterView.getItemAtPosition(i).toString();
+                    Log.e("register", "Lastname=="+LastnameHolder );
+                }
+
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
 
         imgShopImage.setOnClickListener(view -> {
             if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -156,7 +187,7 @@ public class RegisterActivity extends AppCompatActivity {
         btnRegister.setOnClickListener(view -> {
 
             String first_name = txtFirsName.getText().toString();
-            String last_name = txtLastName.getText().toString();
+            LastnameHolder = txtLastName.getText().toString();
             String email_id = txtEmailId.getText().toString();
             String mobile_number = txtMobileNumber.getText().toString();
             String shop_name = txtShopName.getText().toString();
@@ -174,10 +205,10 @@ public class RegisterActivity extends AppCompatActivity {
                     txtFirsName.setError("Please Enter First Name");
                     return;
                 }
-                if (TextUtils.isEmpty(last_name)) {
+              /*  if (TextUtils.isEmpty(last_name)) {
                     txtLastName.setError("Please Enter Last Name");
                     return;
-                }
+                }*/
                 if (TextUtils.isEmpty(email_id)) {
                     txtEmailId.setError("Please Enter Email ID");
                     return;
@@ -206,7 +237,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                 registerUser(account_state,
                         first_name,
-                        last_name,
+                        LastnameHolder,
                         email_id,
                         mobile_number,
                         shop_name,
@@ -223,10 +254,10 @@ public class RegisterActivity extends AppCompatActivity {
                     txtFirsName.setError("Please Enter First Name");
                     return;
                 }
-                if (TextUtils.isEmpty(last_name)) {
+              /*  if (TextUtils.isEmpty(last_name)) {
                     txtLastName.setError("Please Enter Last Name");
                     return;
-                }
+                }*/
                 if (TextUtils.isEmpty(email_id)) {
                     txtEmailId.setError("Please Enter Email ID");
                     return;
@@ -271,7 +302,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                 registerUser(account_state,
                         first_name,
-                        last_name,
+                        LastnameHolder,
                         email_id,
                         mobile_number,
                         shop_name,

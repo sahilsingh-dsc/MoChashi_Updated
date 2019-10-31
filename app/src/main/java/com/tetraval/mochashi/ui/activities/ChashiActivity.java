@@ -260,7 +260,7 @@ public class ChashiActivity extends AppCompatActivity {
                                 recyclerChashi.setAdapter(chashiAdapter);
                                 if (chashiModelList.isEmpty()){
                                     Snackbar snackbar = Snackbar
-                                            .make(constrainChashiProduct, "Chashi online does not have products currently.", Snackbar.LENGTH_INDEFINITE);
+                                            .make(constrainChashiProduct, "Products sold out & yet to be added freshly", Snackbar.LENGTH_INDEFINITE);
                                     snackbar.show();
                                     progressDialog.dismiss();
                                 }

@@ -8,6 +8,12 @@
         android:title="Home"
         app:showAsAction="always" />
     <item
+        android:id="@+id/menu_myorders"
+        android:title="My Orders" />
+    <item
+        android:id="@+id/menu_mycredits"
+        android:title="My Credits" />
+    <item
         android:id="@+id/logout_menuitem"
         android:title="Logout" />
 </menu>

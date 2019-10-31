@@ -79,6 +79,7 @@ public class ChashiProductDtl extends AppCompatActivity {
     String cat_id;
     double ttl = 0;
     String prate;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +88,6 @@ public class ChashiProductDtl extends AppCompatActivity {
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Please wait...");
         pDialog.setCancelable(false);
-
         master = getApplicationContext().getSharedPreferences("MASTER", 0);
         userid=master.getString("user_id","0");
         address=master.getString("address","0");
@@ -249,10 +249,6 @@ public class ChashiProductDtl extends AppCompatActivity {
         });
 
 
-        sliderView.setSliderAdapter(new SliderAdapterExample(ChashiProductDtl.this));
-        sliderView.startAutoCycle();
-        sliderView.setIndicatorAnimation(IndicatorAnimations.WORM);
-        sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
 
         progressDialog.show();
         fetchChashiProduct(vendor_id, product_id);
@@ -291,6 +287,18 @@ public class ChashiProductDtl extends AppCompatActivity {
                                         String unit = jsonObject2.getString("unit");
                                         prate = jsonObject2.getString("rate");
                                         String is_deliver = jsonObject2.getString("is_deliver");
+                                        editor = images.edit();
+                                        editor.putString("img1", p_img1);
+                                        editor.putString("img2", p_img2);
+                                        editor.putString("img3", p_img3);
+                                        editor.putString("img4", p_img4);
+                                        editor.apply();
+
+
+                                        sliderView.setSliderAdapter(new SliderAdapterExample(ChashiProductDtl.this));
+                                        sliderView.startAutoCycle();
+                                        sliderView.setIndicatorAnimation(IndicatorAnimations.WORM);
+                                        sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
 
                                         setProduct(cat_id, p_name, p_img1, p_img2, p_img3, p_img4, qty_hosted, qty_booked, qty_avl, unit, prate, is_deliver);
                                         progressDialog.dismiss();
@@ -328,15 +336,22 @@ public class ChashiProductDtl extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        editor.clear();
+        editor.apply();
+    }
+
     private void setProduct(String cat_id, String p_name, String p_img1, String p_img2, String p_img3, String p_img4, String qty_hosted, String qty_booked, String qty_avl, String unit, String dbrate, String is_deliver){
 
         getSupportActionBar().setTitle(p_name);
-        SharedPreferences.Editor editor = images.edit();
-        editor.putString("img1", p_img1);
-        editor.putString("img2", p_img2);
-        editor.putString("img3", p_img3);
-        editor.putString("img4", p_img4);
-        editor.apply();
+//        editor = images.edit();
+//        editor.putString("img1", p_img1);
+//        editor.putString("img2", p_img2);
+//        editor.putString("img3", p_img3);
+//        editor.putString("img4", p_img4);
+//        editor.apply();
         Glide.with(this).load(vendor_img).into(imgChashiPhoto);
         hosted = Double.parseDouble(qty_hosted);
         txtProductNameAndAddress.setText(p_name);
@@ -369,7 +384,7 @@ public class ChashiProductDtl extends AppCompatActivity {
 
         // Use HttpURLConnection as the HTTP client
         Network network = new BasicNetwork(new HurlStack());
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConst.BASE_URL +"User_api/place_order",
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConst.BASE_URL +"User_api/chasi_orders",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -411,8 +426,8 @@ public class ChashiProductDtl extends AppCompatActivity {
                 params.put("shipping_charge","0");
                 params.put("tax","0");
                 params.put("product_id",cat_id );
-                params.put("product_qty", editTextQty.getText().toString());
-                params.put("product_price",prate);
+                params.put("quantity", editTextQty.getText().toString());
+                //params.put("product_price",prate);
                 Log.e("order detail",""+params);
                 return params;
             }

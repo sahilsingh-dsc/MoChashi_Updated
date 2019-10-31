@@ -206,7 +206,7 @@ public class GroceryProductActivity extends AppCompatActivity {
                         recyclerGroceryProduct.setAdapter(groceryProductAdapter);
                         if (groceryProductModelList.isEmpty()){
                             Snackbar snackbar = Snackbar
-                                    .make(constrainProducts, cat_name+" are not available currently.", Snackbar.LENGTH_LONG);
+                                    .make(constrainProducts, cat_name+" Products sold out & yet to be added freshly", Snackbar.LENGTH_LONG);
                             snackbar.show();
                         }
                         spinnerCategory.setSelection(0);

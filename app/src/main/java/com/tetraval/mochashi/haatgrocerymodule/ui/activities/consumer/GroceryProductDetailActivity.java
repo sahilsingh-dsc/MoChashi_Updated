@@ -124,7 +124,7 @@ public class GroceryProductDetailActivity extends AppCompatActivity {
                         "Continue Shopping",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                startActivity(new Intent(getApplicationContext(), StartActivity.class));
+                                //startActivity(new Intent(getApplicationContext(), StartActivity.class));
                                 dialog.cancel();
                             }
                         });

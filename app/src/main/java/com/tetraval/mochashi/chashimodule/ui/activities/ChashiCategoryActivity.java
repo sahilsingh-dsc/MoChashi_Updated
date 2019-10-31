@@ -27,6 +27,8 @@ import com.tetraval.mochashi.authmodule.LoginActivity;
 import com.tetraval.mochashi.controller.StartActivity;
 import com.tetraval.mochashi.chashimodule.data.adapters.ChashiCategoryAdapter;
 import com.tetraval.mochashi.chashimodule.data.models.ChashiCategoryModel;
+import com.tetraval.mochashi.ui.activities.CreditActivity;
+import com.tetraval.mochashi.ui.activities.MyOrdersActivity;
 import com.tetraval.mochashi.utils.AppConst;
 import com.tetraval.mochashi.utils.SpacesItemDecoration;
 
@@ -178,8 +180,14 @@ public class ChashiCategoryActivity extends AppCompatActivity implements SearchV
             finish();
             return true;
         }
-
-        if (id == R.id.logout_menuitem){
+        else if (id == R.id.menu_myorders){
+            startActivity(new Intent(getApplicationContext(), MyOrdersActivity.class));
+            return  true;
+        } else if (id == R.id.menu_mycredits) {
+            startActivity(new Intent(getApplicationContext(), CreditActivity.class));
+            return true;
+        }
+        else if (id == R.id.logout_menuitem){
             SharedPreferences.Editor editor = master.edit();
             editor.clear();
             editor.apply();

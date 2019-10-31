@@ -83,6 +83,9 @@ public class SliderAdapterExample extends
 
         }
 
+//        SharedPreferences.Editor editor = images.edit();
+//        editor.clear();
+
     }
 
     @Override

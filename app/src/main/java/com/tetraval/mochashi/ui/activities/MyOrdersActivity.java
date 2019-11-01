@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -13,27 +14,44 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.tetraval.mochashi.R;
 import com.tetraval.mochashi.authmodule.LoginActivity;
-import com.tetraval.mochashi.data.adapters.OrdersAdapter;
+import com.tetraval.mochashi.chashimodule.data.adapters.OrdersAdapter;
+import com.tetraval.mochashi.chashimodule.ui.activities.ChasiMyOrdersActivity;
+import com.tetraval.mochashi.data.adapters.HatOrdersAdapter;
+import com.tetraval.mochashi.data.models.HatOrdersModel;
 import com.tetraval.mochashi.data.models.OrdersModel;
+import com.tetraval.mochashi.utils.AppConst;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MyOrdersActivity extends AppCompatActivity {
 
     Toolbar toolbarMyOrder;
     RecyclerView recyclerOrder;
-    List<OrdersModel> ordersModelList;
-    OrdersAdapter ordersAdapter;
+    List<HatOrdersModel> ordersModelList;
+    HatOrdersAdapter hatOrdersAdapter;
     SharedPreferences preferences, masterdata;
+    RequestQueue requestQueue;
+    String userid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_orders);
-
+        requestQueue = Volley.newRequestQueue(this);
         toolbarMyOrder = findViewById(R.id.toolbarMyOrder);
         setSupportActionBar(toolbarMyOrder);
         getSupportActionBar().setTitle("My Orders");
@@ -54,18 +72,69 @@ public class MyOrdersActivity extends AppCompatActivity {
 
     private void fetchOrders() {
 
-        ordersModelList.add(new OrdersModel("MO00001", "Some Product Some Category 1", "6", "5000", "", "17-07-2019"));
-        ordersModelList.add(new OrdersModel("MO00002", "Some Product Some Category 2", "10", "3000", "", "17-07-2019"));
-        ordersModelList.add(new OrdersModel("MO00003", "Some Product Some Category 3", "7", "1000", "", "17-07-2019"));
-        ordersModelList.add(new OrdersModel("MO00004", "Some Product Some Category 4", "8", "900", "", "17-07-2019"));
-        ordersModelList.add(new OrdersModel("MO00005", "Some Product Some Category 5", "5", "600", "", "17-07-2019"));
-        ordersModelList.add(new OrdersModel("MO00006", "Some Product Some Category 6", "4", "8000", "", "17-07-2019"));
-        ordersModelList.add(new OrdersModel("MO00007", "Some Product Some Category 7", "2", "3000", "", "17-07-2019"));
-        ordersModelList.add(new OrdersModel("MO00008", "Some Product Some Category 8", "53", "500", "", "17-07-2019"));
-        ordersAdapter = new OrdersAdapter(ordersModelList, this);
-        recyclerOrder.setAdapter(ordersAdapter);
-    }
+        StringRequest getRequest = new StringRequest(Request.Method.POST, AppConst.BASE_URL+"User_api/my_orders_grocery",
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("Response", response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            String status =  jsonObject.getString("status");
+                            String result =  jsonObject.getString("result");
+                            if (status.equals("200")) {
+                                JSONObject jsonObject1 = new JSONObject(result);
+                                String orders = jsonObject1.getString("orders");
+                                JSONArray jsonArray = new JSONArray(orders);
+                                for (int i = 0; i<jsonArray.length(); i++){
+                                    JSONObject jsonObject2 = jsonArray.getJSONObject(i);
 
+                                    HatOrdersModel hatOrdersModel=new HatOrdersModel(
+                                            jsonObject2.getString("order_id"),
+                                            jsonObject2.getString("total_price"),
+                                            jsonObject2.getString("date"),
+                                            jsonObject2.getString("order_status")
+
+                                    );
+                                    ordersModelList.add(hatOrdersModel);
+
+                                }
+                                hatOrdersAdapter = new HatOrdersAdapter(ordersModelList, MyOrdersActivity.this);
+                                recyclerOrder.setAdapter(hatOrdersAdapter);
+
+
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+
+
+                        }
+
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Error.Response", error.toString());
+
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams()
+            {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("user_id", userid);
+                return params;
+            }
+        };
+
+        requestQueue.add(getRequest);
+
+
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

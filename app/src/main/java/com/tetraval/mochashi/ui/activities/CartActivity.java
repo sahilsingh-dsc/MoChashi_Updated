@@ -26,13 +26,12 @@ public class CartActivity extends AppCompatActivity {
     RecyclerView recyclerCart;
     CartAdapters cartAdapters;
 //    List<CartModel> cartModelList;
-DecimalFormat precision = new DecimalFormat("0.00");
+    DecimalFormat precision = new DecimalFormat("0.00");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
-
         toolbarCart = findViewById(R.id.toolbarCart);
         setSupportActionBar(toolbarCart);
         getSupportActionBar().setTitle("Cart");

@@ -45,6 +45,7 @@ import com.tetraval.mochashi.controller.StartActivity;
 import com.tetraval.mochashi.haatgrocerymodule.data.adapters.GroceryCartAdapter;
 import com.tetraval.mochashi.haatgrocerymodule.data.models.GroceryCartModel;
 import com.tetraval.mochashi.ui.activities.MyAccountActivity;
+import com.tetraval.mochashi.utils.AppConst;
 import com.tetraval.mochashi.utils.SendMail;
 
 import org.json.JSONException;
@@ -288,7 +289,7 @@ public class GroceryCartActivity extends AppCompatActivity {
 
         // Use HttpURLConnection as the HTTP client
         Network network = new BasicNetwork(new HurlStack());
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://34.90.225.153/mochashi/User_api/place_order",
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConst.BASE_URL+"User_api/place_order",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {

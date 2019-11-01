@@ -42,8 +42,10 @@ import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 import com.tetraval.mochashi.R;
 import com.tetraval.mochashi.authmodule.LoginActivity;
+import com.tetraval.mochashi.chashimodule.ui.activities.ChashiCategoryActivity;
 import com.tetraval.mochashi.controller.StartActivity;
 import com.tetraval.mochashi.data.adapters.SliderAdapterExample;
+import com.tetraval.mochashi.haatgrocerymodule.ui.activities.consumer.GroceryCartActivity;
 import com.tetraval.mochashi.utils.AppConst;
 
 import org.json.JSONArray;
@@ -80,6 +82,7 @@ public class ChashiProductDtl extends AppCompatActivity {
     double ttl = 0;
     String prate;
     SharedPreferences.Editor editor;
+    String vendor_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,7 +140,7 @@ public class ChashiProductDtl extends AppCompatActivity {
 
         Bundle chashiBundle = getIntent().getExtras();
         String product_id = chashiBundle.getString("product_id");
-        String vendor_id = chashiBundle.getString("vendor_id");
+        vendor_id = chashiBundle.getString("vendor_id");
         vendor_img = chashiBundle.getString("vendor_img");
 
         toolbarCOPD = findViewById(R.id.toolbarCOPD);
@@ -164,7 +167,13 @@ public class ChashiProductDtl extends AppCompatActivity {
                 Toast.makeText(ChashiProductDtl.this, "Quantity must not be empty or 0", Toast.LENGTH_SHORT).show();
                 editTextQty.requestFocus();
                 return;
-            }
+            }else if (qty > hosted){
+                Toast.makeText(ChashiProductDtl.this, "Quantity cannot be more than "+hosted+"kg", Toast.LENGTH_SHORT).show();
+                editTextQty.requestFocus();
+              //  editTextQty.setError("Quantity cannot be more than "+hosted+"kg");
+            }else{
+
+
 
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ChashiProductDtl.this);
                     alertDialogBuilder.setTitle("Place Order");
@@ -187,7 +196,7 @@ public class ChashiProductDtl extends AppCompatActivity {
                     AlertDialog alertDialog = alertDialogBuilder.create();
                     alertDialog.show();
 
-//            }
+            }
             });
 
 
@@ -353,9 +362,9 @@ public class ChashiProductDtl extends AppCompatActivity {
 //        editor.putString("img4", p_img4);
 //        editor.apply();
         Glide.with(this).load(vendor_img).into(imgChashiPhoto);
-        hosted = Double.parseDouble(qty_hosted);
+        hosted = Double.parseDouble(qty_avl);
         txtProductNameAndAddress.setText(p_name);
-        txtQtyAvl.setText(qty_hosted+unit);
+        txtQtyAvl.setText(qty_avl+unit);
         delivery = is_deliver;
         if (delivery.equals("1")){
             txtDelCharge.setVisibility(View.GONE);
@@ -380,11 +389,11 @@ public class ChashiProductDtl extends AppCompatActivity {
 
     private void ProductUpload() {
         showpDialog();
-        Cache cache = new DiskBasedCache(getCacheDir(), 1024 * 1024);
+     /*   Cache cache = new DiskBasedCache(getCacheDir(), 1024 * 1024);
 
         // Use HttpURLConnection as the HTTP client
-        Network network = new BasicNetwork(new HurlStack());
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConst.BASE_URL +"User_api/chasi_orders",
+        Network network = new BasicNetwork(new HurlStack());*/
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConst.BASE_URL +"User_api/chashi_orders",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -397,6 +406,7 @@ public class ChashiProductDtl extends AppCompatActivity {
                             String message = obj.getString("message");
                             if (status.equals("200")) {
                                 Toast.makeText(ChashiProductDtl.this, ""+message, Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(getApplicationContext(), ChashiCategoryActivity.class));
                                 finish();
                             }
 
@@ -420,23 +430,22 @@ public class ChashiProductDtl extends AppCompatActivity {
                 Map<String, String> params = new HashMap<>();
                 //Adding the parameters to the request
                 params.put("user_id",userid);
-                params.put("vendor_id","0");
+                params.put("vendor_id",vendor_id);
                 params.put("total_price", txtTotalPrice.getText().toString());
                 params.put("shipping_address",address);
-                params.put("shipping_charge","0");
-                params.put("tax","0");
+                params.put("shipping_charge",txtDelCharge.getText().toString());
+                params.put("tax","0.00");
                 params.put("product_id",cat_id );
                 params.put("quantity", editTextQty.getText().toString());
-                //params.put("product_price",prate);
                 Log.e("order detail",""+params);
                 return params;
             }
         };
-        RequestQueue queue = new RequestQueue(cache, network);
+        /*RequestQueue queue = new RequestQueue();
         queue.start();
-        queue.add(stringRequest);
-       /* RequestQueue requestQueue = Volley.newRequestQueue(GroceryCartActivity.this);
-        requestQueue.add(stringRequest);*/
+        queue.add(stringRequest);*/
+        RequestQueue requestQueue = Volley.newRequestQueue(ChashiProductDtl.this);
+        requestQueue.add(stringRequest);
     }
     private void showpDialog() {
         if (!pDialog.isShowing())

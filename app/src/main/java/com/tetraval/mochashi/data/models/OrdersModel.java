@@ -8,14 +8,18 @@ public class OrdersModel {
     String total_amount;
     String odr_product_image;
     String odr_date;
+    String Status;
+    String productid;
 
-    public OrdersModel(String odr_id, String odr_name, String odr_qty, String total_amount, String odr_product_image, String odr_date) {
+    public OrdersModel(String odr_id, String odr_name, String odr_qty, String total_amount, String odr_product_image, String odr_date,String status,String productid) {
         this.odr_id = odr_id;
         this.odr_name = odr_name;
         this.odr_qty = odr_qty;
         this.total_amount = total_amount;
         this.odr_product_image = odr_product_image;
         this.odr_date = odr_date;
+        this.Status = status;
+        this.productid = productid;
     }
 
     public String getOdr_id() {
@@ -64,5 +68,13 @@ public class OrdersModel {
 
     public void setOdr_date(String odr_date) {
         this.odr_date = odr_date;
+    }
+
+    public String getStatus() {
+        return Status;
+    }
+
+    public String getProductid() {
+        return productid;
     }
 }

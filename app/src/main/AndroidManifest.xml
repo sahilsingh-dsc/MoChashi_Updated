@@ -32,6 +32,7 @@
         <activity android:name=".haatgrocerymodule.ui.activities.consumer.GroceryProductActivity" />
         <activity android:name=".ui.activities.WelcomeActivity" />
         <activity android:name=".ui.activities.DeliveryManActivity" />
+        <activity android:name=".chashimodule.ui.activities.ChasiMyOrdersActivity"/>
         <activity
             android:name=".ui.activities.CustomerMapsActivity"
             android:label="@string/title_activity_customer_maps" />

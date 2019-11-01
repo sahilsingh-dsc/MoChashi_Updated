@@ -23,9 +23,11 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.snackbar.Snackbar;
 import com.tetraval.mochashi.R;
 import com.tetraval.mochashi.authmodule.LoginActivity;
+import com.tetraval.mochashi.chashimodule.ui.activities.ChasiMyOrdersActivity;
 import com.tetraval.mochashi.controller.StartActivity;
 import com.tetraval.mochashi.haatgrocerymodule.data.adapters.ShopAdapter;
 import com.tetraval.mochashi.haatgrocerymodule.data.models.ShopModel;
+import com.tetraval.mochashi.ui.activities.CreditActivity;
 import com.tetraval.mochashi.ui.activities.MyAccountActivity;
 import com.tetraval.mochashi.utils.AppConst;
 
@@ -157,32 +159,28 @@ public class GroceryShopActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         if (id == R.id.action_favorite) {
             startActivity(new Intent(getApplicationContext(), GroceryCartActivity.class));
             return true;
-        }
-
-        if (id == R.id.menu_myaccount) {
+        }else if (id == R.id.menu_myaccount){
             startActivity(new Intent(getApplicationContext(), MyAccountActivity.class));
-            finish();
             return true;
-        }
-
-        if (id == R.id.menu_home) {
+        }else if (id == R.id.menu_myorders){
+            startActivity(new Intent(getApplicationContext(), ChasiMyOrdersActivity.class));
+            return  true;
+        }else if (id == R.id.menu_home) {
             startActivity(new Intent(getApplicationContext(), StartActivity.class));
-            finish();
             return true;
-        }
-
-        if (id == R.id.menu_signout){
+        }else if (id == R.id.menu_mycredits){
+            startActivity(new Intent(getApplicationContext(), CreditActivity.class));
+            return  true;
+        }else if (id == R.id.menu_signout){
             SharedPreferences.Editor editor = master.edit();
             editor.clear();
             editor.apply();
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
             finish();
         }
-
         return super.onOptionsItemSelected(item);
     }
 

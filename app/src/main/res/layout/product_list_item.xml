@@ -101,31 +101,19 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/linearLayout10"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout10">
-
-
-
-
-        <Button
-            android:id="@+id/btnAddCart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/border_round_gravity"
-            android:paddingStart="5dp"
-            android:paddingEnd="5dp"
-            android:text="ADD TO CART"
-            android:textColor="@color/colorWhite" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout10"
+        app:layout_constraintVertical_bias="1.0">
 
         <LinearLayout
             android:id="@+id/linearLayout2"
@@ -134,8 +122,8 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/border_round"
             android:gravity="center"
+            android:layout_marginRight="20dp"
             android:orientation="horizontal"
-            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/linearLayout7">
 
@@ -152,7 +140,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="1"
+                android:text="0"
                 android:textColor="@color/colorBlack"
                 android:textStyle="bold" />
 
@@ -165,6 +153,17 @@
                 app:srcCompat="@drawable/ic_do_not_disturb_on_black_24dp" />
 
         </LinearLayout>
+
+
+        <Button
+            android:id="@+id/btnAddCart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border_round_gravity"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:text="ADD TO CART"
+            android:textColor="@color/colorWhite" />
 
 
     </LinearLayout>

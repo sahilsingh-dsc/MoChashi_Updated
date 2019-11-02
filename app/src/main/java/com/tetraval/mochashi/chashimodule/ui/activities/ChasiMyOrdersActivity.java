@@ -133,6 +133,7 @@ public class ChasiMyOrdersActivity extends AppCompatActivity {
                 {
                     Map<String, String>  params = new HashMap<String, String>();
                     params.put("user_id", userid);
+                    Log.d("chasi","params=="+params);
                     return params;
                 }
             };

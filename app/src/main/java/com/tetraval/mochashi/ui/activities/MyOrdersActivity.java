@@ -8,12 +8,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -22,16 +20,11 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.tetraval.mochashi.R;
 import com.tetraval.mochashi.authmodule.LoginActivity;
-import com.tetraval.mochashi.chashimodule.data.adapters.OrdersAdapter;
-import com.tetraval.mochashi.chashimodule.ui.activities.ChasiMyOrdersActivity;
 import com.tetraval.mochashi.data.adapters.HatOrdersAdapter;
 import com.tetraval.mochashi.data.models.HatOrdersModel;
-import com.tetraval.mochashi.data.models.OrdersModel;
 import com.tetraval.mochashi.utils.AppConst;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,7 +34,7 @@ public class MyOrdersActivity extends AppCompatActivity {
 
     Toolbar toolbarMyOrder;
     RecyclerView recyclerOrder;
-    List<HatOrdersModel> ordersModelList;
+    List<HatOrdersModel> hatOrdersModelList;
     HatOrdersAdapter hatOrdersAdapter;
     SharedPreferences preferences, masterdata;
     RequestQueue requestQueue;
@@ -59,18 +52,19 @@ public class MyOrdersActivity extends AppCompatActivity {
         toolbarMyOrder.getOverflowIcon().setColorFilter(Color.WHITE , PorterDuff.Mode.SRC_ATOP);
 
         recyclerOrder = findViewById(R.id.recyclerOrder);
-        ordersModelList = new ArrayList<>();
+        hatOrdersModelList = new ArrayList<>();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerOrder.setLayoutManager(linearLayoutManager);
 
         preferences = getApplicationContext().getSharedPreferences("loginpref", 0);
         masterdata = getApplicationContext().getSharedPreferences("MASTER", 0);
+        userid=masterdata.getString("user_id","0");
 
-        fetchOrders();
+        fetchOrder();
 
     }
 
-    private void fetchOrders() {
+    private void fetchOrder() {
 
         StringRequest getRequest = new StringRequest(Request.Method.POST, AppConst.BASE_URL+"User_api/my_orders_grocery",
                 new Response.Listener<String>()
@@ -96,10 +90,10 @@ public class MyOrdersActivity extends AppCompatActivity {
                                             jsonObject2.getString("order_status")
 
                                     );
-                                    ordersModelList.add(hatOrdersModel);
+                                    hatOrdersModelList.add(hatOrdersModel);
 
                                 }
-                                hatOrdersAdapter = new HatOrdersAdapter(ordersModelList, MyOrdersActivity.this);
+                                hatOrdersAdapter = new HatOrdersAdapter(hatOrdersModelList, MyOrdersActivity.this);
                                 recyclerOrder.setAdapter(hatOrdersAdapter);
 
 
@@ -109,7 +103,6 @@ public class MyOrdersActivity extends AppCompatActivity {
 
 
                         }
-
                     }
                 },
                 new Response.ErrorListener()

@@ -37,6 +37,8 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.tetraval.mochashi.R;
@@ -81,6 +83,12 @@ public class RegisterActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     RequestQueue requestQueue;
     int REQUEST_CODE_PLACEPICKER = 1;
+    double lat=20.8444;
+    double lng=85.1511;
+    double lat1=20.8444;
+    double lng1=85.1511;
+    LatLng inbound =new LatLng(lat,lng);
+    LatLng outbound =new LatLng(lat1,lng1);
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -450,7 +458,9 @@ public class RegisterActivity extends AppCompatActivity {
     private void startPlacePickerActivity() {
 
         try {
+            LatLngBounds bounds = new LatLngBounds(inbound ,outbound);
             PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+            builder.setLatLngBounds(bounds);
 
             try {
                 startActivityForResult(builder.build(this), REQUEST_CODE_PLACEPICKER);

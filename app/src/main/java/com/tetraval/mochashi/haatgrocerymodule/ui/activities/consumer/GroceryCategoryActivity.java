@@ -30,6 +30,7 @@ import com.tetraval.mochashi.haatgrocerymodule.data.adapters.GroceryCateogryAdap
 import com.tetraval.mochashi.haatgrocerymodule.data.models.GroceryCategoryModel;
 import com.tetraval.mochashi.ui.activities.CreditActivity;
 import com.tetraval.mochashi.ui.activities.MyAccountActivity;
+import com.tetraval.mochashi.ui.activities.MyOrdersActivity;
 import com.tetraval.mochashi.utils.AppConst;
 import com.tetraval.mochashi.utils.SpacesItemDecoration;
 
@@ -199,7 +200,7 @@ public class GroceryCategoryActivity extends AppCompatActivity implements Search
             startActivity(new Intent(getApplicationContext(), MyAccountActivity.class));
             return true;
         }else if (id == R.id.menu_myorders){
-            startActivity(new Intent(getApplicationContext(), ChasiMyOrdersActivity.class));
+            startActivity(new Intent(getApplicationContext(), MyOrdersActivity.class));
             return  true;
         }else if (id == R.id.menu_home) {
             startActivity(new Intent(getApplicationContext(), StartActivity.class));

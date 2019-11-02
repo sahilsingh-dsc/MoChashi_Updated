@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +49,7 @@ import com.tetraval.mochashi.ui.activities.MyAccountActivity;
 import com.tetraval.mochashi.utils.AppConst;
 import com.tetraval.mochashi.utils.SendMail;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -80,6 +82,12 @@ public class GroceryCartActivity extends AppCompatActivity {
     String userid,address;
     double finalamount;
     DecimalFormat precision = new DecimalFormat("0.00");
+    private String ROOT_URL=AppConst.BASE_URL+"User_api/shipping_charges";
+    int deliverycharge=0;
+    int expressdeliverycharge=0;
+    RadioButton radioButton1,radioButton2;
+    TextView txtdeliverycharge;
+    int deliverystatus=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +96,25 @@ public class GroceryCartActivity extends AppCompatActivity {
         pDialog.setMessage("Please wait...");
         pDialog.setCancelable(false);
         amountpay=findViewById(R.id.amountpay);
+        txtdeliverycharge=findViewById(R.id.deliverycharge);
+        radioButton1=findViewById(R.id.r1);
+        radioButton2=findViewById(R.id.r2);
+        radioButton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deliverystatus=0;
+                totalprize(deliverycharge);
+            }
+        });
+        radioButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deliverystatus=1;
+                totalprize(expressdeliverycharge);
+
+            }
+        });
+
 
         toolbarGroceryCart = findViewById(R.id.toolbarGroceryCart);
         setSupportActionBar(toolbarGroceryCart);
@@ -214,8 +241,8 @@ public class GroceryCartActivity extends AppCompatActivity {
                     groceryCartModelList.add(groceryCartModel);
                     progressDialog.dismiss();
                 }
-                totalprize();
 
+                FetchDelivery();
                 groceryCartAdapter = new GroceryCartAdapter(groceryCartModelList, getApplicationContext());
                 recyclerGroceryCart.setAdapter(groceryCartAdapter);
                 progressDialog.dismiss();
@@ -230,7 +257,68 @@ public class GroceryCartActivity extends AppCompatActivity {
         });
 
     }
-    public void totalprize(){
+
+    private void FetchDelivery() {
+        Cache cache = new DiskBasedCache(getCacheDir(), 1024 * 1024);
+
+        // Use HttpURLConnection as the HTTP client
+        Network network = new BasicNetwork(new HurlStack());
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, ROOT_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.e("Login", "onResponse: "+response);
+                        if (null == response || response.length() == 0) {
+                            Toast.makeText(GroceryCartActivity.this, "No Data", Toast.LENGTH_SHORT).show();
+                        } else {
+
+                            try {
+                                JSONObject mainJson = new JSONObject(response);
+                                String result=mainJson.getString("result");
+                                JSONObject mainJson2  = new JSONObject(result);
+                                JSONArray jsonArray = mainJson2.getJSONArray("shipping_charges");
+                                JSONObject objJson;
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    objJson = jsonArray.getJSONObject(i);
+                                    deliverycharge= Integer.parseInt(objJson.getString("shipping_charge_grocery"));
+                                    expressdeliverycharge= Integer.parseInt(objJson.getString("shipping_charge_express"));
+                                 //   txtdeliverycharge.setText(deliverycharge);
+                                    if (deliverystatus==0){
+                                        totalprize(deliverycharge);
+                                    }else{
+                                        totalprize(expressdeliverycharge);
+                                    }
+
+
+
+                                }
+
+                            } catch (JSONException e) {
+
+                                e.printStackTrace();
+                            }
+
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+        RequestQueue queue = new RequestQueue(cache, network);
+        queue.start();
+        queue.add(stringRequest);
+
+    }
+
+
+
+
+    public void totalprize(int dcharge){
         finalamount=0;
         Log.e("cart", "finalamount== "+finalamount );
         Total_price=0;
@@ -241,7 +329,8 @@ public class GroceryCartActivity extends AppCompatActivity {
             Quantity = Double.valueOf(groceryCartModelList.get(i).getCart_quantity());
             Real_price=Total_price*Quantity;
             //finalamount=finalamount-Real_price;
-            amountpay.setText(precision.format(finalamount));
+            txtdeliverycharge.setText(precision.format(dcharge));
+            amountpay.setText(precision.format(finalamount+dcharge));
 
             Log.e("cart", "ProductQuantity== "+Quantity );
 
@@ -306,7 +395,7 @@ public class GroceryCartActivity extends AppCompatActivity {
                                 String mailmessage = "Hello, ";
 
                                 SendMail sm = new SendMail(GroceryCartActivity.this, "sahilsingh.dsc@gmail.com", subject, mailmessage);
-                                  sm.execute();
+                                sm.execute();
                                 Toast.makeText(GroceryCartActivity.this, ""+message, Toast.LENGTH_SHORT).show();
                                 finish();
 

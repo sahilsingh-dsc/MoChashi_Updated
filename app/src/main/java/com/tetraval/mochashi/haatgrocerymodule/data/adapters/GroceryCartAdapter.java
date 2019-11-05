@@ -1,6 +1,7 @@
 package com.tetraval.mochashi.haatgrocerymodule.data.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,7 +18,10 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.tetraval.mochashi.R;
+import com.tetraval.mochashi.database.MySQLiteOpenHelper;
+import com.tetraval.mochashi.haatgrocerymodule.data.models.CartProductModel;
 import com.tetraval.mochashi.haatgrocerymodule.data.models.GroceryCartModel;
+import com.tetraval.mochashi.haatgrocerymodule.ui.activities.consumer.GroceryCartActivity;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
@@ -24,16 +29,21 @@ import java.util.List;
 
 public class GroceryCartAdapter extends RecyclerView.Adapter<GroceryCartAdapter.GroceryViewHolder> {
 
-    List<GroceryCartModel> groceryCartModelList;
+    List<CartProductModel> groceryCartModelList;
     Context context;
     int savedamt = 0;
     SharedPreferences master;
     String uid;
     DecimalFormat precision = new DecimalFormat("0.00");
+    MySQLiteOpenHelper db;
+    GroceryCartAdapter adapter;
+    int counter = 0;
 
-    public GroceryCartAdapter(List<GroceryCartModel> groceryCartModelList, Context context) {
+    public GroceryCartAdapter(List<CartProductModel> groceryCartModelList, Context context) {
         this.groceryCartModelList = groceryCartModelList;
         this.context = context;
+        db = new MySQLiteOpenHelper(context);
+        this.adapter = this;
     }
 
     @NonNull
@@ -49,60 +59,72 @@ public class GroceryCartAdapter extends RecyclerView.Adapter<GroceryCartAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull GroceryCartAdapter.GroceryViewHolder holder, int position) {
-        GroceryCartModel groceryCartModel = groceryCartModelList.get(position);
+        CartProductModel groceryCartModel = groceryCartModelList.get(position);
         Glide.with(context).load(groceryCartModel.getProduct_image()).placeholder(R.drawable.productimage).into(holder.imgProductImage);
         holder.txtProductName.setText(groceryCartModel.getProduct_name());
         holder.txtProductCat.setText(groceryCartModel.getProduct_cat());
-        double mrp= Double.parseDouble(groceryCartModel.getProduct_mrpprice());
-        holder.txtProductMRP.setText("MRP: ₹%s"+precision.format(mrp));
-        double sale= Double.parseDouble(groceryCartModel.getProduct_saleprice());
-        holder.txtProductSale.setText("Sale Price: ₹%s"+precision.format(sale));
-        savedamt = Integer.parseInt(groceryCartModel.getProduct_mrpprice()) - Integer.parseInt(groceryCartModel.getProduct_saleprice());
-        holder.txtProductSave.setText(String.format("Save: ₹%s", precision.format(savedamt)));
-        holder.txtQty.setText(groceryCartModel.getCart_quantity());
-        double total= Double.parseDouble(groceryCartModel.getCart_amount());
+        double mrp= Double.parseDouble(groceryCartModel.getProduct_prize());
+        holder.txtProductMRP.setText("MRP: ₹"+precision.format(mrp));
+        double sale= Double.parseDouble(groceryCartModel.getProduct_offer_prize());
+        holder.txtProductSale.setText("Sale Price: ₹"+precision.format(sale));
+        savedamt = Integer.parseInt(groceryCartModel.getProduct_prize()) - Integer.parseInt(groceryCartModel.getProduct_offer_prize());
+        holder.txtProductSave.setText(String.format("Save: ₹", precision.format(savedamt)));
+        holder.txtQty.setText(groceryCartModel.getProduct_selected_qty());
+        double total= Double.parseDouble(groceryCartModel.getProduct_total_prize());
         holder.txtTotalPrice.setText("Total Price: ₹"+precision.format(total));
         holder.txtRemoveItem.setOnClickListener(view -> {
-            DatabaseReference cartRef = FirebaseDatabase.getInstance().getReference("cart_instance");
-            cartRef.child(uid).child(groceryCartModel.getCart_id()).removeValue();
+            /*DatabaseReference cartRef = FirebaseDatabase.getInstance().getReference("cart_instance");
+            cartRef.child(uid).child(groceryCartModel.getCart_id()).removeValue();*/
+            String id = groceryCartModel.getCart_id();
+            long y = db.deleteItem(id);
+            if(y>0){
+                Toast.makeText(context,"Item deleted from cart",Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(context,"Something went wrong",Toast.LENGTH_SHORT).show();
+            }
+            groceryCartModelList.remove(groceryCartModel);
+            adapter.notifyDataSetChanged();
+            Intent intent=new Intent(context, GroceryCartActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            context.startActivity(intent);
         });
         holder.imgPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int qty = Integer.parseInt(groceryCartModel.getCart_quantity());
-                int total = Integer.parseInt(groceryCartModel.getProduct_saleprice());
-                Log.e("cart", "total=="+total );
-                Log.e("cart", "qty=="+qty );
-                if (qty >= 1){
-                    qty = qty+1;
-                    String productqty = String.valueOf(qty);
-                    holder.txtQty.setText(productqty);
-                    int cart_amount = qty*total;
-                    HashMap hashMap = new HashMap();
-                    hashMap.put("cart_quantity", productqty);
-                    hashMap.put("cart_amount", cart_amount+"");
-                    DatabaseReference cartRef = FirebaseDatabase.getInstance().getReference("cart_instance");
-                    cartRef.child(uid).child(groceryCartModel.getCart_id()).updateChildren(hashMap);
-                    //calculateTotal(product_saleprice);
-                }
+                holder.txtQty.setText(""+String.valueOf(Integer.parseInt(holder.txtQty.getText().toString())+1));
+                counter =( Integer.parseInt(holder.txtQty.getText().toString()));
+                int disproductprize= Integer.parseInt(groceryCartModel.getProduct_offer_prize());
+                int productprize= Integer.parseInt(groceryCartModel.getProduct_prize());
+                String  TotalPrize= String.valueOf(disproductprize*counter);
+                double Discount_price=productprize-disproductprize;
+                String FinalDiscount_price = String.valueOf(Discount_price*counter);
+                // counter = (Integer.parseInt(myViewHolder.tv_qty.getText().toString())+1);
+                db.updateData(groceryCartModel.getProduct_id(), String.valueOf(counter),TotalPrize,FinalDiscount_price);
+                adapter.notifyDataSetChanged();
+                Intent intent=new Intent(context, GroceryCartActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                context.startActivity(intent);
+
+
             }
         });
         holder.imgMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int qty = Integer.parseInt(groceryCartModel.getCart_quantity());
-                int total = Integer.parseInt(groceryCartModel.getProduct_saleprice());
-                if (qty >= 2){
-                    qty = qty-1;
-                    String productqty = String.valueOf(qty);
-                    holder.txtQty.setText(productqty);
-                    HashMap hashMap = new HashMap();
-                    int cart_amount = qty*total;
-                    hashMap.put("cart_quantity", productqty);
-                    hashMap.put("cart_amount", cart_amount+"");
-                    DatabaseReference cartRef = FirebaseDatabase.getInstance().getReference("cart_instance");
-                    cartRef.child(uid).child(groceryCartModel.getCart_id()).updateChildren(hashMap);
-                    //calculateTotal(product_saleprice);
+                counter =( Integer.parseInt(holder.txtQty.getText().toString())-1);
+                if (counter>0) {
+                    holder.txtQty.setText(""+String.valueOf(Integer.parseInt(holder.txtQty.getText().toString())-1));
+                    int disproductprize= Integer.parseInt(groceryCartModel.getProduct_offer_prize());
+                    int productprize= Integer.parseInt(groceryCartModel.getProduct_prize());
+                    String  TotalPrize= String.valueOf(disproductprize*counter);
+                    double Discount_price=productprize-disproductprize;
+                    String FinalDiscount_price = String.valueOf(Discount_price*counter);
+                    db.updateData(groceryCartModel.getProduct_id(), String.valueOf(counter),TotalPrize,FinalDiscount_price);
+                    adapter.notifyDataSetChanged();
+                    Intent intent=new Intent(context, GroceryCartActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    context.startActivity(intent);
+
                 }
             }
         });

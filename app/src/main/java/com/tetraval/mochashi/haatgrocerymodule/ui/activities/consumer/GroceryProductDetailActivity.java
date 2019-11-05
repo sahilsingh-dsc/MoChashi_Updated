@@ -21,6 +21,7 @@ import com.tetraval.mochashi.R;
 import com.tetraval.mochashi.authmodule.LoginActivity;
 import com.tetraval.mochashi.chashimodule.ui.activities.ChasiMyOrdersActivity;
 import com.tetraval.mochashi.controller.StartActivity;
+import com.tetraval.mochashi.database.MySQLiteOpenHelper;
 import com.tetraval.mochashi.haatgrocerymodule.data.models.GroceryCartModel;
 import com.tetraval.mochashi.ui.activities.CreditActivity;
 import com.tetraval.mochashi.ui.activities.MyAccountActivity;
@@ -41,14 +42,15 @@ public class GroceryProductDetailActivity extends AppCompatActivity {
 
     int qty = 1;
     double totalamt;
-    
+    String userid;
+    MySQLiteOpenHelper db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grocery_product_detail);
 
         toolbarGroceryProductDetail = findViewById(R.id.toolbarGroceryProductDetail);
-
+        db = new MySQLiteOpenHelper(getApplicationContext());
         productDtlBundle = getIntent().getExtras();
         assert productDtlBundle != null;
         String product_id = productDtlBundle.getString("product_id");
@@ -105,8 +107,8 @@ public class GroceryProductDetailActivity extends AppCompatActivity {
 
         txtAddToCat.setOnClickListener(view -> {
 
-            String uid = "1";
-            if (uid != null &&
+            userid=master.getString("user_id","0");
+            if (userid != null &&
                     product_id != null &&
                     product_image != null &&
                     product_name != null &&
@@ -141,7 +143,7 @@ public class GroceryProductDetailActivity extends AppCompatActivity {
 
                 AlertDialog cartAlert = addToCartBuilder.create();
                 cartAlert.show();
-                processAddToCart(product_id,
+               /* processAddToCart(product_id,
                         uid,
                         product_image,
                         product_name,
@@ -149,7 +151,19 @@ public class GroceryProductDetailActivity extends AppCompatActivity {
                         product_saleprice,
                         product_saveamt,
                         product_desc,
-                        product_cat);
+                        product_cat);*/
+                int cartAmt = Integer.parseInt(product_saleprice)*qty;
+                int count= db.Check(product_id);
+                if (count >0) {
+                    db.updateData(product_id,String.valueOf(qty),String.valueOf(cartAmt),product_saveamt);
+                }else {
+                    long y = db.addToCart(userid, product_id, product_mrpprice, product_name, String.valueOf(qty), String.valueOf(product_saleprice), String.valueOf(cartAmt), product_weight, product_saveamt, product_cat, product_image);
+                    if (y > 0) {
+                        Toast.makeText(this, "Item added to cart", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                    }
+                }
             }else {
                 Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
             }
@@ -173,7 +187,7 @@ public class GroceryProductDetailActivity extends AppCompatActivity {
         spinner.setText(product_weight);
     }
 
-    private void processAddToCart(String product_id, String uid, String product_image, String product_name, String product_mrpprice, String product_saleprice, String product_saveamt, String product_desc, String product_cat){
+   /* private void processAddToCart(String product_id, String uid, String product_image, String product_name, String product_mrpprice, String product_saleprice, String product_saveamt, String product_desc, String product_cat){
         cartRef = FirebaseDatabase.getInstance().getReference("cart_instance");
         String cart_id = cartRef.push().getKey();
         int cartAmt = Integer.parseInt(product_saleprice)*qty;
@@ -191,7 +205,7 @@ public class GroceryProductDetailActivity extends AppCompatActivity {
                 product_cat);
         assert cart_id != null;
         cartRef.child(uid).child(cart_id).setValue(groceryCartModel);
-    }
+    }*/
 
 
     @Override

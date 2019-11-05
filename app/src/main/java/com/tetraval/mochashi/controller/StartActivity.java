@@ -8,19 +8,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.tetraval.mochashi.R;
 import com.tetraval.mochashi.chashimodule.ui.activities.ChashiCategoryActivity;
+import com.tetraval.mochashi.database.MySQLiteOpenHelper;
 import com.tetraval.mochashi.haatgrocerymodule.ui.activities.consumer.GroceryCartActivity;
 import com.tetraval.mochashi.haatgrocerymodule.ui.activities.consumer.GroceryShopActivity;
 
@@ -29,19 +23,23 @@ public class StartActivity extends AppCompatActivity {
     TextView txtCustomerName;
     CardView cardChashi, cardHaat, cardGrocery;
     SharedPreferences master;
-    float count = 0;
+    int count = 0;
     ProgressDialog progressDialog;
+    MySQLiteOpenHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
-        progressDialog = new ProgressDialog(this);
+     /*   progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please wait...");
         progressDialog.setCancelable(false);
-        progressDialog.show();
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("cart_instance");
+        progressDialog.show();*/
+        db = new MySQLiteOpenHelper(getApplicationContext());
+        count= db.getProfilesCount();
+       // Toast.makeText(this, ""+count, Toast.LENGTH_SHORT).show();
+       /* DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("cart_instance");
         databaseReference.child("1").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -53,7 +51,7 @@ public class StartActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
+        });*/
 
         //Toast.makeText(this, ""+count, Toast.LENGTH_SHORT).show();
 
@@ -88,7 +86,10 @@ public class StartActivity extends AppCompatActivity {
                         .setNegativeButton("Clear Cart", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                databaseReference.child("1").removeValue();
+                                //databaseReference.child("1").removeValue();
+                                db.deleteAll();
+                                startActivity(new Intent(getApplicationContext(),StartActivity.class));
+                                finish();
                                 Toast.makeText(StartActivity.this, "Cart Cleared!", Toast.LENGTH_SHORT).show();
                             }
                         })
@@ -123,7 +124,10 @@ public class StartActivity extends AppCompatActivity {
                         .setNegativeButton("Clear Cart", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                databaseReference.child("1").removeValue();
+                               // databaseReference.child("1").removeValue();
+                                db.deleteAll();
+                                startActivity(new Intent(getApplicationContext(),StartActivity.class));
+                                finish();
                                 Toast.makeText(StartActivity.this, "Cart Cleared!", Toast.LENGTH_SHORT).show();
                             }
                         })
@@ -156,12 +160,22 @@ public class StartActivity extends AppCompatActivity {
                         .setNegativeButton("Clear Cart", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                databaseReference.child("1").removeValue();
+                              //  databaseReference.child("1").removeValue();
+                                db.deleteAll();
+                                startActivity(new Intent(getApplicationContext(),StartActivity.class));
+                                finish();
                                 Toast.makeText(StartActivity.this, "Cart Cleared!", Toast.LENGTH_SHORT).show();
                             }
                         })
                         .show();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        db = new MySQLiteOpenHelper(getApplicationContext());
+        count= db.getProfilesCount();
     }
 }

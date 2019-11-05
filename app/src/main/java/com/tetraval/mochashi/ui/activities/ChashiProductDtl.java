@@ -83,6 +83,7 @@ public class ChashiProductDtl extends AppCompatActivity {
     String prate;
     SharedPreferences.Editor editor;
     String vendor_id;
+    String productid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -285,6 +286,7 @@ public class ChashiProductDtl extends AppCompatActivity {
                                     if (jsonObject2.getString("product_id").equals(product_id)){
 
                                          cat_id = jsonObject2.getString("category_id");
+                                         productid = jsonObject2.getString("product_id");
                                         String p_name = jsonObject2.getString("product_name");
                                         String p_img1 = jsonObject2.getString("p_img1");
                                         String p_img2 = jsonObject2.getString("p_img2");
@@ -435,7 +437,7 @@ public class ChashiProductDtl extends AppCompatActivity {
                 params.put("shipping_address",address);
                 params.put("shipping_charge",txtDelCharge.getText().toString());
                 params.put("tax","0.00");
-                params.put("product_id",cat_id );
+                params.put("product_id",productid );
                 params.put("quantity", editTextQty.getText().toString());
                 Log.e("order detail",""+params);
                 return params;

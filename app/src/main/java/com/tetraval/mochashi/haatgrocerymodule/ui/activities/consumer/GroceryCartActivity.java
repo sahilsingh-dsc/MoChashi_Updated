@@ -43,7 +43,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.tetraval.mochashi.R;
 import com.tetraval.mochashi.authmodule.LoginActivity;
 import com.tetraval.mochashi.controller.StartActivity;
+import com.tetraval.mochashi.database.MySQLiteOpenHelper;
 import com.tetraval.mochashi.haatgrocerymodule.data.adapters.GroceryCartAdapter;
+import com.tetraval.mochashi.haatgrocerymodule.data.models.CartProductModel;
 import com.tetraval.mochashi.haatgrocerymodule.data.models.GroceryCartModel;
 import com.tetraval.mochashi.ui.activities.MyAccountActivity;
 import com.tetraval.mochashi.utils.AppConst;
@@ -64,7 +66,7 @@ public class GroceryCartActivity extends AppCompatActivity {
 
     Toolbar toolbarGroceryCart;
     RecyclerView recyclerGroceryCart;
-    List<GroceryCartModel> groceryCartModelList;
+    ArrayList<CartProductModel> groceryCartModelList=new ArrayList();
     GroceryCartAdapter groceryCartAdapter;
     SharedPreferences master;
     ProgressDialog progressDialog;
@@ -88,6 +90,7 @@ public class GroceryCartActivity extends AppCompatActivity {
     RadioButton radioButton1,radioButton2;
     TextView txtdeliverycharge;
     int deliverystatus=0;
+    MySQLiteOpenHelper db ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,6 +98,7 @@ public class GroceryCartActivity extends AppCompatActivity {
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Please wait...");
         pDialog.setCancelable(false);
+        db = new MySQLiteOpenHelper(getApplicationContext());
         amountpay=findViewById(R.id.amountpay);
         txtdeliverycharge=findViewById(R.id.deliverycharge);
         radioButton1=findViewById(R.id.r1);
@@ -115,30 +119,21 @@ public class GroceryCartActivity extends AppCompatActivity {
             }
         });
 
-
         toolbarGroceryCart = findViewById(R.id.toolbarGroceryCart);
         setSupportActionBar(toolbarGroceryCart);
         Objects.requireNonNull(getSupportActionBar()).setTitle("Your Cart");
         toolbarGroceryCart.setTitleTextColor(getResources().getColor(R.color.colorWhite));
         Objects.requireNonNull(toolbarGroceryCart.getOverflowIcon()).setColorFilter(Color.WHITE , PorterDuff.Mode.SRC_ATOP);
-
         recyclerGroceryCart = findViewById(R.id.recyclerGroceryCart);
         recyclerGroceryCart.setLayoutManager(new LinearLayoutManager(this));
-
-        progressDialog = new ProgressDialog(GroceryCartActivity.this);
-        progressDialog.setMessage("Please Wait...");
-        progressDialog.setCancelable(false);
-
-        groceryCartModelList = new ArrayList<>();
-        groceryCartModelList.clear();
-
-        master = getApplicationContext().getSharedPreferences("MASTER", 0);
-         userid=master.getString("user_id","0");
-         address=master.getString("address","0");
-        progressDialog.show();
-        fetchCartItems();
-        checkout=findViewById(R.id.btnCheckout);
-        checkout.setOnClickListener(new View.OnClickListener() {
+      master = getApplicationContext().getSharedPreferences("MASTER", 0);
+      userid=master.getString("user_id","0");
+      address=master.getString("address","0");
+      groceryCartModelList= db.getCarts(userid);
+      groceryCartAdapter = new GroceryCartAdapter(groceryCartModelList, getApplicationContext());
+      recyclerGroceryCart.setAdapter(groceryCartAdapter);
+      checkout=findViewById(R.id.btnCheckout);
+      checkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -169,95 +164,13 @@ public class GroceryCartActivity extends AppCompatActivity {
                         .show();
 
 
-     /*
-                LayoutInflater layoutInflater = LayoutInflater.from(GroceryCartActivity.this);
-                final View imageChooser = layoutInflater.inflate(R.layout.checkout_alert, null);
-                final AlertDialog addDealDialog = new AlertDialog.Builder(getApplicationContext()).create();
-                addDealDialog.setView(imageChooser);
-                txtyes=imageChooser.findViewById(R.id.txtyes);
-                txtno=imageChooser.findViewById(R.id.txtno);
-                txtyes.findViewById(R.id.txtyes).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        addDealDialog.dismiss();
-                       *//* if (getActivity()!=null) {
-                            if (isNetworkConnected()) {
-                                presenter.ViewDeal(Status);
-                            } else {
-                                showAlert("Please connect to internet.", R.style.DialogAnimation);
-                            }
-                        }*//*
-                    }
-                });
-                txtno.findViewById(R.id.txtno).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        addDealDialog.dismiss();
-                       *//* if (getActivity()!=null) {
-                            if (isNetworkConnected()) {
-                                presenter.ViewDeal(Status);
-                            } else {
-                                showAlert("Please connect to internet.", R.style.DialogAnimation);
-                            }
-                        }*//*
-                    }
-                });
-                addDealDialog.show();*/
+
             }
         });
+        FetchDelivery();
+
 
     }
-
-    private void fetchCartItems(){
-        Productprize.clear();
-        DatabaseReference cartRef = FirebaseDatabase.getInstance().getReference("cart_instance");
-        //String uid = master.getString("id", "1");
-        cartRef.child("1").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                groceryCartModelList.clear();
-                for (DataSnapshot cartSnap : dataSnapshot.getChildren()){
-                    GroceryCartModel groceryCartModel = new GroceryCartModel(
-                            Objects.requireNonNull(cartSnap.child("cart_id").getValue()).toString(),
-                            Objects.requireNonNull(cartSnap.child("cart_amount").getValue()).toString(),
-                            Objects.requireNonNull(cartSnap.child("cart_quantity").getValue()).toString(),
-                            Objects.requireNonNull(cartSnap.child("uid").getValue()).toString(),
-                            Objects.requireNonNull(cartSnap.child("product_id").getValue()).toString(),
-                            Objects.requireNonNull(cartSnap.child("product_image").getValue()).toString(),
-                            Objects.requireNonNull(cartSnap.child("product_name").getValue()).toString(),
-                            Objects.requireNonNull(cartSnap.child("product_mrpprice").getValue()).toString(),
-                            Objects.requireNonNull(cartSnap.child("product_saleprice").getValue()).toString(),
-                            Objects.requireNonNull(cartSnap.child("product_saveamt").getValue()).toString(),
-                            Objects.requireNonNull(cartSnap.child("product_cat").getValue()).toString()
-                    );
-                    Productid.add(cartSnap.child("product_id").getValue().toString());
-                    Productprize.add(cartSnap.child("cart_amount").getValue().toString());
-                    ProductQuantity.add(cartSnap.child("cart_quantity").getValue().toString());
-
-                    //Log.e("cart", "Productid== "+Productid );
-                  //  Log.e("cart", "Productprize== "+Productprize );
-                  //  Log.e("cart", "ProductQuantity== "+ProductQuantity );
-
-                    groceryCartModelList.add(groceryCartModel);
-                    progressDialog.dismiss();
-                }
-
-                FetchDelivery();
-                groceryCartAdapter = new GroceryCartAdapter(groceryCartModelList, getApplicationContext());
-                recyclerGroceryCart.setAdapter(groceryCartAdapter);
-                progressDialog.dismiss();
-
-            }
-
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                progressDialog.dismiss();
-            }
-        });
-
-    }
-
     private void FetchDelivery() {
         Cache cache = new DiskBasedCache(getCacheDir(), 1024 * 1024);
 
@@ -317,26 +230,27 @@ public class GroceryCartActivity extends AppCompatActivity {
 
 
 
-
     public void totalprize(int dcharge){
         finalamount=0;
         Log.e("cart", "finalamount== "+finalamount );
         Total_price=0;
         Quantity=0;
         for (int i = 0; i < groceryCartModelList.size(); i++) {
-            finalamount+=Double.valueOf(groceryCartModelList.get(i).getCart_amount());
-            Total_price = Double.valueOf(groceryCartModelList.get(i).getProduct_saleprice());
-            Quantity = Double.valueOf(groceryCartModelList.get(i).getCart_quantity());
+            finalamount+=Double.valueOf(groceryCartModelList.get(i).getProduct_total_prize());
+            Total_price = Double.valueOf(groceryCartModelList.get(i).getProduct_offer_prize());
+            Quantity = Double.valueOf(groceryCartModelList.get(i).getProduct_selected_qty());
             Real_price=Total_price*Quantity;
             //finalamount=finalamount-Real_price;
-            txtdeliverycharge.setText(precision.format(dcharge));
-            amountpay.setText(precision.format(finalamount+dcharge));
+            txtdeliverycharge.setText("₹"+precision.format(dcharge));
+            amountpay.setText("₹"+precision.format(finalamount+dcharge));
+            Productid.add(groceryCartModelList.get(i).getProduct_id());
+            Productprize.add(groceryCartModelList.get(i).getProduct_offer_prize());
+            ProductQuantity.add(groceryCartModelList.get(i).getProduct_selected_qty());
 
             Log.e("cart", "ProductQuantity== "+Quantity );
 
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -390,6 +304,7 @@ public class GroceryCartActivity extends AppCompatActivity {
                             String status = obj.getString("status");
                             String message = obj.getString("message");
                             if (status.equals("200")) {
+                                db.deleteAll();
                                 String subject = "Regarding your latest course";
                              //   String name = booking_for;
                                 String mailmessage = "Hello, ";
@@ -425,7 +340,7 @@ public class GroceryCartActivity extends AppCompatActivity {
                 params.put("vendor_id","0");
                 params.put("total_price", String.valueOf(Total_price));
                 params.put("shipping_address",address);
-                params.put("shipping_charge","0");
+                params.put("shipping_charge",txtdeliverycharge.getText().toString());
                 params.put("tax","0");
                 params.put("product_id", String.valueOf(Productid));
                 params.put("product_qty", String.valueOf(ProductQuantity));
@@ -451,3 +366,97 @@ public class GroceryCartActivity extends AppCompatActivity {
     }
 
 }
+  /*  public void getDataFromDatabase() {
+
+        Total_price = 0;
+        Quantity=0;
+        for (int i = 0; i < groceryCartModelList.size(); i++) {
+            Total_price += Double.valueOf(groceryCartModelList.get(i).getProduct_total_prize().replace(",",""));
+            Product_price = Double.valueOf(al.get(i).getProduct_offer_prize().replace(",",""));
+            Real_price = Double.valueOf(al.get(i).getProduct_prize().replace(",",""));
+            Quantity = Double.valueOf(al.get(i).getProduct_selected_qty());
+            Discount_price=Real_price-Product_price;
+            FinalDiscount_price+=Discount_price*Quantity;
+            Log.e("prize",""+Total_price);
+            Log.e("realprize",""+Real_price);
+            Log.e("productprize",""+Product_price);
+            Log.e("Quantity",""+  Quantity );
+            Log.e("discount",""+Discount_price);
+            Log.e("finaldiscount",""+FinalDiscount_price);
+            //Log.e("value",""+Product_price);
+        }
+        if (Total_price < 500) {
+            Deliveryfee=99;
+            totalprize.setText(Total_price+" ₹");
+            deliveryfee.setText(Deliveryfee+" ₹");
+            discountfare.setText(FinalDiscount_price+" ₹");
+            txttax.setText(String.valueOf(finaltax)+"%");
+            Total_tax_price=  Double.parseDouble(formatData.format((Total_price/ 100.0f) * finaltax));
+            Final_Total_price = (Total_price + Deliveryfee+Total_tax_price);
+            Final_Total_price = Double.parseDouble(formatData.format(Final_Total_price));
+            amountpay.setText(Final_Total_price+" ₹");
+        }
+        else{
+            Deliveryfee=0;
+            totalprize.setText(Total_price+" ₹");
+            deliveryfee.setText("Free");
+            discountfare.setText(FinalDiscount_price+" ₹");
+            txttax.setText(String.valueOf(finaltax)+"%");
+             Deliveryfee= Double.parseDouble(deliveryfee.getText().toString());
+            Total_tax_price=  Double.parseDouble(formatData.format((Total_price/ 100.0f) * finaltax));
+            Final_Total_price = (Total_price + Deliveryfee+Total_tax_price);
+            Final_Total_price = Double.parseDouble(formatData.format(Final_Total_price));
+            amountpay.setText(Final_Total_price+" ₹");
+        }
+    }*/
+
+    /*private void fetchCartItems(){
+        Productprize.clear();
+        DatabaseReference cartRef = FirebaseDatabase.getInstance().getReference("cart_instance");
+        //String uid = master.getString("id", "1");
+        cartRef.child("1").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                groceryCartModelList.clear();
+                for (DataSnapshot cartSnap : dataSnapshot.getChildren()){
+                    GroceryCartModel groceryCartModel = new GroceryCartModel(
+                            Objects.requireNonNull(cartSnap.child("cart_id").getValue()).toString(),
+                            Objects.requireNonNull(cartSnap.child("cart_amount").getValue()).toString(),
+                            Objects.requireNonNull(cartSnap.child("cart_quantity").getValue()).toString(),
+                            Objects.requireNonNull(cartSnap.child("uid").getValue()).toString(),
+                            Objects.requireNonNull(cartSnap.child("product_id").getValue()).toString(),
+                            Objects.requireNonNull(cartSnap.child("product_image").getValue()).toString(),
+                            Objects.requireNonNull(cartSnap.child("product_name").getValue()).toString(),
+                            Objects.requireNonNull(cartSnap.child("product_mrpprice").getValue()).toString(),
+                            Objects.requireNonNull(cartSnap.child("product_saleprice").getValue()).toString(),
+                            Objects.requireNonNull(cartSnap.child("product_saveamt").getValue()).toString(),
+                            Objects.requireNonNull(cartSnap.child("product_cat").getValue()).toString()
+                    );
+                    Productid.add(cartSnap.child("product_id").getValue().toString());
+                    Productprize.add(cartSnap.child("cart_amount").getValue().toString());
+                    ProductQuantity.add(cartSnap.child("cart_quantity").getValue().toString());
+
+                    //Log.e("cart", "Productid== "+Productid );
+                  //  Log.e("cart", "Productprize== "+Productprize );
+                  //  Log.e("cart", "ProductQuantity== "+ProductQuantity );
+
+                    groceryCartModelList.add(groceryCartModel);
+                    progressDialog.dismiss();
+                }
+
+                FetchDelivery();
+                groceryCartAdapter = new GroceryCartAdapter(groceryCartModelList, getApplicationContext());
+                recyclerGroceryCart.setAdapter(groceryCartAdapter);
+                progressDialog.dismiss();
+
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                progressDialog.dismiss();
+            }
+        });
+
+    }
+*/

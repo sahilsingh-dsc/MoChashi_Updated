@@ -53,7 +53,6 @@ public class ChasiMyOrdersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_my_orders);
         requestQueue = Volley.newRequestQueue(this);
         masterdata = getApplicationContext().getSharedPreferences("MASTER", 0);
-        userid=masterdata.getString("user_id","0");
 
         toolbarMyOrder = findViewById(R.id.toolbarMyOrder);
         setSupportActionBar(toolbarMyOrder);

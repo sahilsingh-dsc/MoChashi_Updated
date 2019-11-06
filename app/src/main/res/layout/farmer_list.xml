@@ -7,6 +7,7 @@
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -28,6 +29,7 @@
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/border_round_gravity"
                 android:text="Ok"
+                android:visibility="gone"
                 android:textColor="@color/colorWhite"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/txtFarmerRece"
@@ -40,6 +42,7 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/border_round"
                 android:ems="10"
+                android:visibility="gone"
                 android:hint="Received Qty."
                 android:inputType="numberDecimal"
                 android:padding="5dp"
@@ -133,6 +136,7 @@
                 android:layout_height="wrap_content"
                 android:text="Received Quantity --"
                 android:textColor="@color/colorBlack"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="@+id/textView87"
                 app:layout_constraintTop_toBottomOf="@+id/textView87" />
 
@@ -141,6 +145,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TextView"
+                android:visibility="gone"
                 android:textColor="@color/colorBlack"
                 app:layout_constraintEnd_toEndOf="@+id/txtFramerBooked"
                 app:layout_constraintTop_toBottomOf="@+id/txtFramerBooked" />

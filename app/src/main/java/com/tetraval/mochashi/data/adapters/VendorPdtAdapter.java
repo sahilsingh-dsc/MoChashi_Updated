@@ -19,6 +19,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -39,6 +40,7 @@ import com.tetraval.mochashi.data.models.VendorProductModel;
 import com.tetraval.mochashi.utils.AppConst;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -57,6 +59,8 @@ public class VendorPdtAdapter extends RecyclerView.Adapter<VendorPdtAdapter.Vend
     BookedCustomerAdapter bookedCustomerAdapter;
     ConstraintLayout constrainVendor;
     RequestQueue requestQueue;
+    private ProgressDialog pDialog;
+    private static final String ROOT_URL = "";
 
     public VendorPdtAdapter(List<VendorProductModel> vendorProductModelList, Context context) {
         this.vendorProductModelList = vendorProductModelList;
@@ -67,7 +71,9 @@ public class VendorPdtAdapter extends RecyclerView.Adapter<VendorPdtAdapter.Vend
     @Override
     public VendorPdtAdapter.VendorViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.vendor_list_item, parent, false);
-
+        pDialog = new ProgressDialog(context);
+        pDialog.setMessage("Please wait...");
+        pDialog.setCancelable(false);
         constrainVendor = view.findViewById(R.id.constrainVendor);
         bookedCustomerModelList = new ArrayList<>();
 
@@ -156,10 +162,11 @@ public class VendorPdtAdapter extends RecyclerView.Adapter<VendorPdtAdapter.Vend
         });
 
         holder.imgPersonBooked.setOnClickListener(view -> {
-            final Dialog dialog = new Dialog(context);
+           /* final Dialog dialog = new Dialog(context);
             dialog.setContentView(R.layout.customer_booked_alert);
             recyclerBooked = dialog.findViewById(R.id.recyclerBooked);
-            recyclerBooked.setLayoutManager(new LinearLayoutManager(context));
+            recyclerBooked.setLayoutManager(new LinearLayoutManager(context));*/
+           // FetchProduct();
 //                Query bookingRef = FirebaseDatabase.getInstance().getReference("products");
 //                bookingRef.addListenerForSingleValueEvent(new ValueEventListener() {
 //                    @Override
@@ -199,7 +206,7 @@ public class VendorPdtAdapter extends RecyclerView.Adapter<VendorPdtAdapter.Vend
 //                    public void onCancelled(@NonNull DatabaseError databaseError) {
 //                    }
 //                });
-            dialog.show();
+          //  dialog.show();
         });
 
     }
@@ -237,5 +244,76 @@ public class VendorPdtAdapter extends RecyclerView.Adapter<VendorPdtAdapter.Vend
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, vendorProductModelList.size());
     }
+
+
+  /*  private void FetchProduct() {
+        final Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.customer_booked_alert);
+        recyclerBooked = dialog.findViewById(R.id.recyclerBooked);
+        recyclerBooked.setLayoutManager(new LinearLayoutManager(context));
+        showpDialog();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, ROOT_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        hidepDialog();
+                        if (null == response || response.length() == 0) {
+                            Toast.makeText(context, "No Data", Toast.LENGTH_SHORT).show();
+                        } else {
+                            try {
+                                JSONObject mainJson = new JSONObject(response);
+                                String status= mainJson.getString("status");
+                                String message=mainJson.getString("message");
+                             *//*   if (status.equals("1")){
+                                    Toast.makeText(context, ""+message, Toast.LENGTH_SHORT).show();
+                                    adapter.notifyDataSetChanged();
+                                    Intent intent=new Intent(context, MyOrderActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    context.startActivity(intent);
+
+                                }else if (status.equals("0")){
+                                    Toast.makeText(context, ""+message, Toast.LENGTH_SHORT).show();
+                                }
+*//*
+
+
+                            } catch (JSONException e) {
+                                hidepDialog();
+                                e.printStackTrace();
+                            }
+
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        hidepDialog();
+                        Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                //Adding the parameters to the request
+
+                params.put("item_id", itemid);
+                return params;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(stringRequest);
+    }
+
+    private void showpDialog() {
+        if (!pDialog.isShowing())
+            pDialog.show();
+    }
+
+    private void hidepDialog() {
+        if (pDialog.isShowing())
+            pDialog.dismiss();
+    }*/
 
 }

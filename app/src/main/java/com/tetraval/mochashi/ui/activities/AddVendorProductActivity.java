@@ -201,6 +201,12 @@ public class AddVendorProductActivity extends AppCompatActivity {
 
         spinnerCategoryModelArrayList = new ArrayList<>();
 
+       /* if (spinnerCategoryModelArrayList.size()<= 0){
+            btnAddProduct.setVisibility(View.VISIBLE);
+        }else{
+            btnAddProduct.setVisibility(View.GONE);
+        }
+*/
         spinnerCat = findViewById(R.id.spinnerCat);
 
         String[] units = {"Kg", "L", "M"};

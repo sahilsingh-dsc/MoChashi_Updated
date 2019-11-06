@@ -37,6 +37,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.tetraval.mochashi.R;
 import com.tetraval.mochashi.authmodule.LoginActivity;
+import com.tetraval.mochashi.chashimodule.ui.activities.ChasiMyOrdersActivity;
 import com.tetraval.mochashi.controller.StartActivity;
 import com.tetraval.mochashi.data.adapters.ChashiAdapter;
 import com.tetraval.mochashi.data.models.ChashiModel;
@@ -309,19 +310,32 @@ public class ChashiActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+
         if (id == R.id.home_menuitem) {
             startActivity(new Intent(getApplicationContext(), StartActivity.class));
             finish();
             return true;
-        } else if (id == R.id.menu_signout){
+        }else if (id == R.id.menu_myaccount){
+            startActivity(new Intent(getApplicationContext(), MyAccountActivity.class));
+            return  true;
+        }
+        else if (id == R.id.menu_myorders){
+            startActivity(new Intent(getApplicationContext(), ChasiMyOrdersActivity.class));
+            return  true;
+        } else if (id == R.id.menu_mycredits) {
+            startActivity(new Intent(getApplicationContext(), CreditActivity.class));
+            return true;
+        }
+        else if (id == R.id.logout_menuitem){
             SharedPreferences.Editor editor = preferences.edit();
-            editor.putInt("login_status", 0);
+            editor.clear();
             editor.apply();
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
             finish();
-            return  true;
         }
+
         return super.onOptionsItemSelected(item);
     }
+
 
 }

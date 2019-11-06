@@ -48,12 +48,13 @@ public class DeliveryAdapters extends RecyclerView.Adapter<DeliveryAdapters.Deli
     @Override
     public void onBindViewHolder(@NonNull DeliveryAdapters.DeliveryViewHolder holder, int position) {
         DeliveryModel deliveryModel = deliveryModelList.get(position);
-        holder.txtDelCustomerName.setText(deliveryModel.getD_name());
-        holder.txtDelContact.setText(deliveryModel.getD_contact());
-        holder.txtCODAmount.setText("₹"+deliveryModel.getD_cod());
-        holder.txtCustomerDelivery.setText(deliveryModel.getD_address());
+        holder.txtDelCustomerName.setText(deliveryModel.getCustomer_name());
+        holder.txtDelContact.setText(deliveryModel.getCustomer_contact());
+        holder.txtCODAmount.setText("₹"+deliveryModel.getCustomer_rate());
+        holder.txtqty.setText("Qty "+deliveryModel.getCustomer_qty());
+        holder.txtCustomerDelivery.setText(deliveryModel.getCustomer_address());
 
-        DatabaseReference deliveryRef = FirebaseDatabase.getInstance().getReference("pickups");
+      /*  DatabaseReference deliveryRef = FirebaseDatabase.getInstance().getReference("pickups");
         deliveryRef.child(deliveryModel.getD_id()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -81,7 +82,7 @@ public class DeliveryAdapters extends RecyclerView.Adapter<DeliveryAdapters.Deli
             }
         });
 
-
+*/
     }
 
     @Override
@@ -91,16 +92,17 @@ public class DeliveryAdapters extends RecyclerView.Adapter<DeliveryAdapters.Deli
 
     public class DeliveryViewHolder extends RecyclerView.ViewHolder {
 
-        RecyclerView listPickupAddress;
-        TextView txtDelCustomerName, txtDelContact, txtCODAmount, txtCustomerDelivery;
+        //RecyclerView listPickupAddress;
+        TextView txtDelCustomerName, txtDelContact, txtCODAmount,txtqty, txtCustomerDelivery;
 
         public DeliveryViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            listPickupAddress = itemView.findViewById(R.id.listPickupAddress);
+            //listPickupAddress = itemView.findViewById(R.id.listPickupAddress);
             txtDelCustomerName = itemView.findViewById(R.id.txtDelCustomerName);
             txtDelContact = itemView.findViewById(R.id.txtDelContact);
             txtCODAmount = itemView.findViewById(R.id.txtCODAmount);
+            txtqty = itemView.findViewById(R.id.txtquantity);
             txtCustomerDelivery = itemView.findViewById(R.id.txtCustomerDelivery);
 
         }

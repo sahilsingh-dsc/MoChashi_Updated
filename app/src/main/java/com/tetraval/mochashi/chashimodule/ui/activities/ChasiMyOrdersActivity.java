@@ -66,7 +66,7 @@ public class ChasiMyOrdersActivity extends AppCompatActivity {
         recyclerOrder.setLayoutManager(linearLayoutManager);
 
         preferences = getApplicationContext().getSharedPreferences("loginpref", 0);
-        masterdata = getApplicationContext().getSharedPreferences("MASTER", 0);
+        userid=masterdata.getString("user_id","0");
 
         fetchOrders();
 

@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -92,6 +93,7 @@ public class VendorActivity extends AppCompatActivity {
         });
 
         vendorProductModelList = new ArrayList<>();
+
         vendorProductModelList.clear();
         progressDialog.show();
         fetchChashiProduct();
@@ -182,6 +184,15 @@ public class VendorActivity extends AppCompatActivity {
                                     Snackbar snackbar = Snackbar
                                             .make(constrainVendor, "No products added yet.", Snackbar.LENGTH_LONG);
                                     snackbar.show();
+                                    progressDialog.dismiss();
+                                }else if (vendorProductModelList.size()<= 0){
+                                    btnAddMoreProduct.setVisibility(View.VISIBLE);
+                                    Snackbar snackbar = Snackbar
+                                            .make(constrainVendor, "No products added yet.", Snackbar.LENGTH_LONG);
+                                    snackbar.show();
+                                    progressDialog.dismiss();
+                                }else{
+                                    btnAddMoreProduct.setVisibility(View.GONE);
                                     progressDialog.dismiss();
                                 }
                                 progressDialog.dismiss();

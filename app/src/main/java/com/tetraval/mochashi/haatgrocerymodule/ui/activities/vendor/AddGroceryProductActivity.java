@@ -133,6 +133,12 @@ public class AddGroceryProductActivity extends AppCompatActivity {
             }
         });
 
+      /*  spinnerCategoryModelArrayList = new ArrayList<>();
+        if (spinnerCategoryModelArrayList.size()<= 0){
+            btnAddProduct.setVisibility(View.VISIBLE);
+        }else{
+            btnAddProduct.setVisibility(View.GONE);
+        }*/
         btnAddProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

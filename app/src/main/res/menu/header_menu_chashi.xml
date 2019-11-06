@@ -2,10 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/menu_home"
+        android:id="@+id/home_menuitem"
         android:icon="@drawable/ic_home_white_icon24dp"
         android:title="Home"
-        app:showAsAction="always" />
+        app:showAsAction="always" />>
     <item
         android:id="@+id/menu_myaccount"
         android:title="My Account" />
@@ -16,6 +16,9 @@
         android:id="@+id/menu_mycredits"
         android:title="My Credits" />
     <item
-        android:id="@+id/menu_signout"
-        android:title="Signout" />
+        android:id="@+id/logout_menuitem"
+        android:title="Logout" />
 </menu>
+
+
+

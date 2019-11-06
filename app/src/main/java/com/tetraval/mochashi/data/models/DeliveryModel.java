@@ -2,57 +2,43 @@ package com.tetraval.mochashi.data.models;
 
 public class DeliveryModel {
 
-    String d_id;
-    String d_name;
-    String d_contact;
-    String d_cod;
-    String d_address;
+    String customer_id;
+    String customer_name;
+    String customer_contact;
+    String customer_rate;
+    String customer_qty;
+    String customer_address;
 
-    public DeliveryModel(String d_id, String d_name, String d_contact, String d_cod, String d_address) {
-        this.d_id = d_id;
-        this.d_name = d_name;
-        this.d_contact = d_contact;
-        this.d_cod = d_cod;
-        this.d_address = d_address;
+    public DeliveryModel(String customer_id, String customer_name, String customer_contact, String customer_rate, String customer_qty,String customer_address) {
+        this.customer_id = customer_id;
+        this.customer_name = customer_name;
+        this.customer_contact = customer_contact;
+        this.customer_rate = customer_rate;
+        this.customer_qty = customer_qty;
+        this.customer_address = customer_address;
     }
 
-    public String getD_id() {
-        return d_id;
+    public String getCustomer_id() {
+        return customer_id;
     }
 
-    public void setD_id(String d_id) {
-        this.d_id = d_id;
+    public String getCustomer_name() {
+        return customer_name;
     }
 
-    public String getD_name() {
-        return d_name;
+    public String getCustomer_contact() {
+        return customer_contact;
     }
 
-    public void setD_name(String d_name) {
-        this.d_name = d_name;
+    public String getCustomer_rate() {
+        return customer_rate;
     }
 
-    public String getD_contact() {
-        return d_contact;
+    public String getCustomer_qty() {
+        return customer_qty;
     }
 
-    public void setD_contact(String d_contact) {
-        this.d_contact = d_contact;
-    }
-
-    public String getD_cod() {
-        return d_cod;
-    }
-
-    public void setD_cod(String d_cod) {
-        this.d_cod = d_cod;
-    }
-
-    public String getD_address() {
-        return d_address;
-    }
-
-    public void setD_address(String d_address) {
-        this.d_address = d_address;
+    public String getCustomer_address() {
+        return customer_address;
     }
 }

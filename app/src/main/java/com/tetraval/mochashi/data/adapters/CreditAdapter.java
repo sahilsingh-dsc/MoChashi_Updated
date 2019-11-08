@@ -35,8 +35,8 @@ public class CreditAdapter extends RecyclerView.Adapter<CreditAdapter.CreditView
     public void onBindViewHolder(@NonNull CreditAdapter.CreditViewModel creditViewModel, int i) {
 
         CreditModel creditModel = creditModelList.get(i);
-        creditViewModel.txtCreditAmount.setText(creditModel.getCredit_amount());
-        creditViewModel.txtCreditReason.setText(creditModel.getCredit_reason());
+        creditViewModel.txtCreditAmount.setText("₹"+creditModel.getCredit_amount());
+        //creditViewModel.txtCreditReason.setText(creditModel.getCredit_reason());
         creditViewModel.txtCreditDate.setText(creditModel.getCredit_date());
 
     }

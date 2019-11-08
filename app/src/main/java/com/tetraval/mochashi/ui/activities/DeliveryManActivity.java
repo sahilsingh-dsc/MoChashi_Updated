@@ -3,11 +3,15 @@ package com.tetraval.mochashi.ui.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -69,7 +73,17 @@ public class DeliveryManActivity extends AppCompatActivity {
         Intent intent=getIntent();
         pid=intent.getStringExtra("pid");
         FetchCustomerlist(pid);
+        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(followReceiver,
+                new IntentFilter("Follow"));
     }
+    public BroadcastReceiver followReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            deliveryModelList.clear();
+            pid = intent.getStringExtra("pid");
+            FetchCustomerlist(pid);
+        }
+    };
 
     private void FetchCustomerlist(String pid) {
         progressDialog.show();
@@ -93,8 +107,10 @@ public class DeliveryManActivity extends AppCompatActivity {
                                         jsonObject2.getString("mobile"),
                                         jsonObject2.getString("price"),
                                         jsonObject2.getString("quantity"),
-                                        jsonObject2.getString("address")
-
+                                        jsonObject2.getString("address"),
+                                        jsonObject2.getString("product_id"),
+                                        jsonObject2.getString("order_status"),
+                                        jsonObject2.getString("user_id")
                                 );
                                 deliveryModelList.add(deliveryModel);
 
@@ -123,7 +139,10 @@ public class DeliveryManActivity extends AppCompatActivity {
         };
         requestQueue.add(getRequest);
     }
+
+
 }
+
 /*
         DatabaseReference deliveryRef = FirebaseDatabase.getInstance().getReference("delivery");
         deliveryRef.addValueEventListener(new ValueEventListener() {

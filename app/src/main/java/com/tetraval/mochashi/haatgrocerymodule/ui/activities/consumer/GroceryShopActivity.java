@@ -179,7 +179,9 @@ public class GroceryShopActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = master.edit();
             editor.clear();
             editor.apply();
-            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+            Intent intent=new Intent(getApplicationContext(), LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
             finish();
         }
         return super.onOptionsItemSelected(item);

@@ -62,6 +62,9 @@ public class RegisterActivity extends AppCompatActivity {
     ImageView imgShopImage;
     TextView txtAddress, txtExistingAccount;
     Button btnRegister;
+    LatLng latlng;
+    String latitude;
+    String longitude;
 
     String[] account_type = {"Customer", "Chashi Online", "Daily Haat Vendor", "Grocery Vendor"};
     String[] lastnametype = {"SIR","MADAM","BABU","DADA","DIDI","BHAI","MAUSA","MAUSI","OTHER"};
@@ -371,8 +374,8 @@ public class RegisterActivity extends AppCompatActivity {
                 params.put("pincode", pincode);
                 params.put("password", pass);
                 params.put("img", vendor_image);
-                params.put("device_key", "somekey");
-                params.put("device_type", "android");
+                params.put("device_key", latitude);
+                params.put("device_type", longitude);
                 return params;
             }
         };
@@ -382,19 +385,35 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void merchantRegistrationFields() {
-        txtShopName.setVisibility(View.VISIBLE);
-        imgShopImage.setVisibility(View.VISIBLE);
-        txtPincode.setVisibility(View.VISIBLE);
-        txtCity.setVisibility(View.VISIBLE);
-        txtState.setVisibility(View.VISIBLE);
+        if (account_state==4){
+            txtShopName.setVisibility(View.GONE);
+            imgShopImage.setVisibility(View.VISIBLE);
+            spinnerlastname.setVisibility(View.GONE);
+            txtLastName.setVisibility(View.VISIBLE);
+            txtPincode.setVisibility(View.VISIBLE);
+            txtCity.setVisibility(View.VISIBLE);
+            txtState.setVisibility(View.VISIBLE);
+            txtFirsName.setHint("First Name");
+        }else{
+            txtShopName.setVisibility(View.VISIBLE);
+            imgShopImage.setVisibility(View.VISIBLE);
+            spinnerlastname.setVisibility(View.GONE);
+            txtLastName.setVisibility(View.VISIBLE);
+            txtPincode.setVisibility(View.VISIBLE);
+            txtCity.setVisibility(View.VISIBLE);
+            txtState.setVisibility(View.VISIBLE);
+            txtFirsName.setHint("First Name");
+        }
     }
 
     private void customerRegistrationFields() {
         txtShopName.setVisibility(View.GONE);
         imgShopImage.setVisibility(View.GONE);
+        spinnerlastname.setVisibility(View.VISIBLE);
         txtPincode.setVisibility(View.GONE);
         txtCity.setVisibility(View.GONE);
         txtState.setVisibility(View.GONE);
+        txtFirsName.setHint("Nick Name");
     }
 
     @Override
@@ -478,6 +497,9 @@ public class RegisterActivity extends AppCompatActivity {
        // if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
             placeSelected = PlacePicker.getPlace(data, this);
             placeSelected.getAddress();
+            latlng=placeSelected.getLatLng();
+            latitude= String.valueOf(latlng.latitude);
+            longitude= String.valueOf(latlng.longitude);
             //String place = Objects.requireNonNull(placeSelected.getAddress()).toString();
             //List<String> items = Arrays.asList(place.split("\\s*,\\s*"));
 

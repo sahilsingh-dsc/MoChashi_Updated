@@ -74,7 +74,7 @@ public class ChashiProductDtl extends AppCompatActivity {
     SharedPreferences images;
     RequestQueue requestQueue;
     SharedPreferences master;
-    SharedPreferences preferences, masterdata;
+  //  SharedPreferences preferences, masterdata;
     String userid,address, vendor_img;
     DecimalFormat precision = new DecimalFormat("0.00");
     ProgressDialog progressDialog;
@@ -116,8 +116,8 @@ public class ChashiProductDtl extends AppCompatActivity {
 
         images = getApplicationContext().getSharedPreferences("slider", 0);
 
-        preferences = getApplicationContext().getSharedPreferences("loginpref", 0);
-        masterdata = getApplicationContext().getSharedPreferences("MASTER", 0);
+      //  preferences = getApplicationContext().getSharedPreferences("loginpref", 0);
+       // masterdata = getApplicationContext().getSharedPreferences("MASTER", 0);
 
 
         rbYes = findViewById(R.id.rbYes);
@@ -523,10 +523,12 @@ public class ChashiProductDtl extends AppCompatActivity {
             return true;
         }
         else if (id == R.id.logout_menuitem){
-            SharedPreferences.Editor editor = preferences.edit();
+            SharedPreferences.Editor editor = master.edit();
             editor.clear();
             editor.apply();
-            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+            Intent intent=new Intent(getApplicationContext(), LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
             finish();
         }
 

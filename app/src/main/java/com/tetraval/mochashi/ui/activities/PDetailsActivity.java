@@ -131,7 +131,9 @@ public class PDetailsActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = preferences.edit();
             editor.putInt("login_status", 0);
             editor.apply();
-            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+            Intent intent=new Intent(getApplicationContext(), LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
             finish();
             return  true;
         }

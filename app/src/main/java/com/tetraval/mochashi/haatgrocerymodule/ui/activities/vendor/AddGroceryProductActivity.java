@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
 import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -31,30 +30,33 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import com.android.volley.Request;
+
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnFailureListener;
+
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
 import com.tetraval.mochashi.R;
 import com.tetraval.mochashi.authmodule.LoginActivity;
 import com.tetraval.mochashi.haatgrocerymodule.data.adapters.SpinnerCategoryAdapter;
 import com.tetraval.mochashi.haatgrocerymodule.data.models.SpinnerCategoryModel;
-import com.tetraval.mochashi.utils.AppConst;
 
+import com.tetraval.mochashi.utils.AppConst;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.io.ByteArrayOutputStream;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
 
 public class AddGroceryProductActivity extends AppCompatActivity {
 
@@ -348,7 +350,9 @@ public class AddGroceryProductActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = master.edit();
             editor.clear();
             editor.apply();
-            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+            Intent intent=new Intent(getApplicationContext(), LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
             finish();
         }
         return super.onOptionsItemSelected(item);

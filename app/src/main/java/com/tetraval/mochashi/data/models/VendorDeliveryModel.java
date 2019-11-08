@@ -10,10 +10,10 @@ public class VendorDeliveryModel {
     String product_unit;
     String f_hosted;
     String f_booked;
-    //String f_received;
 
 
-    public VendorDeliveryModel(String p_id, String shop_name, String shop_location, String product_name, String product_rate, String product_unit, String f_hosted, String f_booked /*String f_received*/) {
+
+    public VendorDeliveryModel(String p_id, String shop_name, String shop_location, String product_name, String product_rate, String product_unit, String f_hosted, String f_booked ) {
         this.p_id = p_id;
         this.shop_name = shop_name;
         this.shop_location = shop_location;
@@ -22,7 +22,7 @@ public class VendorDeliveryModel {
         this.product_unit = product_unit;
         this.f_hosted = f_hosted;
         this.f_booked = f_booked;
-        //this.f_received = f_received;
+
     }
 
     public String getP_id() {

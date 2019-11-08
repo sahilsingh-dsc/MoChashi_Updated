@@ -61,10 +61,12 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersView
         OrdersModel ordersModel = ordersModelList.get(i);
         Glide.with(context).load(ordersModel.getOdr_product_image()).placeholder(R.drawable.productimage).into(ordersViewHolder.imgOrderImage);
         ordersViewHolder.txtOrderName.setText(ordersModel.getOdr_name());
-        ordersViewHolder.txtOrderQuantity.setText(ordersModel.getOdr_qty());
+        ordersViewHolder.txtOrderQuantity.setText(ordersModel.getOdr_qty()+ordersModel.getProductunit());
+        ordersViewHolder.txtrate.setText("₹"+ordersModel.getProductrate());
         ordersViewHolder.txtOrderID.setText(ordersModel.getOdr_id());
         ordersViewHolder.txtOrderDate.setText(ordersModel.getOdr_date());
         ordersViewHolder.txtOrderAmt.setText("₹"+ordersModel.getTotal_amount());
+        ordersViewHolder.txtusername.setText(ordersModel.getChasiname());
         ordersViewHolder.txtstatus.setText(ordersModel.getStatus());
         if (ordersModel.getStatus().equals("Pending")){
             ordersViewHolder.txtdelet.setVisibility(View.VISIBLE);
@@ -89,7 +91,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersView
     public class OrdersViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imgOrderImage;
-        TextView txtOrderName, txtOrderQuantity, txtOrderID, txtOrderDate, txtOrderAmt,txtstatus,txtdelet;
+        TextView txtOrderName, txtOrderQuantity, txtOrderID, txtOrderDate, txtOrderAmt,txtstatus,txtdelet,txtrate,txtusername;
 
         public OrdersViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -97,11 +99,13 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersView
             imgOrderImage = itemView.findViewById(R.id.imgOrderImage);
             txtOrderName = itemView.findViewById(R.id.txtOrderName);
             txtOrderQuantity = itemView.findViewById(R.id.txtOrderQuantity);
+            txtrate = itemView.findViewById(R.id.textViewrate);
             txtOrderID = itemView.findViewById(R.id.txtOrderID);
             txtOrderDate = itemView.findViewById(R.id.txtOrderDate);
             txtOrderAmt = itemView.findViewById(R.id.txtOrderAmt);
             txtstatus = itemView.findViewById(R.id.textViewstatus);
             txtdelet = itemView.findViewById(R.id.txtdelet);
+            txtusername = itemView.findViewById(R.id.txtusername);
 
         }
     }

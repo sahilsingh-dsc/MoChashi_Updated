@@ -241,8 +241,10 @@ public class VendorActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = master.edit();
             editor.clear();
             editor.apply();
-            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-            finish();
+                Intent intent=new Intent(getApplicationContext(), LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
         }
         return super.onOptionsItemSelected(item);
     }

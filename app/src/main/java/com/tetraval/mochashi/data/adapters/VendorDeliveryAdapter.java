@@ -51,24 +51,7 @@ public class VendorDeliveryAdapter extends RecyclerView.Adapter<VendorDeliveryAd
         holder.txtFramerRate.setText("₹"+Double.parseDouble(vendorDeliveryModel.getProduct_rate()));
         holder.txtFarmerHosted.setText(Double.parseDouble(vendorDeliveryModel.getF_hosted())+vendorDeliveryModel.getProduct_unit());
         holder.txtFramerBooked.setText(Double.parseDouble(vendorDeliveryModel.getF_booked())+vendorDeliveryModel.getProduct_unit());
-        //holder.txtRece.setText(Double.parseDouble(vendorDeliveryModel.getF_received())+" Kg(s)");
 
-      /*  holder.btnOk.setOnClickListener(view -> {
-            String recevied_qty = holder.txtFarmerRece.getText().toString();
-            if (recevied_qty.isEmpty()){
-                Toast.makeText(context, "Please fill received quantity...", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            double finalbooked = Double.parseDouble(vendorDeliveryModel.getF_booked()) - Double.parseDouble(recevied_qty);
-            DatabaseReference vendordeliveryRef = FirebaseDatabase.getInstance().getReference("farmer-delivery");
-            if (finalbooked < 0.0){
-                Toast.makeText(context, "There is no booked quantity!", Toast.LENGTH_SHORT).show();
-            }else {
-                vendordeliveryRef.child(vendorDeliveryModel.getF_id()).child("f_received").setValue(recevied_qty);
-                vendordeliveryRef.child(vendorDeliveryModel.getF_id()).child("f_booked").setValue(""+finalbooked);
-                Toast.makeText(context, "Received Quantity Updated!", Toast.LENGTH_SHORT).show();
-            }
-        });*/
       holder.cardview.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View view) {

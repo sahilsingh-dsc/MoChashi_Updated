@@ -12,6 +12,7 @@
         android:layout_height="180dp"
         android:gravity="center"
         android:orientation="vertical"
+        android:background="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,9 +20,10 @@
 
         <ImageView
             android:id="@+id/imgProduct"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="150dp"
+            android:layout_height="130dp"
             android:scaleType="center"
+            android:background="#FFFFFF"
             android:layout_marginBottom="10dp"
             app:srcCompat="@drawable/baby" />
 

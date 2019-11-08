@@ -32,6 +32,17 @@
                 app:srcCompat="@drawable/productimage" />
 
             <TextView
+                android:id="@+id/txtusername"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Some Product Cantegory Some 1"
+                android:textColor="@color/colorBlack"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imgOrderImage"
+                app:layout_constraintTop_toTopOf="@+id/imgOrderImage" />
+
+            <TextView
                 android:id="@+id/txtOrderName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -39,10 +50,8 @@
                 android:layout_marginEnd="8dp"
                 android:text="Some Product Cantegory Some 1"
                 android:textColor="@color/colorBlack"
-
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imgOrderImage"
-                app:layout_constraintTop_toTopOf="@+id/imgOrderImage" />
+                app:layout_constraintStart_toStartOf="@+id/txtusername"
+                app:layout_constraintTop_toBottomOf="@+id/txtusername"  />
 
             <TextView
                 android:id="@+id/textView7"
@@ -64,6 +73,25 @@
                 app:layout_constraintBottom_toBottomOf="@+id/textView7"
                 app:layout_constraintStart_toEndOf="@+id/textView7"
                 app:layout_constraintTop_toTopOf="@+id/textView7" />
+            <TextView
+                android:id="@+id/textViewrat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rate :"
+                android:textColor="@color/colorBlack"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/textView7"
+                app:layout_constraintTop_toBottomOf="@+id/textView7" />
+            <TextView
+                android:id="@+id/textViewrate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="0"
+                android:textColor="@color/colorBlack"
+                app:layout_constraintBottom_toBottomOf="@+id/textViewrat"
+                app:layout_constraintStart_toEndOf="@+id/textViewrat"
+                app:layout_constraintTop_toTopOf="@+id/textViewrat" />
 
             <TextView
                 android:id="@+id/textView15"
@@ -76,6 +104,7 @@
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/imgOrderImage"
                 app:layout_constraintTop_toBottomOf="@+id/imgOrderImage" />
+
 
             <TextView
                 android:id="@+id/txtOrderID"

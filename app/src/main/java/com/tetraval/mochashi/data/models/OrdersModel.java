@@ -10,8 +10,11 @@ public class OrdersModel {
     String odr_date;
     String Status;
     String productid;
+    String productunit;
+    String productrate;
+    String chasiname;
 
-    public OrdersModel(String odr_id, String odr_name, String odr_qty, String total_amount, String odr_product_image, String odr_date,String status,String productid) {
+    public OrdersModel(String odr_id, String odr_name, String odr_qty, String total_amount, String odr_product_image, String odr_date,String status,String productid,String productunit,String productrate,String chasiname) {
         this.odr_id = odr_id;
         this.odr_name = odr_name;
         this.odr_qty = odr_qty;
@@ -20,6 +23,9 @@ public class OrdersModel {
         this.odr_date = odr_date;
         this.Status = status;
         this.productid = productid;
+        this.productunit = productunit;
+        this.productrate = productrate;
+        this.chasiname = chasiname;
     }
 
     public String getOdr_id() {
@@ -76,5 +82,17 @@ public class OrdersModel {
 
     public String getProductid() {
         return productid;
+    }
+
+    public String getProductunit() {
+        return productunit;
+    }
+
+    public String getProductrate() {
+        return productrate;
+    }
+
+    public String getChasiname() {
+        return chasiname;
     }
 }

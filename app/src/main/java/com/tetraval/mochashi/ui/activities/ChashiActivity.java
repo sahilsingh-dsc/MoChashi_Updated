@@ -59,7 +59,7 @@ public class ChashiActivity extends AppCompatActivity {
     RecyclerView recyclerChashi;
     List<ChashiModel> chashiModelList;
     ChashiAdapter chashiAdapter;
-    SharedPreferences preferences, masterdata;
+    SharedPreferences preferences, master;
     ImageView imageView3;
     ConstraintLayout constrainChashiProduct;
     String mo_id, mo_name, mo_image;
@@ -73,8 +73,9 @@ public class ChashiActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chashi);
 
-        preferences = getApplicationContext().getSharedPreferences("loginpref", 0);
-        masterdata = getApplicationContext().getSharedPreferences("MASTER", 0);
+        //preferences = getApplicationContext().getSharedPreferences("loginpref", 0);
+       // masterdata = getApplicationContext().getSharedPreferences("MASTER", 0);
+        master = getApplicationContext().getSharedPreferences("MASTER", 0);
 
         Bundle coBundle = getIntent().getExtras();
         mo_id = coBundle.getString("mo_id");
@@ -327,10 +328,12 @@ public class ChashiActivity extends AppCompatActivity {
             return true;
         }
         else if (id == R.id.logout_menuitem){
-            SharedPreferences.Editor editor = preferences.edit();
+            SharedPreferences.Editor editor = master.edit();
             editor.clear();
             editor.apply();
-            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+            Intent intent=new Intent(getApplicationContext(), LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
             finish();
         }
 

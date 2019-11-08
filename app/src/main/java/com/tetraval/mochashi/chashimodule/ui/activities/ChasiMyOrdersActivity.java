@@ -1,5 +1,6 @@
 package com.tetraval.mochashi.chashimodule.ui.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -23,6 +24,7 @@ import com.android.volley.toolbox.Volley;
 import com.tetraval.mochashi.R;
 import com.tetraval.mochashi.authmodule.LoginActivity;
 import com.tetraval.mochashi.chashimodule.data.adapters.OrdersAdapter;
+import com.tetraval.mochashi.controller.StartActivity;
 import com.tetraval.mochashi.data.models.OrdersModel;
 import com.tetraval.mochashi.ui.activities.CartActivity;
 import com.tetraval.mochashi.ui.activities.CreditActivity;
@@ -46,6 +48,7 @@ public class ChasiMyOrdersActivity extends AppCompatActivity {
     SharedPreferences preferences, masterdata;
     RequestQueue requestQueue;
     String userid;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,9 @@ public class ChasiMyOrdersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_my_orders);
         requestQueue = Volley.newRequestQueue(this);
         masterdata = getApplicationContext().getSharedPreferences("MASTER", 0);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Please Wait...");
+        progressDialog.setCancelable(false);
 
         toolbarMyOrder = findViewById(R.id.toolbarMyOrder);
         setSupportActionBar(toolbarMyOrder);
@@ -73,6 +79,7 @@ public class ChasiMyOrdersActivity extends AppCompatActivity {
     }
 
     private void fetchOrders() {
+        progressDialog.show();
 
             StringRequest getRequest = new StringRequest(Request.Method.POST, AppConst.BASE_URL+"User_api/my_orders_chashi",
                     new Response.Listener<String>()
@@ -81,6 +88,7 @@ public class ChasiMyOrdersActivity extends AppCompatActivity {
                         public void onResponse(String response) {
                             Log.d("Response", response);
                             try {
+                                progressDialog.dismiss();
                                 JSONObject jsonObject = new JSONObject(response);
                                 String status =  jsonObject.getString("status");
                                 String result =  jsonObject.getString("result");
@@ -99,7 +107,10 @@ public class ChasiMyOrdersActivity extends AppCompatActivity {
                                                 jsonObject2.getString("p_img"),
                                         jsonObject2.getString("date"),
                                         jsonObject2.getString("order_status"),
-                                        jsonObject2.getString("product_id")
+                                        jsonObject2.getString("product_id"),
+                                        jsonObject2.getString("unit"),
+                                        jsonObject2.getString("product_price"),
+                                        jsonObject2.getString("username")
 
                                         );
                                         ordersModelList.add(ordersModel);
@@ -112,7 +123,7 @@ public class ChasiMyOrdersActivity extends AppCompatActivity {
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
-
+                                progressDialog.dismiss();
 
                             }
 
@@ -123,6 +134,7 @@ public class ChasiMyOrdersActivity extends AppCompatActivity {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             Log.d("Error.Response", error.toString());
+                            progressDialog.dismiss();
 
                         }
                     }
@@ -146,33 +158,39 @@ public class ChasiMyOrdersActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.header_menu, menu);
+        getMenuInflater().inflate(R.menu.header_menu_chashi, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_favorite) {
-            startActivity(new Intent(getApplicationContext(), CartActivity.class));
+
+        if (id == R.id.home_menuitem) {
+            startActivity(new Intent(getApplicationContext(), StartActivity.class));
+            finish();
             return true;
         }else if (id == R.id.menu_myaccount){
             startActivity(new Intent(getApplicationContext(), MyAccountActivity.class));
-            return true;
-        }else if (id == R.id.menu_myorders){
-            startActivity(new Intent(getApplicationContext(), ChasiMyOrdersActivity.class));
-            return  true;
-        }else if (id == R.id.menu_mycredits){
-            startActivity(new Intent(getApplicationContext(), CreditActivity.class));
-            return  true;
-        }else if (id == R.id.menu_signout){
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putInt("login_status", 0);
-            editor.apply();
-            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-            finish();
             return  true;
         }
+        else if (id == R.id.menu_myorders){
+            startActivity(new Intent(getApplicationContext(), ChasiMyOrdersActivity.class));
+            return  true;
+        } else if (id == R.id.menu_mycredits) {
+            startActivity(new Intent(getApplicationContext(), CreditActivity.class));
+            return true;
+        }
+        else if (id == R.id.logout_menuitem){
+            SharedPreferences.Editor editor = masterdata.edit();
+            editor.clear();
+            editor.apply();
+            Intent intent=new Intent(getApplicationContext(), LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
+
         return super.onOptionsItemSelected(item);
     }
 

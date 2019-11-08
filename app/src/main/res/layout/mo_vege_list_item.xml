@@ -19,10 +19,11 @@
 
         <ImageView
             android:id="@+id/imgProduct"
-            android:layout_width="100dp"
+            android:layout_width="165dp"
             android:layout_height="100dp"
+            android:padding="5dp"
             android:layout_marginBottom="10dp"
-            android:scaleType="center"
+            android:scaleType="fitCenter"
             app:srcCompat="@drawable/baby" />
 
         <TextView
@@ -31,6 +32,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Product 1"
+            android:textSize="16sp"
             android:textColor="@color/colorBlack" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

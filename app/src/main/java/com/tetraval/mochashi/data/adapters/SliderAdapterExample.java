@@ -45,12 +45,12 @@ public class SliderAdapterExample extends
     public void onBindViewHolder(SliderAdapterVH viewHolder, final int position) {
 
 
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+        /*viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(context, "This is item in position " + position, Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
 
 
         switch (position) {

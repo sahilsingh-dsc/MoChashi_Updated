@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -54,6 +55,7 @@ public class DeliveryMainActivity extends AppCompatActivity {
     RecyclerView recyclerDelVendor;
     RequestQueue requestQueue;
     ProgressDialog progressDialog;
+    RelativeLayout rl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +65,7 @@ public class DeliveryMainActivity extends AppCompatActivity {
         progressDialog.setMessage("Please Wait...");
         progressDialog.setCancelable(false);
         toolbar = findViewById(R.id.toolbar);
+        rl = findViewById(R.id.rv);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Delivery Channel");
         requestQueue = Volley.newRequestQueue(this);
@@ -107,6 +110,12 @@ public class DeliveryMainActivity extends AppCompatActivity {
                             }
                             vendorDeliveryAdapter = new VendorDeliveryAdapter(vendorDeliveryModelList, getApplicationContext());
                             recyclerDelVendor.setAdapter(vendorDeliveryAdapter);
+                            if (vendorDeliveryModelList.isEmpty()){
+                                Snackbar snackbar = Snackbar
+                                        .make(rl, "Products sold out & yet to be added freshly", Snackbar.LENGTH_INDEFINITE);
+                                snackbar.show();
+                                progressDialog.dismiss();
+                            }
 
 
                         }
@@ -143,7 +152,9 @@ public class DeliveryMainActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = master.edit();
             editor.clear();
             editor.apply();
-            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+            Intent intent=new Intent(getApplicationContext(), LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
             finish();
         }
         return super.onOptionsItemSelected(item);

@@ -38,6 +38,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.tetraval.mochashi.R;
 import com.tetraval.mochashi.authmodule.LoginActivity;
 import com.tetraval.mochashi.chashimodule.ui.activities.ChasiMyOrdersActivity;
+import com.tetraval.mochashi.chashimodule.ui.activities.MyBookingActivity;
 import com.tetraval.mochashi.controller.StartActivity;
 import com.tetraval.mochashi.data.adapters.ChashiAdapter;
 import com.tetraval.mochashi.data.models.ChashiModel;
@@ -318,6 +319,9 @@ public class ChashiActivity extends AppCompatActivity {
             return true;
         }else if (id == R.id.menu_myaccount){
             startActivity(new Intent(getApplicationContext(), MyAccountActivity.class));
+            return  true;
+        }else if (id == R.id.menu_mybooking){
+            startActivity(new Intent(getApplicationContext(), MyBookingActivity.class));
             return  true;
         }
         else if (id == R.id.menu_myorders){

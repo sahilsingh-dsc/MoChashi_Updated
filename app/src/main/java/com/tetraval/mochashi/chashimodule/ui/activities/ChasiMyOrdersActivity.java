@@ -144,6 +144,7 @@ public class ChasiMyOrdersActivity extends AppCompatActivity {
                 {
                     Map<String, String>  params = new HashMap<String, String>();
                     params.put("user_id", userid);
+                    params.put("type", "1");
                     Log.d("chasi","params=="+params);
                     return params;
                 }
@@ -172,6 +173,10 @@ public class ChasiMyOrdersActivity extends AppCompatActivity {
             return true;
         }else if (id == R.id.menu_myaccount){
             startActivity(new Intent(getApplicationContext(), MyAccountActivity.class));
+            return  true;
+        }
+        else if (id == R.id.menu_mybooking){
+            startActivity(new Intent(getApplicationContext(), MyBookingActivity.class));
             return  true;
         }
         else if (id == R.id.menu_myorders){

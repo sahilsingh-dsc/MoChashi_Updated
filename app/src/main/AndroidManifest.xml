@@ -17,14 +17,15 @@
     <application
         android:allowBackup="true"
         android:hardwareAccelerated="true"
-        android:largeHeap="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".haatgrocerymodule.ui.activities.vendor.VendorProductCategoryActivity"></activity>
+        <activity android:name=".chashimodule.ui.activities.MyBookingActivity"></activity>
+        <activity android:name=".haatgrocerymodule.ui.activities.vendor.VendorProductCategoryActivity" />
         <activity android:name=".haatgrocerymodule.ui.activities.vendor.VendorProductListActivity" />
         <activity android:name=".haatgrocerymodule.ui.activities.vendor.AddGroceryProductActivity" />
         <activity android:name=".haatgrocerymodule.ui.activities.consumer.GroceryCartActivity" />
@@ -32,7 +33,7 @@
         <activity android:name=".haatgrocerymodule.ui.activities.consumer.GroceryProductActivity" />
         <activity android:name=".ui.activities.WelcomeActivity" />
         <activity android:name=".ui.activities.DeliveryManActivity" />
-        <activity android:name=".chashimodule.ui.activities.ChasiMyOrdersActivity"/>
+        <activity android:name=".chashimodule.ui.activities.ChasiMyOrdersActivity" />
         <activity
             android:name=".ui.activities.CustomerMapsActivity"
             android:label="@string/title_activity_customer_maps" />

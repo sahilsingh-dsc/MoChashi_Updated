@@ -1,5 +1,9 @@
-package com.tetraval.mochashi.ui.activities;
+package com.tetraval.mochashi.chashimodule.ui.activities;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,13 +13,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -25,66 +22,58 @@ import com.android.volley.toolbox.Volley;
 import com.tetraval.mochashi.R;
 import com.tetraval.mochashi.authmodule.LoginActivity;
 import com.tetraval.mochashi.chashimodule.data.adapters.OrdersAdapter;
-import com.tetraval.mochashi.chashimodule.ui.activities.ChasiMyOrdersActivity;
-import com.tetraval.mochashi.chashimodule.ui.activities.MyBookingActivity;
 import com.tetraval.mochashi.controller.StartActivity;
-import com.tetraval.mochashi.data.adapters.CreditAdapter;
-import com.tetraval.mochashi.data.models.CreditModel;
 import com.tetraval.mochashi.data.models.OrdersModel;
+import com.tetraval.mochashi.ui.activities.CreditActivity;
+import com.tetraval.mochashi.ui.activities.MyAccountActivity;
 import com.tetraval.mochashi.utils.AppConst;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CreditActivity extends AppCompatActivity {
-
-    Toolbar toolbarCredit;
-    RecyclerView recyclerCredit;
-    CreditAdapter creditAdapter;
-    List<CreditModel> creditModelList;
+public class MyBookingActivity extends AppCompatActivity {
+    Toolbar toolbarMyOrder;
+    RecyclerView recyclerOrder;
+    List<OrdersModel> ordersModelList;
+    OrdersAdapter ordersAdapter;
     SharedPreferences preferences, masterdata;
     RequestQueue requestQueue;
     String userid;
     ProgressDialog progressDialog;
-    TextView txttotalamount;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_credit);
+        setContentView(R.layout.activity_my_booking);
         requestQueue = Volley.newRequestQueue(this);
+        masterdata = getApplicationContext().getSharedPreferences("MASTER", 0);
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please Wait...");
         progressDialog.setCancelable(false);
-        toolbarCredit = findViewById(R.id.toolbarCredit);
-        txttotalamount = findViewById(R.id.textView11);
-        setSupportActionBar(toolbarCredit);
-        getSupportActionBar().setTitle("My Credits");
-        toolbarCredit.setTitleTextColor(Color.WHITE);
-        toolbarCredit.getOverflowIcon().setColorFilter(Color.WHITE , PorterDuff.Mode.SRC_ATOP);
 
-        recyclerCredit = findViewById(R.id.recyclerCredit);
+        toolbarMyOrder = findViewById(R.id.toolbarMyOrder);
+        setSupportActionBar(toolbarMyOrder);
+        getSupportActionBar().setTitle("My Orders");
+        toolbarMyOrder.setTitleTextColor(Color.WHITE);
+        toolbarMyOrder.getOverflowIcon().setColorFilter(Color.WHITE , PorterDuff.Mode.SRC_ATOP);
+
+        recyclerOrder = findViewById(R.id.recyclerOrder);
+        ordersModelList = new ArrayList<>();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        recyclerCredit.setLayoutManager(linearLayoutManager);
-        creditModelList = new ArrayList<>();
+        recyclerOrder.setLayoutManager(linearLayoutManager);
 
         preferences = getApplicationContext().getSharedPreferences("loginpref", 0);
-        masterdata = getApplicationContext().getSharedPreferences("MASTER", 0);
         userid=masterdata.getString("user_id","0");
 
         fetchOrders();
 
     }
-
     private void fetchOrders() {
         progressDialog.show();
 
-        StringRequest getRequest = new StringRequest(Request.Method.POST, AppConst.BASE_URL+"User_api/fetch_chashi_mycredits",
+        StringRequest getRequest = new StringRequest(Request.Method.POST, AppConst.BASE_URL+"User_api/my_orders_chashi",
                 new Response.Listener<String>()
                 {
                     @Override
@@ -94,26 +83,33 @@ public class CreditActivity extends AppCompatActivity {
                             progressDialog.dismiss();
                             JSONObject jsonObject = new JSONObject(response);
                             String status =  jsonObject.getString("status");
-                            String totalcredit =  jsonObject.getString("total_credit");
-                            txttotalamount.setText(totalcredit);
                             String result =  jsonObject.getString("result");
                             if (status.equals("200")) {
                                 JSONObject jsonObject1 = new JSONObject(result);
-                                String credits = jsonObject1.getString("credits");
-                                JSONArray jsonArray = new JSONArray(credits);
+                                String orders = jsonObject1.getString("orders");
+                                JSONArray jsonArray = new JSONArray(orders);
                                 for (int i = 0; i<jsonArray.length(); i++){
                                     JSONObject jsonObject2 = jsonArray.getJSONObject(i);
 
-                                    CreditModel creditModel=new CreditModel(
-                                            jsonObject2.getString("credit"),
-                                            jsonObject2.getString("date")
+                                    OrdersModel ordersModel=new OrdersModel(
+                                            jsonObject2.getString("order_id"),
+                                            jsonObject2.getString("product_name"),
+                                            jsonObject2.getString("quantity"),
+                                            jsonObject2.getString("total_price"),
+                                            jsonObject2.getString("p_img"),
+                                            jsonObject2.getString("date"),
+                                            jsonObject2.getString("order_status"),
+                                            jsonObject2.getString("product_id"),
+                                            jsonObject2.getString("unit"),
+                                            jsonObject2.getString("product_price"),
+                                            jsonObject2.getString("username")
 
                                     );
-                                    creditModelList.add(creditModel);
+                                    ordersModelList.add(ordersModel);
 
                                 }
-                                creditAdapter = new CreditAdapter(creditModelList, getApplicationContext());
-                                recyclerCredit.setAdapter(creditAdapter);
+                                ordersAdapter = new OrdersAdapter(ordersModelList, MyBookingActivity.this);
+                                recyclerOrder.setAdapter(ordersAdapter);
 
 
                             }
@@ -140,6 +136,7 @@ public class CreditActivity extends AppCompatActivity {
             {
                 Map<String, String>  params = new HashMap<String, String>();
                 params.put("user_id", userid);
+                params.put("type", "2");
                 Log.d("chasi","params=="+params);
                 return params;
             }
@@ -147,24 +144,7 @@ public class CreditActivity extends AppCompatActivity {
 
         requestQueue.add(getRequest);
 
-
-
     }
-
-   /* private void fetchCredits(){
-
-        creditModelList.add(new CreditModel("100", "Last purchase made on MoChashi App", "25-7-2018"));
-        creditModelList.add(new CreditModel("500", "Last purchase made on MoChashi App", "25-7-2018"));
-        creditModelList.add(new CreditModel("150", "Last purchase made on MoChashi App", "25-7-2018"));
-        creditModelList.add(new CreditModel("100", "Last purchase made on MoChashi App", "25-7-2018"));
-        creditModelList.add(new CreditModel("200", "Last purchase made on MoChashi App", "25-7-2018"));
-        creditModelList.add(new CreditModel("300", "Last purchase made on MoChashi App", "25-7-2018"));
-        creditModelList.add(new CreditModel("200", "Last purchase made on MoChashi App", "25-7-2018"));
-        creditModelList.add(new CreditModel("100", "Last purchase made on MoChashi App", "25-7-2018"));
-
-        creditAdapter = new CreditAdapter(creditModelList, this);
-        recyclerCredit.setAdapter(creditAdapter);
-    }*/
 
 
     @Override
@@ -183,10 +163,6 @@ public class CreditActivity extends AppCompatActivity {
             return true;
         }else if (id == R.id.menu_myaccount){
             startActivity(new Intent(getApplicationContext(), MyAccountActivity.class));
-            return  true;
-        }
-        else if (id == R.id.menu_mybooking){
-            startActivity(new Intent(getApplicationContext(), MyBookingActivity.class));
             return  true;
         }
         else if (id == R.id.menu_myorders){

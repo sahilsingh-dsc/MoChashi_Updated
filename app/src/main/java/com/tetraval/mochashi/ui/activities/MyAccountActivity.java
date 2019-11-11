@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.tetraval.mochashi.R;
 import com.tetraval.mochashi.authmodule.LoginActivity;
 import com.tetraval.mochashi.chashimodule.ui.activities.ChasiMyOrdersActivity;
+import com.tetraval.mochashi.chashimodule.ui.activities.MyBookingActivity;
 import com.tetraval.mochashi.controller.StartActivity;
 
 public class MyAccountActivity extends AppCompatActivity {
@@ -74,6 +75,10 @@ public class MyAccountActivity extends AppCompatActivity {
             return true;
         }else if (id == R.id.menu_myaccount){
             startActivity(new Intent(getApplicationContext(), MyAccountActivity.class));
+            return  true;
+        }
+        else if (id == R.id.menu_mybooking){
+            startActivity(new Intent(getApplicationContext(), MyBookingActivity.class));
             return  true;
         }
         else if (id == R.id.menu_myorders){

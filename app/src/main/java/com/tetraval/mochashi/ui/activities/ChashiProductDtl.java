@@ -44,6 +44,7 @@ import com.tetraval.mochashi.R;
 import com.tetraval.mochashi.authmodule.LoginActivity;
 import com.tetraval.mochashi.chashimodule.ui.activities.ChashiCategoryActivity;
 import com.tetraval.mochashi.chashimodule.ui.activities.ChasiMyOrdersActivity;
+import com.tetraval.mochashi.chashimodule.ui.activities.MyBookingActivity;
 import com.tetraval.mochashi.controller.StartActivity;
 import com.tetraval.mochashi.data.adapters.SliderAdapterExample;
 import com.tetraval.mochashi.haatgrocerymodule.ui.activities.consumer.GroceryCartActivity;
@@ -84,7 +85,8 @@ public class ChashiProductDtl extends AppCompatActivity {
     String prate;
     SharedPreferences.Editor editor;
     String vendor_id;
-    String productid, vendor_name;
+    String productid;
+    String placeorder="1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +111,6 @@ public class ChashiProductDtl extends AppCompatActivity {
         txtCharge = findViewById(R.id.textView56);
         txtUnit = findViewById(R.id.txtUnit);
         btnAddToCart = findViewById(R.id.btnAddToCart);
-        btnAddToCart.setVisibility(View.INVISIBLE);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please wait...");
@@ -124,10 +125,12 @@ public class ChashiProductDtl extends AppCompatActivity {
         rbYes = findViewById(R.id.rbYes);
 
         rbYes.setOnClickListener(view -> {
+            placeorder="2";
             del_state = "pickup";
             txtCharge.setVisibility(View.GONE);
             txtDelCharge.setVisibility(View.GONE);
             cal();
+            btnAddToCart.setText("Book");
         });
         rbNo = findViewById(R.id.rbNo);
         rbNo.setChecked(true);
@@ -135,17 +138,18 @@ public class ChashiProductDtl extends AppCompatActivity {
         txtDelCharge.setVisibility(View.VISIBLE);
 
         rbNo.setOnClickListener(view -> {
+            placeorder="1";
             del_state = "nopickup";
             txtCharge.setVisibility(View.VISIBLE);
             txtDelCharge.setVisibility(View.VISIBLE);
             cal();
+            btnAddToCart.setText("Place Order");
         });
 
         Bundle chashiBundle = getIntent().getExtras();
         String product_id = chashiBundle.getString("product_id");
         vendor_id = chashiBundle.getString("vendor_id");
         vendor_img = chashiBundle.getString("vendor_img");
-        vendor_name = chashiBundle.getString("vendor_name");
 
         toolbarCOPD = findViewById(R.id.toolbarCOPD);
         setSupportActionBar(toolbarCOPD);
@@ -308,6 +312,7 @@ public class ChashiProductDtl extends AppCompatActivity {
                                         editor.putString("img4", p_img4);
                                         editor.apply();
 
+
                                         sliderView.setSliderAdapter(new SliderAdapterExample(ChashiProductDtl.this));
                                         sliderView.startAutoCycle();
                                         sliderView.setIndicatorAnimation(IndicatorAnimations.WORM);
@@ -367,12 +372,10 @@ public class ChashiProductDtl extends AppCompatActivity {
 //        editor.apply();
         Glide.with(this).load(vendor_img).into(imgChashiPhoto);
         hosted = Double.parseDouble(qty_avl);
-        txtProductNameAndAddress.setText(vendor_name);
+        txtProductNameAndAddress.setText(p_name);
         txtQtyAvl.setText(qty_avl+unit);
         delivery = is_deliver;
         if (delivery.equals("1")){
-            btnAddToCart.setVisibility(View.VISIBLE);
-            btnAddToCart.setText("BOOK");
             txtDelCharge.setVisibility(View.GONE);
             warn.setVisibility(View.GONE);
             rbYes.setVisibility(View.GONE);
@@ -380,8 +383,6 @@ public class ChashiProductDtl extends AppCompatActivity {
             rbNo.setVisibility(View.GONE);
         }
         if (delivery.equals("0")){
-            btnAddToCart.setVisibility(View.VISIBLE);
-            btnAddToCart.setText("PLACE ORDER");
             txtDelCharge.setVisibility(View.VISIBLE);
             warn.setVisibility(View.VISIBLE);
             txtCharge.setVisibility(View.VISIBLE);
@@ -445,6 +446,7 @@ public class ChashiProductDtl extends AppCompatActivity {
                 params.put("tax","0.00");
                 params.put("product_id",productid );
                 params.put("quantity", editTextQty.getText().toString());
+                params.put("pickup",placeorder);
                 Log.e("order detail",""+params);
                 return params;
             }
@@ -518,6 +520,10 @@ public class ChashiProductDtl extends AppCompatActivity {
             return true;
         }else if (id == R.id.menu_myaccount){
             startActivity(new Intent(getApplicationContext(), MyAccountActivity.class));
+            return  true;
+        }
+        else if (id == R.id.menu_mybooking){
+            startActivity(new Intent(getApplicationContext(), MyBookingActivity.class));
             return  true;
         }
         else if (id == R.id.menu_myorders){

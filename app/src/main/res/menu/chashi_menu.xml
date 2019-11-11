@@ -8,6 +8,9 @@
         android:title="Home"
         app:showAsAction="always" />
     <item
+        android:id="@+id/menu_mybooking"
+        android:title="My Booking" />
+    <item
         android:id="@+id/menu_myorders"
         android:title="My Orders" />
     <item

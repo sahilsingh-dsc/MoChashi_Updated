@@ -179,6 +179,9 @@ public class ChashiCategoryActivity extends AppCompatActivity implements SearchV
             startActivity(new Intent(getApplicationContext(), StartActivity.class));
             finish();
             return true;
+        }else if (id == R.id.menu_mybooking){
+            startActivity(new Intent(getApplicationContext(), MyBookingActivity.class));
+            return  true;
         }
         else if (id == R.id.menu_myorders){
             startActivity(new Intent(getApplicationContext(), ChasiMyOrdersActivity.class));

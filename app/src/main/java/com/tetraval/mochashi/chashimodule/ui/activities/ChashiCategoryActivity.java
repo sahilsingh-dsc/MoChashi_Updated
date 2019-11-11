@@ -167,7 +167,7 @@ public class ChashiCategoryActivity extends AppCompatActivity implements SearchV
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.chashi_menu, menu);
+        getMenuInflater().inflate(R.menu.header_menu_chashi, menu);
         return true;
     }
 

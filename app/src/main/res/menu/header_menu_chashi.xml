@@ -10,6 +10,9 @@
         android:id="@+id/menu_myaccount"
         android:title="My Account" />
     <item
+        android:id="@+id/menu_mybookings"
+        android:title="My Bookings" />
+    <item
         android:id="@+id/menu_myorders"
         android:title="My Orders" />
     <item

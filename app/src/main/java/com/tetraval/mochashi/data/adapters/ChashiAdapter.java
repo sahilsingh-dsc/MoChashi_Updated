@@ -52,6 +52,7 @@ public class ChashiAdapter extends RecyclerView.Adapter<ChashiAdapter.ChasiViewH
             chashiBundle.putString("product_id", chashiModel.getProduct_id());
             chashiBundle.putString("vendor_id", chashiModel.getVendor_id());
             chashiBundle.putString("vendor_img", chashiModel.getVendor_img());
+            chashiBundle.putString("vendor_name", chashiModel.getVendor_name());
             chashiIntent.putExtras(chashiBundle);
             context.startActivity(chashiIntent);
         });

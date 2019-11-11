@@ -24,7 +24,6 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.snackbar.Snackbar;
 import com.tetraval.mochashi.R;
 import com.tetraval.mochashi.authmodule.LoginActivity;
-import com.tetraval.mochashi.chashimodule.ui.activities.ChasiMyOrdersActivity;
 import com.tetraval.mochashi.controller.StartActivity;
 import com.tetraval.mochashi.haatgrocerymodule.data.adapters.GroceryCateogryAdapter;
 import com.tetraval.mochashi.haatgrocerymodule.data.models.GroceryCategoryModel;
@@ -55,8 +54,6 @@ public class GroceryCategoryActivity extends AppCompatActivity implements Search
     RequestQueue requestQueue;
     Bundle categoryBundle;
     SharedPreferences master, shopPref;
-
-
 
     int spanCount = 2;
     int spacing = 50;

@@ -84,7 +84,7 @@ public class ChashiProductDtl extends AppCompatActivity {
     String prate;
     SharedPreferences.Editor editor;
     String vendor_id;
-    String productid;
+    String productid, vendor_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +109,7 @@ public class ChashiProductDtl extends AppCompatActivity {
         txtCharge = findViewById(R.id.textView56);
         txtUnit = findViewById(R.id.txtUnit);
         btnAddToCart = findViewById(R.id.btnAddToCart);
+        btnAddToCart.setVisibility(View.INVISIBLE);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Please wait...");
@@ -144,6 +145,7 @@ public class ChashiProductDtl extends AppCompatActivity {
         String product_id = chashiBundle.getString("product_id");
         vendor_id = chashiBundle.getString("vendor_id");
         vendor_img = chashiBundle.getString("vendor_img");
+        vendor_name = chashiBundle.getString("vendor_name");
 
         toolbarCOPD = findViewById(R.id.toolbarCOPD);
         setSupportActionBar(toolbarCOPD);
@@ -306,7 +308,6 @@ public class ChashiProductDtl extends AppCompatActivity {
                                         editor.putString("img4", p_img4);
                                         editor.apply();
 
-
                                         sliderView.setSliderAdapter(new SliderAdapterExample(ChashiProductDtl.this));
                                         sliderView.startAutoCycle();
                                         sliderView.setIndicatorAnimation(IndicatorAnimations.WORM);
@@ -366,10 +367,12 @@ public class ChashiProductDtl extends AppCompatActivity {
 //        editor.apply();
         Glide.with(this).load(vendor_img).into(imgChashiPhoto);
         hosted = Double.parseDouble(qty_avl);
-        txtProductNameAndAddress.setText(p_name);
+        txtProductNameAndAddress.setText(vendor_name);
         txtQtyAvl.setText(qty_avl+unit);
         delivery = is_deliver;
         if (delivery.equals("1")){
+            btnAddToCart.setVisibility(View.VISIBLE);
+            btnAddToCart.setText("BOOK");
             txtDelCharge.setVisibility(View.GONE);
             warn.setVisibility(View.GONE);
             rbYes.setVisibility(View.GONE);
@@ -377,6 +380,8 @@ public class ChashiProductDtl extends AppCompatActivity {
             rbNo.setVisibility(View.GONE);
         }
         if (delivery.equals("0")){
+            btnAddToCart.setVisibility(View.VISIBLE);
+            btnAddToCart.setText("PLACE ORDER");
             txtDelCharge.setVisibility(View.VISIBLE);
             warn.setVisibility(View.VISIBLE);
             txtCharge.setVisibility(View.VISIBLE);

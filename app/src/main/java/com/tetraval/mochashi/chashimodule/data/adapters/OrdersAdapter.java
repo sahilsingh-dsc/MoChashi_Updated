@@ -62,7 +62,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.OrdersView
         Glide.with(context).load(ordersModel.getOdr_product_image()).placeholder(R.drawable.productimage).into(ordersViewHolder.imgOrderImage);
         ordersViewHolder.txtOrderName.setText(ordersModel.getOdr_name());
         ordersViewHolder.txtOrderQuantity.setText(ordersModel.getOdr_qty()+ordersModel.getProductunit());
-        ordersViewHolder.txtrate.setText("₹"+ordersModel.getProductrate());
+        ordersViewHolder.txtrate.setText("₹"+ordersModel.getProductrate()+"/"+ordersModel.getProductunit());
         ordersViewHolder.txtOrderID.setText(ordersModel.getOdr_id());
         ordersViewHolder.txtOrderDate.setText(ordersModel.getOdr_date());
         ordersViewHolder.txtOrderAmt.setText("₹"+ordersModel.getTotal_amount());

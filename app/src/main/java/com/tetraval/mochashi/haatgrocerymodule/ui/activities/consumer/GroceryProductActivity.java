@@ -71,7 +71,6 @@ public class GroceryProductActivity extends AppCompatActivity {
     Spinner spinnerCategory, spinnerWeight, spinnerSort;
     String[] sortby = {"Sort By", "Price Low to High", "Price High to Low"};
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
